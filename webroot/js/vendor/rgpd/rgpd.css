@@ -1,0 +1,28 @@
+.content {
+    margin: 0 10vh 2vh 10vh!important;
+    position: fixed;
+    display: block;
+    min-width: 80vh!important;
+    padding: 20px;
+    height: 8vw!important;
+    border-radius: 15px;
+    bottom: 5vh;
+    z-index: 50;
+    background-color: #ECEAE6;
+    box-shadow: 10px 5px 5px black, -10px -5px 5px black;
+}
+
+.content>p {
+    display: inline-block;
+}
+
+.btnContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    max-width: 100%;
+}
+
+.btn {
+    margin: 20px;
+}

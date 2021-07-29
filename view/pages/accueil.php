@@ -1,0 +1,345 @@
+<header id="gtco-header" class="gtco-cover gtco-cover-sm" role="banner" style="background-image: url(<?= Router::theme('default/images/img_bg_4.jpg') ?>)" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="gtco-container">
+        <div class="row row-mt-15em">
+            <div class="col-md-12 mt-text text-center animate-box" data-animate-effect="fadeInUp">
+                <h1>Je construis<strong>Des plateforme Web</strong></h1>
+                <h2>Adapté à vos besoins et sur mesure</h2>
+
+            </div>
+        </div>
+    </div>
+</header>
+<div class="flex-section gtco-gray-bg">
+    <div class="col-1">
+        <div class="text">
+
+            <div class="row row-pb-sm">
+                <div class="col-md-12">
+
+                    <h2>Je me présente</h2>
+
+                    <img style="border-radius: 50%;margin:15px " src="<?= Router::webroot('img/avatar/1591621853385 (1).jfif') ?>" alt="photo profil">
+
+                    <p>Je m'appelle Gauvin Jonathan je suis de la Réunion je fais du développement web et mobile depuis quelques temps .</p>
+
+                    <p> Je maîtrise plusieurs outils et langage de programmation ce qui me permet d'être polyvalent et de pouvoir m'adapter à tout type de situation que ce soit du simple blog en passant par des site e-commerce je fais aussi du développement mobile que ce soit sur <strong> IOS</strong> ou <strong>ANDROID </strong> .
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-2 flex-img" style="background-image: url(<?= Router::theme('default/images/img_1.jpg') ?>);"></div>
+</div>
+
+<div class="gtco-cover gtco-cover-sm" style="background-image: url(<?= Router::theme('default/images/img_bg_2.jpg') ?>)" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="gtco-container text-center">
+        <div class="display-t">
+            <div class="display-tc">
+                <h1 class="animate-box">Je n'arrête jamais d'apprendre</h1>
+                <p>Pour vous donner le meilleur service possible</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="flex-section reverse">
+    <div class="col-1">
+        <div class="text">
+
+            <div class="row row-pb-sm">
+                <div class="col-md-12">
+                    <h2>Voici les technologie que je pourrais utiliser pour mener à bien votre projet </h2>
+
+                    <h4>Pour le web</h4>
+                    <div>
+                        <span class="iconThecno">
+                            <img style="width: 80px;  overflow: hidden; " src="<?= Router::webroot('img/icon/img_html5.png') ?>" alt="">
+                        </span>
+                        <span class="iconThecno">
+                            <img style="width: 80px;  overflow: hidden;" src="<?= Router::webroot('img/icon/img_css3.png') ?>" alt="">
+                        </span>
+                        <span class="iconThecno">
+                            <img style="width: 80px;  overflow: hidden;" src="<?= Router::webroot('img/icon/img_php.png') ?>" alt="">
+                        </span>
+                        <span class="iconThecno">
+                            <img style="width: 80px; " src="<?= Router::webroot('img/icon/img_nodejs.png') ?>" alt="">
+                        </span>
+                        <span class="iconThecno">
+                            <img style="width: 80px; " src="<?= Router::webroot('img/icon/img_mysql.png') ?>" alt="">
+                        </span>
+                        <span class="iconThecno">
+                            <img style="width: 80px; " src="<?= Router::webroot('img/icon/img_vuejs.png') ?>" alt="">
+                        </span>
+                        <span class="iconThecno">
+                            <img style="width: 80px; " src="<?= Router::webroot('img/icon/img_woocomerce.png') ?>" alt="">
+                        </span>
+                        <span class="iconThecno">
+                            <img style="width: 80px; " src="<?= Router::webroot('img/icon/img_worldpress.png') ?>" alt="">
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="check-li">
+                        <li>Html5</li>
+                        <li>Css</li>
+                        <li>php</li>
+                        <li>Node Js</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="check-li">
+                        <li>Mysql</li>
+                        <li>VueJs</li>
+                        <li>Woo commerce</li>
+                        <li>Worldpress</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="text">
+
+            <div class="row row-pb-sm">
+                <div class="col-md-12">
+
+                    <h4>Pour le Mobile</h4>
+                    <div>
+                        <span class="iconThecno">
+                            <img style="width: 80px;  overflow: hidden; " src="<?= Router::webroot('img/icon/img_flutter.png') ?>" alt="">
+                        </span>
+                        <span class="iconThecno">
+                            <img style="width: 80px;  overflow: hidden;" src="<?= Router::webroot('img/icon/img_firebase.png') ?>" alt="">
+                        </span>
+                        <span class="iconThecno">
+                            <img style="width: 80px;  overflow: hidden;" src="<?= Router::webroot('img/icon/img_cordova.png') ?>" alt="">
+                        </span>
+                        <span class="iconThecno">
+                            <img style="width: 80px; " src="<?= Router::webroot('img/icon/img_react.png') ?>" alt="">
+                        </span>
+                        <span class="iconThecno">
+                            <img style="width: 80px; " src="<?= Router::webroot('img/icon/img_jquerymobile.png') ?>" alt="">
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="check-li">
+                        <li>Flutter</li>
+                        <li>Firebase</li>
+                        <li>Cordova</li>
+
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="check-li">
+                        <li>React Native</li>
+                        <li>Jquery Mobile</li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-2 flex-img" style="background-image: url(<?= Router::theme('default/images/img_bg_2.jpg') ?>);"></div>
+</div>
+
+<div class="gtco-cover gtco-cover-sm" style="background-image: url(<?= Router::theme('default/images/img_bg_3.jpg') ?>)" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="gtco-container text-center">
+        <div class="display-t">
+            <div class="display-tc">
+                <h1 class="animate-box">La qualité plutôt que la quantité</h1>
+                <p>Je préfère accepter un projet à la fois pour être sûr de prendre le temps de faire en sorte que votre projet correspond le plus possible à vos attentes</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="overflow-hid">
+    <div class="gtco-section">
+        <div class="gtco-container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+                    <h2>Services</h2>
+                    <p>La liste des services que je propose</p>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <a href="#" class="gtco-card-item">
+                        <figure>
+                            <div class="overlay"><i class="ti-plus"></i></div>
+                            <img src="<?= Router::webroot('img/icon/img_static.jpg') ?>" alt="Image" class="img-responsive">
+                        </figure>
+                        <div class="gtco-text">
+                            <h2>Site statique</h2>
+                            <p>Une page en HTML et CSS qui vous permettra de mettre en avant une activité ou un produit</p>
+                            <p><span class="btn btn-primary">Lire la suite</span></p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <a href="#" class="gtco-card-item">
+                        <figure>
+                            <div class="overlay"><i class="ti-plus"></i></div>
+                            <img src="<?= Router::webroot('img/icon/img_dynamique.jpg') ?>" alt="Image" class="img-responsive">
+                        </figure>
+                        <div class="gtco-text">
+                            <h2>Site dynamique</h2>
+                            <p>Une page web dynamique est une page web générée à la demande, par opposition à une page web statique. </p>
+                            <p><span class="btn btn-primary">Lire la suite</span></p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    <a href="#" class="gtco-card-item">
+                        <figure>
+                            <div class="overlay"><i class="ti-plus"></i></div>
+                            <img src="<?= Router::webroot('img/icon/img_mobile.jpg') ?>" alt="Image" class="img-responsive">
+                        </figure>
+                        <div class="gtco-text">
+                            <h2>Application mobile</h2>
+                            <p>Une application mobile est un logiciel applicatif développé pour un appareil électronique mobile (Smartphone). </p>
+                            <p><span class="btn btn-primary">Lire la suite</span></p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="gtco-features">
+        <div class="gtco-container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 text-center gtco-heading animate-box">
+                    <h2>Ma méthode de travail</h2>
+                    <p>Voici l'ordre dans lequel je travaille quand on me confie un projet</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-center animate-box" data-animate-effect="fadeIn">
+                        <span class="icon">
+                            <i>1</i>
+                        </span>
+                        <h3>Conception et design </h3>
+                        <p>Conception du design avec le client et définition des fonctionnalités du projet pour définir le cahier des charges</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-center animate-box" data-animate-effect="fadeIn">
+                        <span class="icon">
+                            <i>2</i>
+                        </span>
+                        <h3>Développement</h3>
+                        <p>Développement du projet et de ces fonctionnalités ponctué par des test unitaire avec la validation du projet terminer par le client</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="feature-center animate-box" data-animate-effect="fadeIn">
+                        <span class="icon">
+                            <i>3</i>
+                        </span>
+                        <h3>Déploiement</h3>
+                        <p>Déploiement du projet sur la ou les plateformes choisis pour le client</p>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 
+<div id="gtco-counter" class="gtco-section">
+    <div class="gtco-container">
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center gtco-heading animate-box">
+                <h2>Quelques chiffres nous concernant</h2>
+                <p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
+                <div class="feature-center">
+                    <span class="counter js-counter" data-from="0" data-to="196" data-speed="5000" data-refresh-interval="50">1</span>
+                    <span class="counter-label">Clients</span>
+
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
+                <div class="feature-center">
+                    <span class="counter js-counter" data-from="0" data-to="97" data-speed="5000" data-refresh-interval="50">1</span>
+                    <span class="counter-label">Projets</span>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
+                <div class="feature-center">
+                    <span class="counter js-counter" data-from="0" data-to="12402" data-speed="5000" data-refresh-interval="50">1</span>
+                    <span class="counter-label">Nombre de café</span>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
+                <div class="feature-center">
+                    <span class="counter js-counter" data-from="0" data-to="12202" data-speed="5000" data-refresh-interval="50">1</span>
+                    <span class="counter-label">Ligne de codes</span>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+
+
+<div id="gtco-subscribe">
+    <div class="gtco-container">
+        <div class="row animate-box">
+            <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+                <h2>Souscrire</h2>
+                <p>Soyez le premier à être informé de mes dernières news .</p>
+            </div>
+        </div>
+        <div class="row animate-box">
+            <div class="col-md-8 col-md-offset-2">
+                <form class="form-inline">
+                    <div class="col-md-6 col-sm-6">
+                        <div class="form-group">
+                            <label for="email" class="sr-only">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="Votre Email">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <button type="submit" class="btn btn-default btn-block">Souscrire</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .iconThecno {
+        border-radius: 50%;
+        overflow: hidden;
+        width: 80px;
+        height: 80px;
+        display: inline-block;
+    }
+</style>

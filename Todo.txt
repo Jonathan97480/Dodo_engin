@@ -1,0 +1,22 @@
+TODO:
+FRONT:///////////////////////////////////////////////////////////////////////////
+Ajouter la gestion des commentaire en AJAX
+câbler le bouton de recherche en JS 
+câbler la zone de saisie pour poster des nouveau commentaires dans le blog 
+
+BACK://///////////////////////////////////////////////////////////////////////////
+gérer les exception dans le cas ou se lui qui laisse un commentaire n'a pas de compte sur le site 
+#ajouter la possibilité de rajouter une Catégories quand on post un article ou un projet 
+#ajouter un redimensionnement des images qui serviront pour les miniatures des articles 
+#ajouter la gestion des tags 
+#ajouter la possibilité de rajouter des tag au image dans la galerie 
+ajouter la modification de la page d'accueil 
+ajouter quelque graphique sur la page d'accueil de l'admin
+
+BASE DE DONEE://////////////////////////////////////////////////////////////////////
+#ajouter une table t_medias_has_t_tag
+#ajouter une table qui donne l'heure la date et IP des personne qui on visiter le site 
+#ajouter une table message pour gérer les message personnel envoyer par la page de contact 
+
+
+
