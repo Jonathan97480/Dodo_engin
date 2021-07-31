@@ -13,46 +13,150 @@
     </div>
 </header>
 
-<div class="gtco-section gtco-gray-bg">
-    <div class="gtco-container">
-        <div class="row">
-            <?php $nb = 0; ?>
-            <?php foreach ($projet['posts'] as $key => $value) : ?>
+<!-- css -->
+<style>
+    .my_contenaire {
+        display: flex;
+        margin: auto;
+        width: 100vw;
 
-                <?php $nb++; ?>
-                <div class="col-lg-4 col-md-4 col-sm-6">
+        flex-direction: column;
+        justify-content: center;
+    }
 
-                    <a href="<?= Router::url('portfolio/view/id:' . $value->id) ?>" class="gtco-card-item">
-                        <figure>
-                            <div class="overlay"><i class="ti-plus"></i></div>
-                            <img src="<?= Router::webroot('img/' . $value->img_description) ?>" alt="Image" class="img-responsive">
-                        </figure>
-                        <div class="gtco-text text-left">
-                            <h2><?= $value->name ?></h2>
-                            <p><?= $value->description ?></p>
-                            <p class="gtco-category"><?= $value->date_edit ?></p>
-                        </div>
+    .block {
+        width: 100%;
+        margin: auto;
+
+
+
+    }
+
+    .site {
+        background-color: #75645A;
+    }
+
+    .logo {
+        background-color: #272B2A;
+    }
+
+    .picture {
+
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+
+
+    }
+
+
+
+    .ctm {
+        max-width: 1230px;
+        margin: auto;
+    }
+
+    .ctm h2 {
+
+        margin-left: 15px;
+        margin-top: 10px;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 40px;
+        line-height: 56px;
+        color: white;
+
+
+    }
+
+    a {
+        cursor: pointer;
+
+    }
+
+    a:hover {
+        background-color: #75645A;
+    }
+
+    a h4 {
+        margin-left: 20px;
+        margin-bottom: 0;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 20px;
+        line-height: 26px;
+        color: black;
+    }
+
+    .maquette .ctm h2 {
+        color: black;
+    }
+
+    .picture span {
+        margin-top: 5px;
+        display: block;
+        margin: 20px;
+        width: 263px;
+        height: 287px;
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+
+
+<div class="my_contenaire ">
+    <div class="block site">
+
+        <div class="ctm">
+            <h2>Mes réalisation de site</h2>
+            <div class="picture">
+
+                <?php foreach ($site as $key => $value) : ?>
+
+                    <a>
+                        <h4><?= str_delimite($value->name, 26, '...') ?></h4>
+                        <span style="background-image: url(<?= Router::webroot('img/' . $value->img_description) ?>); "></span>
                     </a>
 
-                </div>
+                <?php endforeach ?>
+            </div>
+        </div>
 
-                <?php if ($nb == 2) : ?>
+    </div>
+    <div class="block maquette">
+        <div class="ctm">
+            <h2>Mes réalisation de maquette</h2>
+            <div class="picture">
 
-                    <div class="clearfix visible-sm-block"></div>
+                <?php foreach ($maquette as $key => $value) : ?>
 
-                <?php elseif ($nb == 3) : ?>
+                    <a>
+                        <h4><?= str_delimite($value->name, 26, '...') ?></h4>
+                        <span style="background-image: url(<?= Router::webroot('img/' . $value->img_description) ?>); "></span>
+                    </a>
 
-                    <div class="clearfix visible-lg-block visible-md-block"></div>
-
-                    <?php $nb = 0; ?>
-
-                <?php endif ?>
-
-            <?php endforeach ?>
-
-
-            <div class="clearfix visible-lg-block visible-md-block"></div>
-
+                <?php endforeach ?>
+            </div>
         </div>
     </div>
+    <div class="block logo">
+        <div class="ctm">
+            <h2>Mes réalisation de logo</h2>
+            <div class="picture">
+                <?php foreach ($logo as $key => $value) : ?>
+
+                    <a>
+                        <h4><?= str_delimite($value->name, 26, '...') ?></h4>
+                        <span style="background-image: url(<?= Router::webroot('img/' . $value->img_description) ?>); "></span>
+                    </a>
+
+                <?php endforeach ?>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
 </div>

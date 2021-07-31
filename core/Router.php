@@ -100,11 +100,10 @@ class Router
                 /* je recupère les elements qui se trouve avant ou après ':' */
                 $t = explode(':', $request->params[$k]);
                 /* et je les stock dans ma table $param */
-                if(isset($t)){
-                
+                if (isset($t)) {
+
                     $params[$t[0]] = $t[1];
                 }
-            
             }
             /* puis je refinit ma table params de request avec ces info trié et structurai */
             $request->params = $params;
@@ -164,7 +163,7 @@ class Router
         //je parcours mes routes
         foreach (self::$routes as $v) {
             //je verfie quand dans mes routes il y'a une expression reguliere
-         
+
             //qui match a url entrée et je le stock dans la table $match
             if (preg_match($v['originreg'], $url,  $match)) {
                 $url = $v['redir'];
@@ -187,12 +186,20 @@ class Router
     static function webroot($url)
     {
         trim($url, '/');
-        return BASE_URL . '/' . $url;
+
+        $temp = BASE_URL . '/' . $url;
+
+        $temp = str_replace("\\", "/", $temp);
+        return $temp;
     }
     static function theme($url)
     {
-        $url='theme/'. $url;
-        trim( $url, '/');
-        return BASE_URL . '/' . $url;
+        $url = 'theme/' . $url;
+        trim($url, '/');
+
+        $temp = BASE_URL . '/' . $url;
+
+        $temp = str_replace("\\", "/", $temp);
+        return $temp;
     }
 }

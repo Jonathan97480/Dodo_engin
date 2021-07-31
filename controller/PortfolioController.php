@@ -10,7 +10,9 @@ class PortfolioController extends Controller
         $this->loadModel('Post');
 
 
-        $d['projet'] = $this->Post->GetArticleByType('projet', $this->request->page);
+        $d = $this->Post->GetListProjet();
+
+
 
         $this->set($d);
     }

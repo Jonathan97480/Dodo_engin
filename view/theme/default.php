@@ -228,6 +228,7 @@ $siteInfo = $_SESSION['site_info'];
 
     <!-- Main -->
     <script src="<?= Router::theme('default/js/main.js') ?>"></script>
+    >
 
 </body>
 

@@ -46,7 +46,7 @@ function  retour_json(bool $succes, string $msg,  $results = null)
 {
     header('Content-Type: application/json');
     header("Content-Security-Policy: default-src 'self'");
-    
+
     $retour['success'] = $succes;
     $retour['message'] = $msg;
     $retour['results'] = $results;
@@ -103,7 +103,7 @@ function generate_Key_api(int $strength = 16): string
  * @param  mixed $save_data_base
  * @return stdClass
  */
-function SaveImage($file,  array $type = null, bool $is_rename = false, Model $save_data_base = null):stdClass
+function SaveImage($file,  array $type = null, bool $is_rename = false, Model $save_data_base = null): stdClass
 {
 
     $result = new stdClass();
@@ -323,3 +323,26 @@ function getDirrecurse($path = '.', $key = null)
     return $d;
 }
 
+
+/**
+ * str_delimite
+ * permet de remplacer la fin de limiter la longueur d'un texte et mettre les caractères désirait a la fin 
+ * @param  string $text
+ * @param  int $length
+ * @param  string $completed
+ * @return string
+ */
+function str_delimite(string $text, int $length, string $completed): string
+{
+
+
+    $strLength = strlen($text);
+
+    if ($strLength > $length) {
+
+        $text = substr($text, 0, - ($strLength - $length) - 3);
+        $text = $text . $completed;
+    }
+
+    return $text;
+}

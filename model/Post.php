@@ -167,6 +167,42 @@ class Post extends Model
         return $d;
     }
 
+
+
+    /**
+     * GetListProjet
+     * return les 4 dernière entrée pout les catégories Site Maquette et Logo
+     * @return array|stdClass
+     */
+    public function GetListProjet()
+    {
+
+        $sql = "SELECT post.id AS id,post.name ,img_description,slug FROM post
+        LEFT JOIN t_cathegories_has_post ON t_cathegories_has_post.post_id =" . $this->table . ".id 
+        LEFT JOIN t_cathegories ON t_cathegories.id= t_cathegories_has_post.cathegories_id 
+        WHERE  type='projet' AND online =1 AND t_cathegories.name='Site' GROUP BY post.id LIMIT 0 , 5 ";
+
+        $d["site"] = $this->query($sql);
+
+        $sql = "SELECT post.id AS id,post.name ,img_description,slug FROM post
+        LEFT JOIN t_cathegories_has_post ON t_cathegories_has_post.post_id =" . $this->table . ".id 
+        LEFT JOIN t_cathegories ON t_cathegories.id= t_cathegories_has_post.cathegories_id 
+        WHERE  type='projet' AND online =1 AND t_cathegories.name='Maquette' GROUP BY post.id LIMIT 0 , 5 ";
+
+        $d["maquette"] = $this->query($sql);
+
+        $sql = "SELECT post.id AS id,post.name ,img_description,slug FROM post
+        LEFT JOIN t_cathegories_has_post ON t_cathegories_has_post.post_id =" . $this->table . ".id 
+        LEFT JOIN t_cathegories ON t_cathegories.id= t_cathegories_has_post.cathegories_id 
+        WHERE  type='projet' AND online =1 AND t_cathegories.name='Logo' GROUP BY post.id LIMIT 0 , 5 ";
+
+        $d["logo"] = $this->query($sql);
+
+        return $d;
+    }
+
+
+
     /**
      * getPost
      *  return post by id
