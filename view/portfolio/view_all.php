@@ -1,13 +1,12 @@
-<?php
-/* die(debug($this)) */
-?>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/styles/atom-one-dark.min.css" />
+
 <header id="gtco-header" class="gtco-cover gtco-cover-sm" role="banner" style="background-image: url(<?= Router::theme('default/images/img_bg_4.jpg') ?>)" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="gtco-container">
         <div class="row row-mt-15em">
             <div class="col-md-7 mt-text text-left animate-box" data-animate-effect="fadeInUp">
                 <h1><strong>Portfolio</strong></h1>
-                <h2>Les projets que j'ai réalisé</h2>
+
             </div>
         </div>
     </div>
@@ -32,13 +31,6 @@
 
     }
 
-    .site {
-        background-color: #75645A;
-    }
-
-    .logo {
-        background-color: #272B2A;
-    }
 
     .picture {
 
@@ -89,9 +81,7 @@
         color: black;
     }
 
-    .maquette .ctm h2 {
-        color: black;
-    }
+
 
     .picture span {
         margin-top: 5px;
@@ -113,15 +103,14 @@
     }
 </style>
 
-
 <div class="my_contenaire ">
-    <div class="block site">
+    <div class="block ">
 
         <div class="ctm">
             <h2>Mes réalisation de site</h2>
             <div class="picture">
 
-                <?php foreach ($site as $key => $value) : ?>
+                <?php foreach ($content as $key => $value) : ?>
 
                     <a href="<?= Router::url('portfolio/view/id:' . $value->id) ?>">
                         <h4><?= str_delimite($value->name, 26, '...') ?></h4>
@@ -130,59 +119,10 @@
 
                 <?php endforeach ?>
             </div>
-            <?php
-            if (count($site) >= 4) {
 
-                echo "<a href='" . Router::url('portfolio/view_all/cat:site') . "' class='decouvrire' >Voir plus</a>";
-            }
-            ?>
         </div>
 
     </div>
-    <div class="block maquette">
-        <div class="ctm">
-            <h2>Mes réalisation de maquette</h2>
-            <div class="picture">
 
-                <?php foreach ($maquette as $key => $value) : ?>
-
-                    <a href="<?= Router::url('portfolio/view/id:' . $value->id) ?>">
-                        <h4><?= str_delimite($value->name, 26, '...') ?></h4>
-                        <span style="background-image: url(<?= Router::webroot('img/' . $value->img_description) ?>); "></span>
-                    </a>
-
-                <?php endforeach ?>
-            </div>
-            <?php
-            if (count($maquette) >= 4) {
-
-                echo "<a href='" . Router::url('portfolio/view_all/cat:maquette') . "' class='decouvrire' >Voir plus</a>";
-            }
-            ?>
-        </div>
-    </div>
-    <div class="block logo">
-        <div class="ctm">
-            <h2>Mes réalisation de logo</h2>
-            <div class="picture">
-                <?php foreach ($logo as $key => $value) : ?>
-
-                    <a href="<?= Router::url('portfolio/view/id:' . $value->id) ?>">
-                        <h4><?= str_delimite($value->name, 26, '...') ?></h4>
-                        <span style="background-image: url(<?= Router::webroot('img/' . $value->img_description) ?>); "></span>
-                    </a>
-
-                <?php endforeach ?>
-            </div>
-            <?php
-            if (count($logo) >= 4) {
-
-                echo "<a href='" . Router::url('portfolio/view_all/cat:logo') . "' class='decouvrire' >Voir plus</a>";
-            }
-            ?>
-        </div>
-
-
-    </div>
 
 </div>

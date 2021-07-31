@@ -20,11 +20,11 @@ $projet = $projet['projet'];
     <div class="gtco-container">
         <div class="row">
             <article>
-                <h3><?= $projet->name ?></h3>
-                <div>
+
+                <!-- <div>
                     <img src="<?= Router::url('img/' . $projet->img_description) ?>" alt="">
                 </div>
-
+ -->
                 <?= $projet->content  ?>
 
             </article>

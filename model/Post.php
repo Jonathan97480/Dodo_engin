@@ -184,6 +184,8 @@ class Post extends Model
 
         $d["site"] = $this->query($sql);
 
+
+
         $sql = "SELECT post.id AS id,post.name ,img_description,slug FROM post
         LEFT JOIN t_cathegories_has_post ON t_cathegories_has_post.post_id =" . $this->table . ".id 
         LEFT JOIN t_cathegories ON t_cathegories.id= t_cathegories_has_post.cathegories_id 
@@ -253,7 +255,20 @@ class Post extends Model
 
         return $d;
     }
+    public function getProjetByTag($cat)
+    {
 
+
+        $sql = "SELECT post.id AS id ,post.name ,post.description,img_description,date_edit,slug,t_cathegories.name AS nameCat,content,date_edit FROM post
+        LEFT JOIN t_cathegories_has_post ON t_cathegories_has_post.post_id =" . $this->table . ".id 
+        LEFT JOIN t_cathegories ON t_cathegories.id= t_cathegories_has_post.cathegories_id 
+        WHERE type='projet' AND online =1 AND t_cathegories.name = '$cat'";
+
+        $r = $this->query($sql);
+
+
+        return $r;
+    }
     /**
      * getLastProjet
      *

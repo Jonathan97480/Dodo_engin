@@ -17,6 +17,24 @@ class PortfolioController extends Controller
         $this->set($d);
     }
 
+    public function view_all($cat = null)
+    {
+
+        if (!empty($cat)) {
+
+            $this->loadModel('Post');
+
+            $d['content'] = $this->Post->getProjetByTag($cat);
+
+
+            $this->set($d);
+        } else {
+
+            $this->redirect('portfolio/index');
+        }
+    }
+
+
     public function view($id)
     {
 

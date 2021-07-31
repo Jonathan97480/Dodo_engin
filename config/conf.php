@@ -45,4 +45,3 @@ Router::connect('blog', 'blog/index');
 
 
 Router::connect('portfolio', 'portfolio/index');
-Router::connect('portfolio/*', 'portfolio/view/*');
