@@ -6,7 +6,7 @@
         <div class="row row-mt-15em">
             <div class="col-md-7 mt-text text-left animate-box" data-animate-effect="fadeInUp">
                 <h1><strong>Portfolio</strong></h1>
-
+                <h2 class="titelView"><?= $cat ?></h2>
             </div>
         </div>
     </div>
@@ -26,7 +26,8 @@
     .block {
         width: 100%;
         margin: auto;
-
+        margin-top: 55px;
+        margin-bottom: 55px;
 
 
     }
@@ -42,7 +43,10 @@
 
     }
 
+    .titelView {
 
+        text-transform: capitalize;
+    }
 
     .ctm {
         max-width: 1230px;
@@ -107,7 +111,7 @@
     <div class="block ">
 
         <div class="ctm">
-            <h2>Mes réalisation de site</h2>
+
             <div class="picture">
 
                 <?php foreach ($content as $key => $value) : ?>
@@ -126,3 +130,6 @@
 
 
 </div>
+<span>
+    salut
+</span>

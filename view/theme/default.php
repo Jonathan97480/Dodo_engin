@@ -2,6 +2,7 @@
 $siteInfo = $_SESSION['site_info'];
 /* die(debug($_SESSION)); */
 ?>
+
 <!DOCTYPE HTML>
 
 <html lang="fr">
@@ -124,11 +125,11 @@ $siteInfo = $_SESSION['site_info'];
 
         <footer id="gtco-footer" role="contentinfo">
             <div class="gtco-container">
-                <div class="row row-p	b-md">
+                <div class=" infoFooter">
 
 
 
-                    <div class="col-md-4 col-md-push-1">
+                    <div class="col-md-4 col-md-push-1" style="display: inline-block;">
                         <div class="gtco-widget">
                             <h3>Nos Services</h3>
                             <ul class="gtco-footer-links">
@@ -142,11 +143,10 @@ $siteInfo = $_SESSION['site_info'];
 
 
 
-                    <div class="col-md-3 col-md-push-1">
+                    <div class="col-md-3 col-md-push-1" style="display: inline-block;">
                         <div class="gtco-widget">
                             <h3>Nous contacter</h3>
                             <ul class="gtco-quick-contact">
-
 
                                 <?php if (!empty($siteInfo->mobile_number)) : ?>
                                     <li><a href="#"><i class="icon-phone"></i> <?= $siteInfo->mobile_number  ?></li>
@@ -228,8 +228,21 @@ $siteInfo = $_SESSION['site_info'];
 
     <!-- Main -->
     <script src="<?= Router::theme('default/js/main.js') ?>"></script>
-    >
+
 
 </body>
 
 </html>
+<style>
+    .infoFooter {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    @media (max-width:490px) {
+        .infoFooter {
+            justify-content: space-between;
+        }
+    }
+</style>

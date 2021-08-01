@@ -3,8 +3,8 @@
     <div class="gtco-container">
         <div class="row row-mt-15em">
             <div class="col-md-12 mt-text text-center animate-box" data-animate-effect="fadeInUp">
-                <h1>Je construis<strong>Des plateforme Web</strong></h1>
-                <h2>Adapté à vos besoins et sur mesure</h2>
+                <h1>Je construis <strong>Des plateforme numériques</strong></h1>
+                <h2>Adapté à vos besoins</h2>
 
             </div>
         </div>
@@ -17,14 +17,21 @@
             <div class="row row-pb-sm">
                 <div class="col-md-12">
 
-                    <h2>Je me présente</h2>
+                    <h2>Qui suis-je ?</h2>
 
-                    <img style="border-radius: 50%;margin:15px " src="<?= Router::webroot('img/avatar/1591621853385 (1).jfif') ?>" alt="photo profil">
 
-                    <p>Je m'appelle Gauvin Jonathan je suis de la Réunion je fais du développement web et mobile depuis quelques temps .</p>
+                    <div style="display: flex;">
+                        <img style="border-radius: 50%;margin:15px;height:80px ;" src="<?= Router::webroot('img/avatar/photo_profil.jpg') ?>" alt="photo profil">
+                        <div class="info_perso">
+                            <p>Je m'appelle Gauvin Jonathan et je réside à la Réunion . <br>
+                                je fais du développement depuis 11ans et du développement web depuis 3ans .</p>
 
-                    <p> Je maîtrise plusieurs outils et langage de programmation ce qui me permet d'être polyvalent et de pouvoir m'adapter à tout type de situation que ce soit du simple blog en passant par des site e-commerce je fais aussi du développement mobile que ce soit sur <strong> IOS</strong> ou <strong>ANDROID </strong> .
-                    </p>
+                            <p> J'ai une bonne experience dans plusieurs outils et langage de programmation ce qui me permet d'être polyvalent et de pouvoir m'adapter à tout type de projet .
+                            </p>
+                        </div>
+
+                    </div>
+
 
                 </div>
             </div>
@@ -52,7 +59,7 @@
 
             <div class="row row-pb-sm">
                 <div class="col-md-12">
-                    <h2>Voici les technologie que je pourrais utiliser pour mener à bien votre projet </h2>
+                    <h2>Les Technologies Que J'utilise</h2>
 
                     <h4>Pour le web</h4>
                     <div>
@@ -170,7 +177,7 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
                     <h2>Services</h2>
-                    <p>La liste des services que je propose</p>
+                    <!-- <p>La liste des services que je propose</p> -->
                 </div>
             </div>
             <div class="row">
@@ -223,7 +230,7 @@
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 text-center gtco-heading animate-box">
                     <h2>Ma méthode de travail</h2>
-                    <p>Voici l'ordre dans lequel je travaille quand on me confie un projet</p>
+                    <!--  <p>Voici l'ordre dans lequel je travaille quand on me confie un projet</p> -->
                 </div>
             </div>
             <div class="row">
@@ -233,7 +240,7 @@
                             <i>1</i>
                         </span>
                         <h3>Conception et design </h3>
-                        <p>Conception du design avec le client et définition des fonctionnalités du projet pour définir le cahier des charges</p>
+                        <p>Conception du design avec le client et définition des fonctionnalités pour définir le cahier des charges</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
@@ -242,7 +249,7 @@
                             <i>2</i>
                         </span>
                         <h3>Développement</h3>
-                        <p>Développement du projet et de ces fonctionnalités ponctué par des test unitaire avec la validation du projet terminer par le client</p>
+                        <p>Développement du projet et de ces fonctionnalités ponctué par des tests unitaire avec soumission du projet terminer au client</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
@@ -251,7 +258,7 @@
                             <i>3</i>
                         </span>
                         <h3>Déploiement</h3>
-                        <p>Déploiement du projet sur la ou les plateformes choisis pour le client</p>
+                        <p>Déploiement du site ou de l'application mobile</p>
                     </div>
                 </div>
 
@@ -313,7 +320,7 @@
         <div class="row animate-box">
             <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
                 <h2>Souscrire</h2>
-                <p>Soyez le premier à être informé de mes dernières news .</p>
+                <p>Pour informé de mes dernières news .</p>
             </div>
         </div>
         <div class="row animate-box">

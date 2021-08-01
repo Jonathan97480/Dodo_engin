@@ -32,13 +32,13 @@
 
     }
 
-    .site {
+    /* .site {
         background-color: #75645A;
     }
 
     .logo {
         background-color: #272B2A;
-    }
+    } */
 
     .picture {
 
@@ -65,7 +65,7 @@
         font-weight: bold;
         font-size: 40px;
         line-height: 56px;
-        color: white;
+        color: black;
 
 
     }
@@ -89,9 +89,9 @@
         color: black;
     }
 
-    .maquette .ctm h2 {
+    /*  .maquette .ctm h2 {
         color: black;
-    }
+    } */
 
     .picture span {
         margin-top: 5px;
@@ -118,7 +118,7 @@
     <div class="block site">
 
         <div class="ctm">
-            <h2>Mes réalisation de site</h2>
+            <h2>Site</h2>
             <div class="picture">
 
                 <?php foreach ($site as $key => $value) : ?>
@@ -141,7 +141,7 @@
     </div>
     <div class="block maquette">
         <div class="ctm">
-            <h2>Mes réalisation de maquette</h2>
+            <h2>Maquette</h2>
             <div class="picture">
 
                 <?php foreach ($maquette as $key => $value) : ?>
@@ -163,7 +163,7 @@
     </div>
     <div class="block logo">
         <div class="ctm">
-            <h2>Mes réalisation de logo</h2>
+            <h2>Logo</h2>
             <div class="picture">
                 <?php foreach ($logo as $key => $value) : ?>
 

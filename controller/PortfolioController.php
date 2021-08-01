@@ -25,7 +25,7 @@ class PortfolioController extends Controller
             $this->loadModel('Post');
 
             $d['content'] = $this->Post->getProjetByTag($cat);
-
+            $d["cat"] = $cat;
 
             $this->set($d);
         } else {
