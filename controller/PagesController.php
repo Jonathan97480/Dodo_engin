@@ -13,38 +13,40 @@ class PagesController extends Controller
     }
     function contact()
     {
-        $this->loadModel('Message');
+
 
         $data = $this->request->data;
 
+        /* Vérification que des donnée arrive du formulaire  */
         if (isset($data->sendMessage)) {
 
-            $d = $this->Message->postMessage($data->email, $data->obj, $data->content, $data->fullName);
+            $this->loadModel('Message');
 
-            if (isset($d->error)) {
+            try {
 
-                foreach ($d->error as $key => $value) {
+                $d = $this->Message->postMessage($data->email, $data->obj, $data->content, $data->fullName);
 
-                    $this->Session->setFlash($value, 'bg-danger', $data);
-                    $this->redirect('pages/contact');
-                }
-            }/* end test error */
-            $this->Session->setFlash('votre message a bien été envoyé');
-            $this->redirect('pages/contact');
-        }/* end check message is send */
+                $this->Session->setFlash('votre message a bien été envoyé');
+
+                $this->redirect('pages/contact');
+            } catch (Exception $e) {
+
+                $this->Session->setFlash($e->getMessage(), 'bg-danger', $data);
+            }
+        }
     }
     function portfolio()
     {
     }
 
-    function site_static(){
-
+    function site_static()
+    {
     }
 
-    public function site_dynamique(){
-
+    public function site_dynamique()
+    {
     }
-    public function application_mobile(){
-    
+    public function application_mobile()
+    {
     }
 }

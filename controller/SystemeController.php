@@ -314,7 +314,7 @@ class SystemeController extends Controller
     }
 
 
-     function admin_add_user($id = null)
+    function admin_add_user($id = null)
     {
 
         $this->loadModel('User');
@@ -630,42 +630,43 @@ class SystemeController extends Controller
             $d['meesages'] = $this->Message->getAllmessage();
         } else {
 
-            $d['MessageRead'] = $this->Message->readMessage($id);
+            try {
+                $d['MessageRead'] = $this->Message->readMessage($id);
+            } catch (Exception $e) {
 
-            if (isset($d['MessageRead']->error)) {
 
-                foreach ($d['MessageRead']->error as $key => $value) {
-
-                    $this->Session->setFlash($value, 'bg-danger');
-                    $this->redirect('systeme/admin_message');
-                }
+                $this->Session->setFlash($e->getMessage(), 'bg-danger');
+                $this->redirect('systeme/admin_message');
             }
         }
 
         $this->set($d);
     }
+
     public function deleteMessage($id)
     {
 
+        try {
 
+            /* Vérification que l'id n'est pas vide  */
+            if (empty($id)) {
 
-        if (!empty($id)) {
+                $this->Session->setFlash('Vous devez préciser un message à supprimer', 'bg-danger');
+                $this->redirect('systeme/admin_message');
+            }
+
+            /* Traitement de la demande de suppression  */
             $this->loadModel('Message');
 
             $d = $this->Message->deleteMessage($id);
 
-            if (isset($d->error)) {
-
-                foreach ($d['MessageRead']->error as $key => $value) {
-
-                    $this->Session->setFlash($value, 'bg-danger');
-                }
-            }
             $this->Session->setFlash('Le message a bien été supprimé',);
-        } else {
-            $this->Session->setFlash('Vous devez préciser un message à supprimer', 'bg-danger');
+
+            $this->redirect('systeme/admin_message');
+        } catch (Exception $e) {
+
+            $this->Session->setFlash($e->getMessage(), 'bg-danger');
         }
-        $this->redirect('systeme/admin_message');
     }
 
     public function getNewMessage()

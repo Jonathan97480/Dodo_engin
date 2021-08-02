@@ -6,8 +6,8 @@ class Message extends Model
 
     /**
      * getAllmessage
-     * return all message in the table t_messages
-     * @return void
+     * Renvoie tous les messages 
+     * @return array|bool
      */
     public function getAllmessage()
     {
@@ -21,73 +21,92 @@ class Message extends Model
 
     /**
      * deleteMessage
-     *  delte message in the DB
+     *  permet de supprimer un message dans la messagerie de l'administration
      * @param  int $id
-     * @return void|array|stdClass
+     * @return void
      */
     public function deleteMessage($id)
     {
 
-        $m = $this->readMessage($id);
+        try {
 
-        if (isset($m->error)) {
+            $this->readMessage($id);
+            $this->delete($id);
+            return;
+        } catch (Exception $e) {
 
-            return $m->error;
+            throw new Exception($e->getMessage());
         }
-
-        $this->delete($id);
     }
 
     /**
      * postMessage
-     *  add message in the DB
+     *  Rajoute des messages dans la messagerie de l'administration 
      * @param  string $email
      * @param  string $obj
      * @param  string $content
      * @param  string $fullName
-     * @return bool|stdClass|array
+     * @return void
      */
     public function postMessage($email, $obj, $content, $fullName)
     {
         $m = new stdClass();
 
-        if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
-            $m->error[10] = 'email Invalide';
-            return $m;
-        }
-        $this->save([
-            'objet_message' => htmlspecialchars($obj),
-            'email' => $email,
-            'content_message' => htmlspecialchars($content),
-            'full_name' => htmlspecialchars($fullName)
-        ]);
+        /* Validation du formulaire */
+        if (!isVarsEmpty([$obj, $email, $content, $fullName])) {
 
-        return true;
+
+
+
+
+            if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
+
+                throw new Exception("email Invalide .", 10);
+            }
+
+
+
+            $this->save([
+                'objet_message' => htmlspecialchars($obj),
+                'email' => $email,
+                'content_message' => htmlspecialchars($content),
+                'full_name' => htmlspecialchars($fullName)
+            ]);
+
+            return;
+        }
+
+
+        throw new Exception('Tous les champs ne sont pas remplies', 20);
     }
 
     /**
      * readMessage
-     *  return message 
+     *  retourne le message a lire et le définie comme Vue par l'administrateur 
      * @param  int $id
      * @return array|stdClass
      */
     public function readMessage($id)
     {
-        $m = new stdClass();
+
         if (is_numeric($id) == false) {
-            $m->error[10] = 'id Invalide';
-            return $m;
+
+            throw new Exception("id type incorrect . ");
         }
 
+        $m = new stdClass();
+
         $m->message = $this->findFirst([
+
             'conditions' => ['id' => $id]
         ]);
 
         if (empty($m->message)) {
-            $m->error[20] = 'Ce message n\'existe pas ';
-            return $m;
+            throw new Exception("Ce message n'existe pas .");
         }
+
         $this->save([
+
             'id' => $id,
             'is_read' => 1
         ]);
@@ -97,7 +116,7 @@ class Message extends Model
 
     /**
      * getNewMessages
-     *  return the first five messages don't read and count message no read
+     *  retourne les 5 dernier message qui ne sont pas encore lue et renvoi aussi le nombre de message à lire
      * @return array|stdClass
      */
     public function getNewMessages()
@@ -118,8 +137,9 @@ class Message extends Model
 
     /**
      * countMessages
-     *  return count message no read
-     * @return void
+     *  renvoi le nombre de message a lire ou le nombre de message lue
+     * @param bool $is_Read
+     * @return strign|Int
      */
     public function countMessages(bool $is_Read = false)
     {
