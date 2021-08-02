@@ -36,25 +36,25 @@ class Session
     {
 
         if (isset($_SESSION['flash']['message'])) {
-              
+
             $html = '<div class="alert-message ' . $_SESSION['flash']['type'] . ' text-white "><p>' . $_SESSION['flash']['message'] . '</p></div>';
 
             $_SESSION['flash'] = array();
             $this->deleteVar('ReturnForm');
-            
+
             return $html;
         }
     }
-    public function getFormReturn(){
-        
+    public function getFormReturn()
+    {
+
         $data = $this->read('ReturnForm');
 
-        if(empty( $data)){
+        if (empty($data)) {
             return false;
         }
 
         return $data;
-
     }
 
     private function deleteVar($key)
@@ -95,7 +95,6 @@ class Session
     }
     /**
      * @param string key
-     * @return bool
      *  
      * */
     public function user($key)
