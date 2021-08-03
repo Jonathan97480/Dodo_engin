@@ -39,7 +39,7 @@ class Cathegorie extends Model
 
      /**
       * saveCathegorie
-      * save new cathegorie or update cathegorie in the db
+      * Sauvegarder ou mettre ajour des catégories
       * @param  string $name
       * @param  string $description
       * @param  string $file
@@ -58,9 +58,7 @@ class Cathegorie extends Model
           ]);
 
           if (!empty($d->info) && empty($id)) {
-
-               $d->error[10] = "Cette categorie existe déja ";
-               return $d;
+               throw new Exception("Cette categorie existe déja ");
           }
 
           /* Sauvegarde de l'image dans le serveur */
@@ -70,8 +68,7 @@ class Cathegorie extends Model
 
                     if (!empty($d->info->img)  && $this->deleteImg($d->info->img) == false) {
 
-                         $d->error[50] = "Impossible de supprimer l'ancien images";
-                         return $d;
+                         throw new Exception("Impossible de supprimer l'ancien images");
                     }
                }
 
@@ -84,8 +81,7 @@ class Cathegorie extends Model
                }
           } elseif (empty($id)) {
 
-               $d->error = "Vous devez rajouter une image pour le rôle";
-               return $d;
+               throw new Exception("Vous devez rajouter une image pour le rôle");
           } elseif (!empty($id) && empty($file['name'])) {
 
                $img = $d->info->img;
@@ -123,7 +119,7 @@ class Cathegorie extends Model
 
      /**
       * getCategorieById
-      * return cathegorie by id
+      * retourne la catégorie qui correspond a l'id passer en paramètre 
       * @param  int $id
       * @return array|stdClass
       */
@@ -138,8 +134,7 @@ class Cathegorie extends Model
 
           if (empty($d)) {
 
-               $d->error[10] = "La categorie n'éxiste pas ";
-               return $d;
+               throw new Exception("La categorie n'éxiste pas ");
           }
 
 
@@ -150,7 +145,7 @@ class Cathegorie extends Model
      }
      /**
       * deleteCathegorie
-      * delete cathegorie by id
+      * supprime la catégorie qui correspond a l'id passer en paramètre 
       * @param  int $id
       * @return void|array|stdClass
       */
@@ -162,18 +157,16 @@ class Cathegorie extends Model
           ]);
 
           if (empty($cathegorie)) {
-               $cathegorie->error[10] = "La cathegorie ne peut être supprimé car il n'existe pas";
-               return $cathegorie;
+               throw new Exception("La cathegorie ne peut être supprimé car il n'existe pas");
           }
 
-          /* vérification si la cathegorie est utiliser sur un article ou un projet  */
+          /* vérification si la catégorie est utiliser sur un article ou un projet  */
           $isPost = $this->find([
                'conditions' => ['cathegories_id' => $id]
           ], 't_cathegories_has_post');
 
           if (!empty($isPost)) {
-               $cathegorie->error[10] = "La cathegorie que vous voulez supprimer et utilise actuellement par un ou plusieurs Post vous dever changer le tag de ces post avant de supprimer ce tag";
-               return $cathegorie;
+               throw new Exception("La cathegorie que vous voulez supprimer et utilisé actuellement par un ou plusieurs Post vous dever changer le tag de ces post avant de supprimer ce tag");
           }
 
 
@@ -184,7 +177,7 @@ class Cathegorie extends Model
      }
      /**
       * getChildrenCategorie
-      * get children cathegorie by parent
+      * retourne les enfants d'une catégorie
       * @param  mixed $cathegorie
       * @return array|stdClass
       */
@@ -210,7 +203,7 @@ class Cathegorie extends Model
 
      /**
       * clearParentCategorie
-      * Removes a category as a child of another category
+      * Retire le parent d'une catégorie 
       * @param  int $id
       * @return bool
       */
@@ -229,7 +222,17 @@ class Cathegorie extends Model
      }
      #endregion
      #region Image traitment
-     private function saveImg(array $file, $w = 100, $h = 100, $resize = true): string
+
+     /**
+      * saveImg
+      *
+      * @param  array $file
+      * @param  int $w
+      * @param  int $h
+      * @param  bool $resize
+      * @return string
+      */
+     private function saveImg(array $file, int $w = 100, int $h = 100, bool $resize = true): string
      {
           $upload_img = new stdClass();
           $upload_img->file = array();
@@ -244,7 +247,8 @@ class Cathegorie extends Model
                $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
                /*I will check that the extensions match */
                if (!in_array($extension, array("gif", "jpg", 'jpeg', "png"))) {
-                    $upload_img->error[100] = 'L\'extension du fichier est incorrecte';
+
+                    throw new Exception('L\'extension du fichier est incorrecte');
                }
 
                /*Retrieving the current date */
@@ -287,11 +291,9 @@ class Cathegorie extends Model
                          return  'icon' . DS . $file['name'];
                     }
                } else {
-                    $upload_img->error[110] = 'Le fichier ñ\'a pas pu etre importer';
+                    throw new Exception('Le fichier ñ\'a pas pu etre importer');
                }
           }
-
-          return $upload_img->error;
      }
 
      private function deleteImg(string $imgUrl)
@@ -308,7 +310,7 @@ class Cathegorie extends Model
                     return true;
                } else {
 
-                    return false;
+                    throw new Exception("Inpossible de supprimer l'image");
                }
           }
 
@@ -323,7 +325,7 @@ class Cathegorie extends Model
 
      /**
       * getListeTags
-      * return listes tags int the BD
+      *Renvoie la liste des tag
       * @return array|stdClass
       */
      public function getListeTags()
@@ -336,7 +338,7 @@ class Cathegorie extends Model
 
      /**
       * saveTag
-      * save or update tag in the DB
+      * Sauvegarde ou fait la mise ajour d'un tag existant 
       * @param  string $name
       * @param  string $description
       * @param  array $file
@@ -344,7 +346,7 @@ class Cathegorie extends Model
       * @param  mixed $tag_parents
       * @return array|stdClass
       */
-     public function saveTag(string $name, string $description, array $file, $id = null, $tag_parents)
+     public function saveTag(string $name, string $description, array $file, int $id = null, $tag_parents)
      {
           $d = new stdClass();
 
@@ -356,8 +358,7 @@ class Cathegorie extends Model
 
           if (!empty($d->info) && empty($id)) {
 
-               $d->error[10] = "Ce tag existe déja ";
-               return $d;
+               throw new Exception("Ce tag existe déja");
           }
 
           /* Sauvegarde de l'image dans le serveur */
@@ -367,8 +368,7 @@ class Cathegorie extends Model
 
                     if (!empty($d->info->img)  && $this->deleteImg($d->info->img) == false) {
 
-                         $d->error[50] = "Impossible de supprimer l'ancien images";
-                         return $d;
+                         throw new Exception("Impossible de supprimer l'ancien images");
                     }
                }
 
@@ -381,15 +381,14 @@ class Cathegorie extends Model
                }
           } elseif (empty($id)) {
 
-               $d->error = "Vous devez rajouter une image pour le rôle";
-               return $d;
+               throw new Exception("Vous devez rajouter une image pour le rôle");
           } elseif (!empty($id) && empty($file['name'])) {
 
                $img = $d->info->url_tag;
           }
 
 
-          /* sérialisation des donnée a sauvegarder */
+          /* sérialisation des données a sauvegarder */
 
           $tag = [
                'name_tag' => htmlspecialchars($name),
@@ -412,10 +411,10 @@ class Cathegorie extends Model
 
           return $d;
      }
-     
+
      /**
       * getTagById
-      * return the tag by id
+      * renvoie le tag qui correspond a l'id
       * @param  int $id
       * @return array|stdClass
       */
@@ -429,16 +428,14 @@ class Cathegorie extends Model
           ], 't_tags');
 
           if (empty($d)) {
-
-               $d->error[10] = "Le tag n'éxiste pas ";
-               return $d;
+               throw new Exception("Le tag n'éxiste pas ");
           }
 
           return $d->info;
-     }     
+     }
      /**
       * deleteTag
-      * delete the tag by id
+      * Supprime le tag qui correspond a l'id passer en paramètre 
       * @param  int $id
       * @return void
       */
@@ -450,23 +447,22 @@ class Cathegorie extends Model
           ], 't_tags');
 
           if (empty($tag)) {
-               $tag->error[10] = "Le rôle ne peut être supprimé car il n'existe pas";
-               return $tag;
+               throw new Exception("Le rôle ne peut être supprimé car il n'existe pas");
           }
 
 
 
           /* vérification si le tag est utiliser sur une image  */
           $isPost = $this->find([
+
                'conditions' => ['fk_tag_id' => $id]
+
           ], 'tags_has_medias');
+
           if (!empty($isPost)) {
-               $tag->error[10] = "Le tag que vous voulez supprimer et utilise actuellement par un ou plusieurs Image vous dever changer le tag de ces post avant de supprimer ce tag";
-               return $tag;
+
+               throw new Exception("Le tag que vous voulez supprimer et utilise actuellement par un ou plusieurs Image vous dever changer le tag de ces post avant de supprimer ce tag");
           }
-
-
-
 
           $this->delete($id, 't_tags');
           $this->deleteImg($tag->url_tag);

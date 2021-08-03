@@ -158,32 +158,26 @@ class SystemeController extends Controller
 
             $tag = $this->request->data;
 
-            $d['tag'] = $this->Cathegorie->saveTag($tag->name, $tag->description, $_FILES['thumbnail'], $id, $tag->tag_parents);
+            try {
 
-            if (isset($d['tag']->error)) {
-
-                foreach ($d['tag']->error as $key => $value) {
-
-                    $this->Session->setFlash($value, 'bg-danger', $tag);
-                }
-            } else {
+                $d['tag'] = $this->Cathegorie->saveTag($tag->name, $tag->description, $_FILES['thumbnail'], $id, $tag->tag_parents);
 
                 $this->Session->setFlash('Le tag est sauvgarder', 'bg-success');
 
                 $this->redirect('systeme/admin_add_tag/id:' . $d['tag']->id);
+            } catch (Exception $e) {
+
+                $this->Session->setFlash($e->getMessage(), 'bg-danger', $tag);
             }
         } elseif (!empty($id)) {
 
-            $d['tag'] = $this->Cathegorie->getTagById($id);
-
-            if (isset($d['tag']->error)) {
-
-                foreach ($d['tag']->error as $key => $value) {
-
-                    $this->Session->setFlash($value, 'bg-danger');
-                }
+            try {
+                $d['tag'] = $this->Cathegorie->getTagById($id);
+            } catch (Exception $e) {
+                $this->Session->setFlash($e->getMessage(), 'bg-danger');
             }
         }
+
         $this->set($d);
     }
 
@@ -191,20 +185,16 @@ class SystemeController extends Controller
     {
 
         $this->loadModel('Cathegorie');
+        try {
 
-        $d = $this->Cathegorie->deleteTag($id);
+            $d = $this->Cathegorie->deleteTag($id);
+            $this->Session->setFlash('Le tag a bien été supprimé', 'bg-success');
+            $this->redirect('systeme/admin_tag_list');
+        } catch (Exception $e) {
 
-        if (isset($d->error)) {
-
-            foreach ($d->error as $key => $value) {
-
-                $this->Session->setFlash($value, 'bg-danger');
-                $this->redirect('systeme/admin_add_tag/id:' . $id);
-            }
+            $this->Session->setFlash($e->getMessage(), 'bg-danger');
+            $this->redirect('systeme/admin_add_tag/id:' . $id);
         }
-
-        $this->Session->setFlash('Le tag a bien été supprimé', 'bg-success');
-        $this->redirect('systeme/admin_tag_list');
     }
     #endregion
     #region Categories
