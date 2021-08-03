@@ -1,4 +1,7 @@
 <?php
+
+use JetBrains\PhpStorm\ExpectedValues;
+
 class Post extends Model
 {
     public $table = 'post';
@@ -63,8 +66,8 @@ class Post extends Model
         $perPage = 10;
         $page = $curentPage;
         $condition = array('online' => 1, 'type' => $type);
-        /* (FR) Renvoie le nombre d'entrées qui porte le type post dans la base données
-                     (EN) Returns the number of entries with type post in the database */
+
+        /* (FR) Renvoie le nombre d'entrées qui porte le type post dans la base données */
         $d['total'] = $this->findCount($condition);
 
         if ($paramsPage != null && $paramsPage <= $d['total']) {
@@ -90,10 +93,8 @@ class Post extends Model
             $d['posts'] = $d['posts'];
         }
 
-        /*  */
-        /* (FR)Calcul pour définir le nombre de postes par page
-        (EN) Calculation to define the number of posts per page */
 
+        /* (FR)Calcul pour définir le nombre de postes par page*/
         $d['page'] = ceil($d['total'] / $perPage);
 
         return $d;
@@ -127,24 +128,18 @@ class Post extends Model
     public function GetArticleByType($type, $curentPage, $paramsPage = null)
     {
 
-        /*(FR) Je défini le nombre de post par page
-       (EN) I define the number of posts per page*/
+        /*(FR) Je défini le nombre de post par page*/
+
         $d = array();
         $perPage = 5;
 
-        /*
-                           PAGINATION 
-                       */
+        /*PAGINATION  */
         $condition = array('online' => 1, 'type' => $type);
 
-        /*(FR) Renvoie tous les entrées de type post
-                     (EN) Returns all post type entries
-                     
-                     */
+        /*(FR) Renvoie tous les entrées de type post*/
         $page = $curentPage;
 
-        /* (FR) Renvoie le nombre d'entrées qui porte le type post dans la base données
-                     (EN) Returns the number of entries with type post in the database */
+        /* (FR) Renvoie le nombre d'entrées qui porte le type post dans la base données */
         $d['total'] = $this->findCount($condition);
 
         if ($paramsPage != null && $paramsPage <= $d['total']) {
@@ -158,10 +153,8 @@ class Post extends Model
         WHERE  type='" . $type . "' AND online =1 GROUP BY post.id LIMIT " . ($perPage * ($page - 1)) . ',' . $perPage;
 
         $d['posts'] = $this->query($sql);
-        /*  */
-        /* (FR)Calcul pour définir le nombre de postes par page
-        (EN) Calculation to define the number of posts per page */
 
+        /* (FR)Calcul pour définir le nombre de postes par page */
         $d['page'] = ceil($d['total'] / $perPage);
 
         return $d;
@@ -207,23 +200,22 @@ class Post extends Model
 
     /**
      * getPost
-     *  return post by id
+     *  renvoi un article de type post grâce a sont id 
      * @param  int $id
      * @return array|stdClass
      */
     public function getPost($id)
     {
+
         $d = [];
-        /*(FR) Je récupère l'article stocker la base de donnée qui correspond à cette $id
-        (EN) I get the article store the database that corresponds to this id */
+
+        /*(FR) Je récupère l'article stocker la base de donnée qui correspond à cette $id*/
         $d = $this->findFirst(array(
 
-            /*(FR) Je définis les champs que je veux récupérer
-            (EN) I define the fields that I want retrieve */
+            /*(FR) Je définis les champs que je veux récupérer */
             'fields'    => 'id,slug,content,name,img_description',
 
-            /*(FR) Je définis mes conditions de recherche 
-               (EN) I define my search conditions  */
+            /*(FR) Je définis mes conditions de recherche */
             'conditions' => array('online' => 1, 'id' => $id, 'type' => 'post')
         ));
 
@@ -232,7 +224,7 @@ class Post extends Model
 
     /**
      * getProjet
-     * return projet by id
+     * renvoi un article de type projet plus les catégorie qui lui sont lié  grâce a sont id de l'article 
      * @param  int $id
      * @return array|stdClass
      */
@@ -255,6 +247,12 @@ class Post extends Model
 
         return $d;
     }
+    /**
+     * getProjetByTag
+     * renvoi tous les articles de type projet qui on le même tag 
+     * @param  string $cat
+     * @return array|stdClass
+     */
     public function getProjetByTag($cat)
     {
 
@@ -269,9 +267,10 @@ class Post extends Model
 
         return $r;
     }
+
     /**
      * getLastProjet
-     *
+     * return les 5 dernier projet poster dans la BD
      * @return array|stdClass
      */
     public function getLastProjet()
@@ -295,7 +294,7 @@ class Post extends Model
 
     /**
      * getPostByName
-     * reutrn post by name 
+     * Permet de faire une recherche dans les articles 
      * @param  string $Search
      * @return array|stdClass
      */
@@ -319,13 +318,12 @@ class Post extends Model
         }
         unset($post->info);
 
-        $post->error = "Aucun article n'a été trouvé";
-        return $post->error;
+        throw new Exception("Aucun article n'a été trouvé");
     }
 
     /**
      * getPostById
-     * Allows you to retrieve any type of post via its id
+     * return un article de type post plus les catégorie qui lui sont attacher grâce a sont id 
      * @param  int $id
      * @return array|stdClass
      */
@@ -350,16 +348,17 @@ class Post extends Model
 
         $post->info = $this->query($sql);
 
-        if (empty($post->info)) {
-            $post->error[20] = "l'article demandée n'existe pas";
-            return $post;
+        if (!empty($post->info)) {
+
+            return $post->info[0];
         }
-        return $post->info[0];
+
+        throw new Exception("l'article demandée n'existe pas");
     }
 
     /**
      * setPost
-     * Allows you to add or update a post
+     * permet de poster un nouvelle article 
      * @param  string $name
      * @param  string $description
      * @param  string $content
@@ -373,6 +372,7 @@ class Post extends Model
     public function setPost($name, $description, $content, $type, $online = null, $categorieListe = null, $file = null, $id = null)
     {
         $post = new stdClass();
+        $img = null;
 
         if ($id == null) {
 
@@ -382,8 +382,7 @@ class Post extends Model
 
             if (!empty($post->info)) {
 
-                $post->error[10] = "vous avez déjà un article qui porte ce nom";
-                return $post;
+                throw new Exception("vous avez déjà un article qui porte ce nom");
             }
         } else {
 
@@ -393,8 +392,7 @@ class Post extends Model
 
             if (empty($post->info)) {
 
-                $post->error[10] = "l'article n'existe pas";
-                return $post;
+                throw new Exception("Cette article n'existe pas");
             }
         }
 
@@ -402,34 +400,25 @@ class Post extends Model
 
         if (!empty($file['name'])) {
 
+            try {
 
-            $img = $this->saveImg($file, 870, 350);
+                $img = $this->saveImgPost($file, 870, 350);
 
-
-            /* On vérifie que il Ya hu aucune hereure pendant la sauvegardé de l'image */
-            if (is_array($img)) {
-
-                $post->error = $img;
-                return $post;
-            } else {
-
-                if ($id != null)
-
+                if ($id != null) {
                     $this->deleteImg($post->info[0]->img_description);
-            }
-        } else {
+                }
+            } catch (Exception $e) {
 
-            if ($id != null) {
-            } else {
-
-                $post->error[50] = "vous devez préciser une image à votre article";
-                return $post;
+                throw new Exception($e->getMessage());
             }
+        } elseif ($id == null) {
+
+            throw new Exception("vous devez préciser une image à votre article");
         }
 
         unset($post->info);
 
-        if (isset($img)) {
+        if ($img != null) {
 
             $post->img_description = $img;
         }
@@ -458,21 +447,22 @@ class Post extends Model
 
             $post->online = 0;
         }
-        /* Vérification Avant Sauvegarde */
+
 
 
         /* sauvegarde de l'article  */
-        /* je n'ais plus besoin de cette variable je la retire avant la sauvegarde */
-        $idReturn = $this->save($post);
 
-        if ($id == null) {
+        $idReturn = $this->save($post);
+        $id == null ? $id = $idReturn : '';
+        /*      if ($id == null) {
 
             $id =  $idReturn;
-        }
+        } */
+
 
         if ($categorieListe != null) {
 
-            /* Gestion des categories */
+            /* Gestion des catégories */
             foreach ($categorieListe as $key => $value) {
 
                 $this->saveCategoriesPost($id, $value);
@@ -484,7 +474,7 @@ class Post extends Model
 
     /**
      * saveCategoriesPost
-     * Allows you to link categories to the post
+     * permet de lier des catégorie a votre article 
      * @param  int $idPost
      * @param  int $idCat
      * @return void
@@ -513,8 +503,7 @@ class Post extends Model
     }
 
     /**
-     * deletePost
-     *  delete post by id
+     * supprime un article grâce a sont id 
      * @param  int $id
      * @return void
      */
@@ -533,8 +522,17 @@ class Post extends Model
 
         $this->deleteImg($img->img_description);
     }
-    #region Image traitment
-    private function saveImg(array $file, $w = 100, $h = 100, $resize = true): string
+    #region Image traitement    
+    /**
+     * saveImgPost
+     *  Sauvegarde l'image qui est lier a notre article 
+     * @param  array $file
+     * @param  int $w
+     * @param  int $h
+     * @param  bool $resize
+     * @return string
+     */
+    private function saveImgPost(array $file, int $w = 100, int $h = 100, bool $resize = true): string
     {
         $upload_img = new stdClass();
         $upload_img->file = array();
@@ -542,48 +540,51 @@ class Post extends Model
 
 
 
-        /* I verify that the file was transmitted by HTTP POST*/
+        /* On vérifie que le fichier a bien transiter par le  HTTP POST*/
         if (is_uploaded_file($file['tmp_name'])) {
 
-            //Extension recovery
+            //On récupère l'extension du fichier 
             $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-            /*I will check that the extensions match */
+
+            /*On vérifie que l'extension du fichier correspond au extension que on autorise */
             if (!in_array($extension, array("gif", "jpg", 'jpeg', "png"))) {
-                $upload_img->error[100] = 'L\'extension du fichier est incorrecte';
+
+                throw new Exception('L\'extension du fichier est incorrecte');
             }
-
-            /*Retrieving the current date */
-
+            /* on définit dans quelle dossier on va poster l'image  */
             $dir = WEBROOTT . DS . 'img' . DS . 'post';
 
-            /*Check if the folder exists */
+            /*On vérifie que ce dossier existe  */
             if (!file_exists($dir)) {
-
+                /* On crée le dossier si il n'existe pas  */
                 mkdir($dir, 0777, true);
             }
-            /*I define the path where I will save my image and I store it in the variable $filetowrite */
+            /* on concatène le chemin verre le dossier avec le non du fichier */
             $filetowrite = $dir .  DS . $file['name'];
 
-            /* I move file to image folder */
+            /* on déplace notre image a l'emplacement que on a définie  */
             if (move_uploaded_file($file['tmp_name'], $filetowrite)) {
 
-
+                /* si on demande a redimensionner l'image */
                 if ($resize) {
 
+                    /* on stock le chemin ou se trouve notre image actuellement */
                     $oldImg = $filetowrite;
 
-                    //Image resizing
+                    //On stock notre nouvelle image dans la cette variable 
                     $new_img = new img($filetowrite);
 
-
+                    /* On redimensionne notre image avec les dimension demander   */
                     $new_img->resize($w, $h);
 
-                    //Define the file name
+                    //On définie le nom que on vas donnée a notre nouvelle image 
                     $new_fil_name = uniqid('img_') . "." . $extension;
-                    $filetowrite = $dir .  DS . $new_fil_name;
 
+                    $filetowrite = $dir .  DS . $new_fil_name;
+                    /* on stock notre nouvelle image dans le chemin défini ho dessue  */
                     $new_img->store($filetowrite);
 
+                    /*  suppression de notre ancienne image  */
                     unlink($oldImg);
 
                     return  'post' . DS . $new_fil_name;
@@ -592,14 +593,19 @@ class Post extends Model
                     return  'post' . DS . $file['name'];
                 }
             } else {
-                $upload_img->error[110] = 'Le fichier ñ\'a pas pu etre importer';
+
+                throw new Exception('Le fichier ñ\'a pas pu etre importer');
             }
         }
-
-        return $upload_img->error;
     }
 
-    private function deleteImg(string $imgUrl)
+    /**
+     * deleteImg
+     * supprime l'image qui ce situe au chemin que vous lui passer en paramètre 
+     * @param  string $imgUrl
+     * @return bool
+     */
+    private function deleteImg(string $imgUrl): bool
     {
 
         $baseUrl = WEBROOTT . DS . 'img';
@@ -608,19 +614,22 @@ class Post extends Model
 
             unlink($baseUrl . DS . $imgUrl);
 
-            if (!file_exists($baseUrl . DS . $imgUrl)) {
+            if (file_exists($baseUrl . DS . $imgUrl)) {
 
-                return true;
-            } else {
-
-                return false;
+                throw new Exception("l'image n'exite pas ou vous n'avez pas les permissions nécessaire pour la supprimer ");
             }
         }
 
         return true;
     }
 
-    public function GetNumberPost(string $type)
+    /**
+     * GetNumberArticle
+     * Retourne le nombre article présent dans un type donnée 
+     * @param  string $type
+     * @return int|array
+     */
+    public function GetNumberArticle(string $type)
     {
 
         $value = $this->findCount(['type' => $type]);

@@ -63,8 +63,8 @@ class SystemeController extends Controller
 
 
 
-        $d['numberPost'] = $this->Post->GetNumberPost('post');
-        $d['numberProjet'] = $this->Post->GetNumberPost('projet');
+        $d['numberPost'] = $this->Post->GetNumberArticle('post');
+        $d['numberProjet'] = $this->Post->GetNumberArticle('projet');
         $d['numberMessageNoRead'] = $this->Message->countMessages();
         $d['numberMessageRead'] = $this->Message->countMessages(true);
 
@@ -416,48 +416,48 @@ class SystemeController extends Controller
             if (!isset($data->categorieListe))
                 $data->categorieListe = null;
 
-            if (!isset($data->online))
+            if (!isset($data->online)) {
                 $data->online = null;
+            }
 
-            $idreturn = $this->Post->setPost(
-                $data->name,
-                $data->description,
-                $data->content,
-                $data->type,
-                $data->online,
-                $data->categorieListe,
-                $_FILES['img'],
-                $id
-            );
-        }
+            try {
 
-        if (isset($idreturn->error)) {
+                $idreturn = $this->Post->setPost(
+                    $data->name,
+                    $data->description,
+                    $data->content,
+                    $data->type,
+                    $data->online,
+                    $data->categorieListe,
+                    $_FILES['img'],
+                    $id
+                );
 
-            foreach ($idreturn->error as $key => $value) {
+                if (is_numeric($idreturn)) {
 
-                $this->Session->setFlash($value, 'bg-danger', $idreturn);
+                    $id = $idreturn;
+                    $this->Session->setFlash('votre Post a été sauvegardé de succès', 'bg-succes', $idreturn);
+                }
 
                 if ($id != null) {
 
-                    $this->redirect('systeme/admin_post_edit/id:' . $id);
+                    $d['post'] = $this->Post->getPostById($id);
+                }
+            } catch (Exception $e) {
+
+                $this->Session->setFlash($e->getMessage(), 'bg-danger', $idreturn);
+
+                if ($id != null) {
+
+                    $this->redirect('systeme/admin_post_edit/id:' . $id, $data);
                 } else {
 
-                    $this->redirect('systeme/admin_post_edit');
+                    $this->redirect('systeme/admin_post_edit', $data);
                 }
             }
-        } else {
-
-            if (is_numeric($idreturn)) {
-
-                $id = $idreturn;
-                $this->Session->setFlash('votre Post a été sauvegardé de succès', 'bg-succes', $idreturn);
-            }
-
-            if ($id != null) {
-
-                $d['post'] = $this->Post->getPostById($id);
-            }
         }
+
+
 
         $this->set($d);
     }
