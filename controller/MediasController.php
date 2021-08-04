@@ -26,13 +26,13 @@ class MediasController extends Controller
     {
         $this->loadModel('Media');
 
-        $d = $this->Media->delete_img($id);
-        if (empty($d->error)) {
+        try {
+            $d = $this->Media->delete_img($id);
             $this->Session->setFlash("Votre image est bien Supprimer");
             $this->redirect('admin/medias/galerie/');
-        } else {
+        } catch (Exception $e) {
 
-            $this->Session->setFlash($d->error[100], "bg-danger");
+            $this->Session->setFlash($e->getMessage(), "bg-danger");
             $this->redirect('admin/medias/galerie/');
         }
     }
@@ -51,10 +51,10 @@ class MediasController extends Controller
 
             $this->Media->upload($_FILES['file']);
         }
-        if(isset($this->request->data) && !empty($this->request->data)){
+        if (isset($this->request->data) && !empty($this->request->data)) {
             $this->Media->save($this->request->data);
         }
-      
+
         $this->redirect('admin/medias/galerie/');
     }
 

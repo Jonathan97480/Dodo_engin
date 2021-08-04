@@ -79,7 +79,7 @@ class Commentaire extends Model
 
         if ($login == null && $idUser == null) {
 
-            $myMessage->error[10] = "Vous devez préciser un login ou vous connectez";
+            throw new Exception("Vous devez préciser un login ou vous connectez");
         }
 
         if ($login != null) {

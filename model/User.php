@@ -9,7 +9,7 @@ class User extends Model
     #region Users
     /**
      * login
-     * Allows to check if a user exists at the time of his connection 
+     * Connecte utilisateur si le login et le password est correcte
      * return of hereure if the info of the form is not correct
      * @param  mixed $login
      * @param  mixed $password
@@ -24,11 +24,11 @@ class User extends Model
         if (!isVarsEmpty([$login, $password])) {
 
             if (strlen($login) < $this->login_length) {
-                $user->error[110] = "Le login doit faire " . $this->login_length . " caractères minimum";
+                throw new Exception("Le login doit faire " . $this->login_length . " caractères minimum");
             }
 
             if (strlen($password) < $this->password_length) {
-                $user->error[120] = "Le mot de pass doit faire " . $this->password_length . " caractères minimum";
+                throw new Exception("Le mot de pass doit faire " . $this->password_length . " caractères minimum");
             }
 
             /*If no error detected, I launch my user search in the database*/
@@ -41,13 +41,13 @@ class User extends Model
                 $user->info =  $this->query($sql);
 
                 if (empty($user->info)) {
-                    $user->error[130] = "L'utilisateur n'existe pas";
+                    throw new Exception("L'utilisateur n'existe pas");
                 } else {
                     $user->info = $user->info[0];
                 }
             }
         } else {
-            $user->error[100] = "Vous devez remplir tous les champs";
+            throw new Exception("Vous devez remplir tous les champs");
         }
 
         return $user;
@@ -55,7 +55,7 @@ class User extends Model
 
     /**
      * deleteUser
-     * dlete User in dataBase
+     * supprime utilisateur de la base de donnée
      * @param  int $id
      * @return array|stdClass
      */
@@ -72,8 +72,7 @@ class User extends Model
 
             if ($user->info->fk_role_id == 1) {
 
-                $user->error[10] = " Les admin ne peuvent pas être supprimé ";
-                return $user;
+                throw new Exception(" Les admin ne peuvent pas être supprimé ");
             }
 
             if (!empty($user->info)) {
@@ -88,19 +87,17 @@ class User extends Model
                 return true;
             } else {
 
-                $user->error[20] = "Cette utilisateur n'existe pas ";
-                return $user;
+                throw new Exception("Cette utilisateur n'existe pas ");
             }
         } else {
 
-            $user->error[10] = "l'id est incorrecte";
-            return $user;
+            throw new Exception("l'id est incorrecte");
         }
     }
 
     /**
      * register
-     *  regist user and info user in the DB
+     *  enregistre les nouveaux utilisateur ou les mets  à jour 
      * @param  string $name
      * @param  string $firstName
      * @param  string $login
@@ -146,107 +143,114 @@ class User extends Model
         }
 
         if (!empty($loginExist) && empty($idUser)) {
-            $user->error[100] = "ce login est déjà utilisé";
+
+            throw new Exception("ce login est déjà utilisé");
         }
 
         if (!empty($emailExist) && empty($idUser)) {
-            $user->error[110] = "cette email est déjà utilisé";
+
+            throw new Exception("cette email est déjà utilisé");
         }
 
         if ($idUser == null && empty($pass)) {
-            $user->error[110] = "Le mot de passe est obligatoire pour ajouter un utilisateur";
+
+            throw new Exception("Le mot de passe est obligatoire pour ajouter un utilisateur");
         }
 
         /* (FR)si tout est correct on sauvegarde le nouvelle utilisateur  */
-        /* (FR)Encodage du mot de passe pour sauvegarde */
-        if (empty($user->error)) {
-
-            $user->info->login = htmlspecialchars($login);
-            $user->info->name = htmlspecialchars($name);
-            $user->info->first_name = htmlspecialchars($firstName);
-
-            if (!empty($pass)) {
-
-                $user->info->password = sha1(htmlspecialchars($pass));
-            }
-
-            $user->info->email = htmlspecialchars($email);
-            if (!empty($role)) {
-                $user->info->fk_role_id = htmlspecialchars($role);
-            }
-            if (!empty($isActive)) {
-                $user->info->count_active = $isActive;
-            }
-
-            $user->info->fk_lang = 1;
+        /* (FR)Encodage du mot de passe  */
 
 
+        $user->info->login = htmlspecialchars($login);
+        $user->info->name = htmlspecialchars($name);
+        $user->info->first_name = htmlspecialchars($firstName);
+
+        if (!empty($pass)) {
+
+            $user->info->password = sha1(htmlspecialchars($pass));
+        }
+
+        $user->info->email = htmlspecialchars($email);
+        if (!empty($role)) {
+            $user->info->fk_role_id = htmlspecialchars($role);
+        }
+        if (!empty($isActive)) {
+            $user->info->count_active = $isActive;
+        }
+
+        $user->info->fk_lang = 1;
 
 
-            if (isset($file['avatar']['name']) && !empty($file['avatar']['name'])) {
+
+
+        if (isset($file['avatar']['name']) && !empty($file['avatar']['name'])) {
+
+            try {
                 $e = $this->saveImg($file['avatar']);
-                if (is_string($e)) {
+            } catch (Exception $e) {
 
-                    $user->info->avatar = $e;
-                } else {
-
-                    $user->error[50] = $e;
-                }
-            } else {
-                if (empty($idUser)) {
-                    $user->info->avatar = 'avatar/avatar_default.png';
-                }
+                throw new Exception($e->getMessage());
             }
-
-            if (!empty($idUser)) {
-
-                $user->info->id = $idUser;
-            }
-            if (empty($user->error)) {
-
-                $idTusers = $this->save($user->info);
-                $user->info = new stdClass();
-
-                $user->info->zip_code = $zipcode;
-                $user->info->country = 'Réunion';
-                $user->info->city = htmlspecialchars($city);
-                $user->info->address = $adress1;
-                $user->info->address_2 = $adress2;
-                $user->info->phone = $tel;
-
-                if (!empty($idUser)) {
-
-                    $user->info->id =   $this->findFirst([
-                        'conditions' => ['t_users_id' => $idUser],
-                        'fields' => "t_users_info_id AS id"
-                    ], 't_users_has_t_users_info')->id;
-                }
-
-                $idInfoUser = $this->save($user->info, 't_users_info');
-                if (empty($idUser)) {
-                    $link = new stdClass();
-                    $link->t_users_id = $idTusers;
-                    $link->t_users_info_id = $idInfoUser;
-                    $this->save($link, 't_users_has_t_users_info');
-                }
-
-
-                $user->info = new stdClass();
-
-
-                if (!empty($idTusers)) {
-                    $user->info->id = $idTusers;
-                } else {
-
-                    $user->info->id = $idUser;
-                }
-            } else {
-                return $user;
+        } else {
+            if (empty($idUser)) {
+                $user->info->avatar = 'avatar/avatar_default.png';
             }
         }
 
+        if (!empty($idUser)) {
+
+            $user->info->id = $idUser;
+        }
+
+
+        $idTusers = $this->save($user->info);
+        $user->info = new stdClass();
+
+        $user->info->zip_code = $zipcode;
+        $user->info->country = 'Réunion';
+        $user->info->city = htmlspecialchars($city);
+        $user->info->address = $adress1;
+        $user->info->address_2 = $adress2;
+        $user->info->phone = $tel;
+
+        if (!empty($idUser)) {
+
+            $user->info->id =   $this->findFirst([
+                'conditions' => ['t_users_id' => $idUser],
+                'fields' => "t_users_info_id AS id"
+            ], 't_users_has_t_users_info')->id;
+        }
+
+        $idInfoUser = $this->save($user->info, 't_users_info');
+        if (empty($idUser)) {
+            $link = new stdClass();
+            $link->t_users_id = $idTusers;
+            $link->t_users_info_id = $idInfoUser;
+            $this->save($link, 't_users_has_t_users_info');
+        }
+
+
+        $user->info = new stdClass();
+
+
+        if (!empty($idTusers)) {
+            $user->info->id = $idTusers;
+        } else {
+
+            $user->info->id = $idUser;
+        }
+
+
         return $user;
     }
+
+
+
+    /**
+     * validation_key_generation
+     *  génère une clé validation pour les email d'inscription 
+     * @return void
+     */
     private function validation_key_generation()
     {
 
@@ -260,7 +264,7 @@ class User extends Model
     }
     /**
      * loadInfoUser
-     *  return info the user 
+     *  renvoie les infos de utilisateur 
      * @param  int $idUser
      * @return array|stdClass
      */
@@ -280,7 +284,7 @@ class User extends Model
         return $d;
     }
     /**
-     * get_profile
+     * retourne  le profil de l'utilisateur 
      * Allows you to retrieve the user's profile
      * @param  int $id Takes id of user search
      * @return array|stdClass 
@@ -312,14 +316,16 @@ class User extends Model
         LEFT JOIN t_users_info ON t_users_info.id =t_users_has_t_users_info.t_users_info_id 
         WHERE " . $this->table . ".id =" . $id)[0];
 
-        if (empty($user->info->user)) $user->error[100] = 'L\'utilisateur ñ\'existe pas';
+        if (empty($user->info->user)) {
+            throw new Exception('L\'utilisateur ñ\'existe pas');
+        }
 
         return  $user;
     }
 
     /**
      * set_profile
-     * Allows you to modify a user's profile
+     * mets à jour le profil de l'utilisateur 
      * @param  int $id profile id to modify
      * @param  string $login Optional parameters
      * @param  string $email Optional parameters
@@ -350,7 +356,7 @@ class User extends Model
             if ($mp1 == $mp2) {
                 $user->info->password = sha1(htmlspecialchars($mp1));
             } else {
-                $user->error[100] = 'Vos deux mots de passe ne sont pas identiques';
+                throw new Exception('Vos deux mots de passe ne sont pas identiques');
             }
         }
         /* (FR)Vérification du login */
@@ -358,7 +364,7 @@ class User extends Model
 
             if (!preg_match('/^[a-zA-z0-9_]+$/', $login)) {
 
-                $user->error[110] = 'Votre login contient des caractères non autorisé';
+                throw new Exception('Votre login contient des caractères non autorisé');
             } else {
 
                 $user->info->login = htmlspecialchars($login);
@@ -369,7 +375,7 @@ class User extends Model
 
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
-                $user->error[120] = "Votre adresse email ñ'est pas valide";
+                throw new Exception("Votre adresse email ñ'est pas valide");
             } else {
                 $user->info->email = htmlspecialchars($email);
             }
@@ -389,8 +395,7 @@ class User extends Model
 
                 /* (FR)Je vais vérifier que les extensions correspondent */
                 if (!in_array(strtolower(pathinfo($avatar_file['name'], PATHINFO_EXTENSION)), array("gif", "jpg", "jpeg", "png"))) {
-
-                    $user->error[130] = "L'extension de votre fichier n'est pas autorisé";
+                    throw new Exception("L'extension de votre fichier n'est pas autorisé");
                 } else {
 
 
@@ -423,7 +428,7 @@ class User extends Model
         }
 
         /* save info t_user */
-        if (empty($user->error && !empty($user->info))) {
+        if (!empty($user->info)) {
 
             $this->save($user->info);
             unset($user->info);
@@ -461,7 +466,7 @@ class User extends Model
             $user->info->city = htmlspecialchars($city);
         }
 
-        if (empty($user->error && !empty($user->info))) {
+        if (!empty($user->info)) {
 
             $user->info->id =  $this->query("SELECT t_users_info.id FROM " . $this->table .  " 
             LEFT JOIN t_users_has_t_users_info   ON t_users_id =" . $this->table . ".id 
@@ -482,16 +487,16 @@ class User extends Model
             }
         }
 
-        if (empty($user->error)) {
-            $user = $this->get_profile($id);
-        }
+
+        $user = $this->get_profile($id);
+
         return $user;
     }
 
 
     /**
      * find_users
-     *Allows to retrieve the list of users or to search inside
+     * permet de faire des recherches dans la liste des utilisateurs 
      * @param  string $Search
      * @return stdClass Users liste
      */
@@ -522,12 +527,10 @@ class User extends Model
 
     /**
      * activation_user_account
-     *Activation of the user account via email
+     * activation du compte utilisateur via email
      * @param  string   $email
      * @param  string $key
-     * @return stdClass info & error
-     * @error
-     * 100=>This user account does not exist
+     * @return stdClass info
      */
     function activation_user_account(string $email, string $key)
     {
@@ -547,16 +550,24 @@ class User extends Model
 
             $this->User->save($user->info);
         } else {
-
-            $user->error[100] = 'Ce compte utilisateur n\'existe pas';
+            throw new Exception('Ce compte utilisateur n\'existe pas');
         }
 
         return $user;
     }
     #endregion
 
-    #region Image traitment
-    private function saveImg(array $file, $w = 100, $h = 100, $resize = true): string
+    #region Image traitment    
+    /**
+     * saveImg
+     * Sauvegarde de la photo de profile
+     * @param  mixed $file
+     * @param  mixed $w
+     * @param  mixed $h
+     * @param  mixed $resize
+     * @return string
+     */
+    private function saveImg(array $file, int $w = 100, int $h = 100, bool $resize = true): string
     {
         $upload_img = new stdClass();
         $upload_img->file = array();
@@ -571,7 +582,7 @@ class User extends Model
             $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
             /*I will check that the extensions match */
             if (!in_array($extension, array("gif", "jpg", 'jpeg', "png"))) {
-                $upload_img->error[100] = 'L\'extension du fichier est incorrecte';
+                throw new Exception('L\'extension du fichier est incorrecte');
             }
 
             /*Retrieving the current date */
@@ -614,13 +625,17 @@ class User extends Model
                     return  'avatar' . DS . $file['name'];
                 }
             } else {
-                $upload_img->error[110] = 'Le fichier ñ\'a pas pu etre importer';
+                throw new Exception('Le fichier ñ\'a pas pu etre importer');
             }
         }
-
-        return $upload_img->error;
     }
 
+    /**
+     * deleteImg
+     * suppression de l'image de profil
+     * @param  string $imgUrl
+     * @return void
+     */
     private function deleteImg(string $imgUrl)
     {
 
@@ -649,7 +664,7 @@ class User extends Model
 
     /**
      * getListeRoles
-     * return  the list roles 
+     * renvoie la liste des roles 
      * @return void
      */
     public function getListeRoles()
@@ -662,14 +677,14 @@ class User extends Model
 
     /**
      * saveRole
-     * save new role and update role existant
+     * Ajout ou mise ajour de roles
      * @param  string $name
      * @param  string $description
      * @param  array $file
      * @param  int $id
      * @return array|stdClass
      */
-    public function saveRole(string $name, string $description, array $file, $id = null)
+    public function saveRole(string $name, string $description, array $file, int $id = null)
     {
         $d = new stdClass();
 
@@ -681,8 +696,7 @@ class User extends Model
 
         if (!empty($d->info) && empty($id)) {
 
-            $d->error[10] = "Ce role existe déja ";
-            return $d;
+            throw new Exception("Ce role existe déja ");
         }
 
         /* Sauvegarde de l'image dans le serveur */
@@ -692,22 +706,18 @@ class User extends Model
 
                 if (!empty($d->info->img_role)  && $this->deleteImg($d->info->img_role) == false) {
 
-                    $d->error[50] = "Impossible de supprimer l'ancien images";
-                    return $d;
+                    throw new Exception("Impossible de supprimer l'ancien images");
                 }
             }
 
-            $img = $this->saveImg($file);
-
-            if (is_array($img)) {
-
-                $d->error = $img;
-                return $d;
+            try {
+                $img = $this->saveImg($file);
+            } catch (Exception $e) {
+                throw new Exception($e->getMessage());
             }
         } elseif (empty($id)) {
 
-            $d->error = "Vous devez rajouter une image pour le rôle";
-            return $d;
+            throw new Exception("Vous devez rajouter une image pour le rôle");
         } elseif (!empty($id) && empty($file['name'])) {
 
             $img = $d->info->img_role;
@@ -741,7 +751,7 @@ class User extends Model
 
     /**
      * getRoleById
-     * return role by id 
+     * retourne le rôle qui correspond a id 
      * @param  int $id
      * @return array|stdClass|int
      */
@@ -756,8 +766,7 @@ class User extends Model
 
         if (empty($d)) {
 
-            $d->error[10] = "Le role n'éxiste pas ";
-            return $d;
+            throw new Exception("Le role n'éxiste pas ");
         }
 
         return $d->info;
@@ -765,7 +774,7 @@ class User extends Model
 
     /**
      * deleteRole
-     *  delete role by id
+     *  supprime le rôle qui correspond a id 
      * @param  int $id
      * @return void
      */
@@ -776,13 +785,12 @@ class User extends Model
         ], 't_roles');
 
         if (empty($role)) {
-            $role->error[10] = "Le rôle ne peut être supprimé car il n'existe pas";
-            return $role;
+            throw new Exception("Le rôle ne peut être supprimé car il n'existe pas");
         }
 
         if ($role->role_name == 'admin') {
-            $role->error[10] = "Le rôle d'admin ne peut pas être supprimé ";
-            return $role;
+
+            throw new Exception("Le rôle d'admin ne peut pas être supprimé ");
         }
 
         $isRole = $this->find([
@@ -790,8 +798,7 @@ class User extends Model
         ]);
 
         if (!empty($isRole)) {
-            $role->error[10] = "Le rôle que vous voulez supprimer et utilise actuellement par un ou plusieurs utilisateurs veuillez les changer role pour pouvoir supprimer";
-            return $role;
+            throw new Exception("Le rôle que vous voulez supprimer et utilise actuellement par un ou plusieurs utilisateurs veuillez les changer role pour pouvoir supprimer");
         }
 
 

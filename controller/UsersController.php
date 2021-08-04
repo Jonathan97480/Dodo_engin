@@ -17,11 +17,8 @@ class UsersController extends Controller
 
             $this->loadModel('User');
 
-            $user = $this->User->login($data->login, $data->password);
-         
-
-            if (empty($user->error)) {
-
+            try {
+                $user = $this->User->login($data->login, $data->password);
                 /*We check if the account is activated */
                 if ($user->info->count_active == 1) {
 
@@ -36,14 +33,14 @@ class UsersController extends Controller
                             setcookie('login', $user->info->login, time() + 365 * 24 * 3600, null, null, false, true);
                             setcookie('password', $user->info->password, time() + 365 * 24 * 3600, null, null, false, true);
                         }
-           
+
 
                         /*I check if he has the role of admin */
                         if ($user->info->role_name == 'admin') {
 
 
                             /* If he has the role of admin I redirect him to the administration page */
-                            $this->redirect(conf::$admin_prefixe );
+                            $this->redirect(conf::$admin_prefixe);
                         } else {
 
                             /* Otherwise I redirect it to the home page */
@@ -51,11 +48,8 @@ class UsersController extends Controller
                         }
                     }
                 }
-            }else{
-                foreach ($user->error as $key => $value) {
-                   
-                    $this->Session->setFlash($value,'',$data);
-                }
+            } catch (Exception $e) {
+                $this->Session->setFlash($e->getMessage(), '', $data);
             }
         }
     }
@@ -79,12 +73,12 @@ class UsersController extends Controller
     }
 
     /* (FR)Charge la page qui permet de récupérait sont mot de passe */
-  /*   function ForgotPassword()
+    /*   function ForgotPassword()
     {
         $this->theme = 'login_and_logout';
     } */
     /* (FR)Charge la page qui permet de s'enregistré*/
-/*     function register()
+    /*     function register()
     {
         $this->theme = 'login_and_logout';
         if (isset($_SESSION['User']) && !empty($_SESSION['User'])) {
@@ -110,10 +104,8 @@ class UsersController extends Controller
 
             $data = $this->request->data;
 
-            $result = $this->User->register($data->name, $data->login,  $data->email,  $data->password, $data->password2);
-
-            if (empty($result->error)) {
-
+            try {
+                $result = $this->User->register($data->name, $data->login,  $data->email,  $data->password, $data->password2);
 
                 $this->loadModel('Email');
                 $message = $this->Email->findFirst(array(
@@ -123,6 +115,8 @@ class UsersController extends Controller
                 $email = new SendMail();
                 $email->sendEmail($data->email, $message->email, 'Confirmation d\'inscription');
                 $this->redirect('users/login');
+            } catch (Exception $e) {
+                //throw $th;
             }
         }
     }
@@ -142,11 +136,12 @@ class UsersController extends Controller
 
             $this->loadModel('User');
 
-            $user = $this->User->activation_user_account($email, $key);
+            try {
 
-            if (empty($user->error)) {
+                $user = $this->User->activation_user_account($email, $key);
                 $this->Session->setFlash('Votre compte a été activé avec succès');
-            } else {
+            } catch (Exception $e) {
+
                 $this->Session->setFlash('Une erreur est survenue nous n\'avons pas pu activer votre compte ');
             }
         }
@@ -162,11 +157,11 @@ class UsersController extends Controller
 
         // We will check when you are connected
         if (isset($_SESSION['User']) && !empty($_SESSION['User'])) {
-        
-            
-            if($id!=null){
-               $id =$id;
-            }else{
+
+
+            if ($id != null) {
+                $id = $id;
+            } else {
                 $id = $_SESSION['User']->id;
             }
 
@@ -175,15 +170,14 @@ class UsersController extends Controller
             if (isset($this->request->data) && !empty($this->request->data)) {
 
                 $avatar = null;
-                
+
                 $data = $this->request->data;
 
                 if (isset($_FILES['avatar'])) {
 
                     $avatar = $_FILES['avatar'];
-       
                 }
-          
+
                 //If data has been posted we save it
                 $user_profil = $this->User->set_profile(
 
@@ -205,21 +199,15 @@ class UsersController extends Controller
                 );
                 $this->Session->write('User', $user_profil->info);
             } else { //If no data has been posted we display the profile directly
-                    $user_profil = $this->User->get_profile($id);
-          
+                $user_profil = $this->User->get_profile($id);
             }
 
             $d['user'] = $user_profil->info;
 
             $this->set($d);
-
         } else { //If this page is requested while there is no one connected, we can will redirect the login page
 
             return $this->redirect('users/login', 200);
         }
     }
-
-
-
- 
 }

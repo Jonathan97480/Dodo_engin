@@ -213,38 +213,28 @@ class SystemeController extends Controller
         if (!empty($this->request->data->name)) {
 
             $categorie = $this->request->data;
+            try {
 
-            $d['categorie'] = $this->Cathegorie->saveCathegorie(
-                $categorie->name,
-                $categorie->description,
-                $_FILES['thumbnail'],
-                $id,
-                $categorie->categorie_parent
-            );
-
-            if (isset($d['categorie']->error)) {
-
-                foreach ($d['categorie']->error as $key => $value) {
-
-                    $this->Session->setFlash($value, 'bg-danger', $categorie);
-                }
-            } else {
+                $d['categorie'] = $this->Cathegorie->saveCathegorie(
+                    $categorie->name,
+                    $categorie->description,
+                    $_FILES['thumbnail'],
+                    $id,
+                    $categorie->categorie_parent
+                );
 
                 $this->Session->setFlash('La categorie est sauvgarder', 'bg-success');
 
                 $this->redirect('systeme/admin_add_categorie/id:' . $d['categorie']->id);
+            } catch (Exception $e) {
+
+                $this->Session->setFlash($e->getMessage(), 'bg-danger', $categorie);
             }
         } elseif (!empty($id)) {
-
-            $d['categorie'] = $this->Cathegorie->getCategorieById($id);
-
-            if (isset($d['categorie']->error)) {
-
-                foreach ($d['categorie']->error as $key => $value) {
-
-
-                    $this->Session->setFlash($value, 'bg-danger');
-                }
+            try {
+                $d['categorie'] = $this->Cathegorie->getCategorieById($id);
+            } catch (Exception $e) {
+                $this->Session->setFlash($e->getMessage(), 'bg-danger');
             }
         }
         $this->set($d);
@@ -255,20 +245,19 @@ class SystemeController extends Controller
 
         $this->loadModel('Cathegorie');
 
-        $d = $this->Cathegorie->deleteCategorie($id);
+        try {
 
-        if (isset($d->error)) {
+            $d = $this->Cathegorie->deleteCategorie($id);
 
-            foreach ($d->error as $key => $value) {
+            $this->Session->setFlash('La categorie a bien été supprimé', 'bg-success');
+            $this->redirect('systeme/admin_categorie_list');
+        } catch (Exception $e) {
 
-                $this->Session->setFlash($value, 'bg-danger');
-                $this->redirect('systeme/admin_add_categorie/id:' . $id);
-            }
+            $this->Session->setFlash($e->getMessage(), 'bg-danger');
+            $this->redirect('systeme/admin_add_categorie/id:' . $id);
         }
-
-        $this->Session->setFlash('La categorie a bien été supprimé', 'bg-success');
-        $this->redirect('systeme/admin_categorie_list');
     }
+
     function clearCategorie($id, $idCat)
     {
         $this->loadModel('Cathegorie');
@@ -321,31 +310,25 @@ class SystemeController extends Controller
             if (!isset($data->isActive)) {
                 $data->isActive = null;
             }
-            $result = $this->User->register(
 
-                $data->name,
-                $data->first_name,
-                $data->login,
-                $data->email,
-                $data->password,
-                $data->address,
-                $data->address_2,
-                $data->zip_code,
-                $data->phone,
-                $data->city,
-                $data->role,
-                $data->count_active,
-                $_FILES,
-                $id
-            );
-            if (!empty($result->error)) {
-                /* Return error */
-                foreach ($result->error as $key => $value) {
+            try {
+                $result = $this->User->register(
 
-                    $this->Session->setFlash($value, 'bg-danger', $data);
-                    return;
-                }
-            } else {
+                    $data->name,
+                    $data->first_name,
+                    $data->login,
+                    $data->email,
+                    $data->password,
+                    $data->address,
+                    $data->address_2,
+                    $data->zip_code,
+                    $data->phone,
+                    $data->city,
+                    $data->role,
+                    $data->count_active,
+                    $_FILES,
+                    $id
+                );
 
                 $this->Session->setFlash('les infos de l\'utilisateur a été sauvegardé');
 
@@ -360,6 +343,8 @@ class SystemeController extends Controller
                 }
                 /*redirection to the add user form by passing the id in the url*/
                 $this->redirect('systeme/admin_add_user/id:' . $result->info->id);
+            } catch (Exception $e) {
+                $this->Session->setFlash($e->getMessage(), 'bg-danger', $data);
             }
         }
 
@@ -374,18 +359,19 @@ class SystemeController extends Controller
     {
 
         $this->loadModel('User');
+        $this->redirect('systeme/admin_users_list');
 
-        $d =  $this->User->deleteUser($id);
+        try {
 
-        if (isset($d->error)) {
+            $d =  $this->User->deleteUser($id);
 
-            foreach ($d->error as $key => $value) {
-                $this->Session->setFlash($value, 'bg-danger');
-            }
-
+        } catch (Exception $e) {
+            
+            $this->Session->setFlash($e->getMessage(), 'bg-danger');
             $this->redirect('systeme/admin_users_list');
         }
-        $this->redirect('systeme/admin_users_list');
+
+      
     }
     #endregion
     #region Post

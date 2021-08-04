@@ -7,7 +7,7 @@ class Media extends Model
 
     /**
      * get_all_img
-     *  return all img & all img fields
+     *  renvoie toute les images
      * @return stdClass list
      */
     public  function get_all_img()
@@ -22,7 +22,7 @@ class Media extends Model
 
     /**
      * delete_img
-     *  delete img to database  & delete link to table tags_has_medias
+     *  supprime l'image de la bd et du serveur et retire le liens de l'image au catégories 
      * @param  int $id
      * @return bool 
      */
@@ -59,7 +59,7 @@ class Media extends Model
     }
     /**
      * upload
-     * Upload and save image to database
+     * Mets a jour ou ajoute une image a la base de données 
      * @param  array $file (ex:$_FILES)
      * @return stdClass|array file and error
      */
@@ -79,8 +79,7 @@ class Media extends Model
                 $extension = strtolower(pathinfo($file['name'][$key], PATHINFO_EXTENSION));
                 /*I will check that the extensions match */
                 if (!in_array($extension, array("gif", "jpg", 'jpeg', "png"))) {
-                    $upload_img[$key]->error[100] = 'L\'extension du fichier est incorrecte';
-                    continue;
+                    throw new Exception('L\'extension du fichier est incorrecte');
                 }
 
                 /*Retrieving the current date */
@@ -137,12 +136,10 @@ class Media extends Model
                             'conditions' => ['id' => $img_id]
                         ]);
                     } else {
-                        $upload_img[$key]->error[120] = 'La sauvegarde dans la base de données a échoué';
-                        continue;
+                        throw new Exception('La sauvegarde dans la base de données a échoué');
                     }
                 } else {
-                    $upload_img[$key]->error[110] = 'Le fichier ñ\'a pas pu etre importer';
-                    continue;
+                    throw new Exception('Le fichier ñ\'a pas pu etre importer');
                 }
             }
         }
@@ -152,7 +149,7 @@ class Media extends Model
 
     /**
      * uploadTyni
-     * Upload and save image to database & return img img urlbig for tynimce editor 
+     * Téléchargement d'image pour le tynimce
      * @param  mixed $file
      * @return void
      */
@@ -168,9 +165,11 @@ class Media extends Model
 
             //Extension recovery
             $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
             /*I will check that the extensions match */
             if (!in_array($extension, array("gif", "jpg", 'jpeg', "png"))) {
-                $upload_img->error[100] = 'L\'extension du fichier est incorrecte';
+
+                throw new Exception('L\'extension du fichier est incorrecte');
             }
 
             /*Retrieving the current date */
@@ -229,16 +228,16 @@ class Media extends Model
 
                     return $upload_img->urlbig;
                 } else {
-                    $upload_img->error[120] = 'La sauvegarde dans la base de données a échoué';
+                    throw new Exception('La sauvegarde dans la base de données a échoué');
                 }
             } else {
-                $upload_img->error[110] = 'Le fichier ñ\'a pas pu etre importer';
+                throw new Exception('Le fichier ñ\'a pas pu etre importer');
             }
         }
     }
     /**
      * getGaleriePicture
-     *  return all img and fields ( urlsmall , urlbig , id , name )
+     *  retourne toute les images destiner a la galerie
      * @return array!stdClass
      */
     public function getGaleriePicture()
@@ -266,7 +265,7 @@ class Media extends Model
     }
     /**
      * saveInfoPicture
-     *update info picture (name and description and tags)
+     * update info picture (name and description and tags)
      * @param  string $name
      * @param  string $info
      * @param  array $tag
@@ -283,8 +282,7 @@ class Media extends Model
         ]);
 
         if (empty($info)) {
-            $info->error[20] = "l'image n'existe pas";
-            return $info;
+            throw new Exception("l'image n'existe pas");
         }
 
         unset($info->result);
@@ -313,9 +311,7 @@ class Media extends Model
 
             return $info;
         } else {
-
-            $info->error[30] = "Une erreure est survenue";
-            return $info;
+            throw new Exception("Une erreure est survenue");
         }
     }
 
@@ -343,7 +339,7 @@ class Media extends Model
             }
         }
     }
-    
+
     /**
      * getGalerie
      * Returns the images selected by the user to be displayed in the gallery
