@@ -14,7 +14,7 @@ if (!isset($rgpd)) {
 ?>
 <!-- RGPD POPUP -->
 <div class="card shadow mb-4">
-    <form action="<?= Router::url('admin/systeme/admin_rgpd') ?>" method="POST" enctype="multipart/form-data">
+    <form action="<?= Router::url('systeme/admin_rgpd') ?>" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="rgpd" value="rgpd">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">RGPD Popup Texte</h6>
@@ -68,7 +68,7 @@ if (!isset($legal_notive)) {
 ?>
 <!-- MENTION LEGALE -->
 <div class="card shadow mb-4">
-    <form action="<?= Router::url('admin/systeme/admin_rgpd') ?>" method="POST" enctype="multipart/form-data">
+    <form action="<?= Router::url('systeme/admin_rgpd') ?>" method="POST" enctype="multipart/form-data">
 
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Mention Légale Texte</h6>

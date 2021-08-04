@@ -88,6 +88,7 @@ if (!isset($user)) {
             <div class="table-responsive col-4">
 
                 <div class="form-group d-flex flex-column justify-content-center align-items-center ">
+
                     <img class="img-profile rounded-circle" id="img-id" src="<?= (empty($user->avatar)) ? Router::webroot('img/defaultImg.jpg') : Router::webroot('img/' . $user->avatar) ?>" style="width:150px; height:150px">
                     <div class="custom-file mt-3">
                         <input type="file" name="avatar" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">

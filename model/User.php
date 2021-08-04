@@ -70,6 +70,8 @@ class User extends Model
                 'conditions' => ['id' => $id]
             ]);
 
+
+
             if ($user->info->fk_role_id == 1) {
 
                 throw new Exception(" Les admin ne peuvent pas être supprimé ");
@@ -186,7 +188,7 @@ class User extends Model
         if (isset($file['avatar']['name']) && !empty($file['avatar']['name'])) {
 
             try {
-                $e = $this->saveImg($file['avatar']);
+                $user->info->avatar = $this->saveImg($file['avatar']);
             } catch (Exception $e) {
 
                 throw new Exception($e->getMessage());
@@ -508,7 +510,7 @@ class User extends Model
 
         if ($Search != null) {
             $Search = htmlspecialchars($Search);
-            $user->info = $this->query('SELECT t_users.id AS id,name,login,registration_date,role_name FROM  ' . $this->table . 'LEFT JOIN t_roles ON t_roles.id = fk_role_id  WHERE name LIKE "%' . $Search . '%" ORDER BY id DESC');
+            $user->info = $this->query('SELECT t_users.id AS id,name,login,registration_date,role_name FROM  ' . $this->table . ' LEFT JOIN t_roles ON t_roles.id = fk_role_id  WHERE name LIKE "%' . $Search . '%" ORDER BY id DESC');
 
             if (empty($user->info)) {
 
@@ -610,6 +612,8 @@ class User extends Model
 
                     $new_img->cropSquare();
                     $new_img->resize($w, $h);
+
+
 
                     //Define the file name
                     $new_fil_name = uniqid('img_') . "." . $extension;

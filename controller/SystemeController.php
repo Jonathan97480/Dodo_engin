@@ -247,7 +247,7 @@ class SystemeController extends Controller
 
         try {
 
-            $d = $this->Cathegorie->deleteCategorie($id);
+            $d = $this->Cathegorie->deleteCathegorie($id);
 
             $this->Session->setFlash('La categorie a bien été supprimé', 'bg-success');
             $this->redirect('systeme/admin_categorie_list');
@@ -312,6 +312,7 @@ class SystemeController extends Controller
             }
 
             try {
+
                 $result = $this->User->register(
 
                     $data->name,
@@ -359,19 +360,17 @@ class SystemeController extends Controller
     {
 
         $this->loadModel('User');
-        $this->redirect('systeme/admin_users_list');
+
 
         try {
 
             $d =  $this->User->deleteUser($id);
-
+            $this->redirect('systeme/admin_users_list');
         } catch (Exception $e) {
-            
+
             $this->Session->setFlash($e->getMessage(), 'bg-danger');
             $this->redirect('systeme/admin_users_list');
         }
-
-      
     }
     #endregion
     #region Post
@@ -414,11 +413,6 @@ class SystemeController extends Controller
                     $id = $idreturn;
                     $this->Session->setFlash('votre Post a été sauvegardé de succès', 'bg-succes', $idreturn);
                 }
-
-                if ($id != null) {
-
-                    $d['post'] = $this->Post->getPostById($id);
-                }
             } catch (Exception $e) {
 
                 $this->Session->setFlash($e->getMessage(), 'bg-danger', $idreturn);
@@ -433,7 +427,12 @@ class SystemeController extends Controller
             }
         }
 
+        if (
+            $id != null
+        ) {
 
+            $d['post'] = $this->Post->getPostById($id);
+        }
 
         $this->set($d);
     }

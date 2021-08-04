@@ -12,18 +12,17 @@ if (!isset($role)) {
         $role->description_role = "";
         $role->img_role = "";
         $role->id = "";
-        
     }
 }
 ?>
-<form action="<?= (empty($role->id)) ? Router::url('admin/systeme/admin_add_role') : Router::url('admin/systeme/admin_add_role/id:' . $role->id)  ?>" method="POST" enctype="multipart/form-data">
+<form action="<?= (empty($role->id)) ? Router::url('systeme/admin_add_role') : Router::url('systeme/admin_add_role/id:' . $role->id)  ?>" method="POST" enctype="multipart/form-data">
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary"><?= (empty($role->id)) ? 'Ajouter un role' : 'Editer un role' ?></h6>
             <div class="d-flex flex-row mt-1">
                 <input class="btn btn-success mr-md-1 " name="saverole" type="submit" value="<?= (empty($role->id)) ? 'Sauvgarder' : 'Mettre à jour le role' ?>" required>
                 <?php if (!empty($role->id)) : ?>
-                    <a class="btn btn-danger  " href="<?= Router::url('systeme/deleteRole/id:'.$role->id)?>"><i class="fas fa-trash-alt"></i> Supprimer</a>
+                    <a class="btn btn-danger  " href="<?= Router::url('systeme/deleteRole/id:' . $role->id) ?>"><i class="fas fa-trash-alt"></i> Supprimer</a>
                 <?php endif ?>
 
             </div>
@@ -49,7 +48,7 @@ if (!isset($role)) {
                     <div class="input-group mb-3">
 
                         <div class="custom-file">
-                            <input type="file" name="thumbnail" accept="image/x-png,image/gif,image/jpeg"  class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                            <input type="file" name="thumbnail" accept="image/x-png,image/gif,image/jpeg" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
                             <label class="custom-file-label" for="inputGroupFile01">choisissez une image</label>
 
                         </div>
@@ -59,7 +58,7 @@ if (!isset($role)) {
 
                     <label for="">Miniature</label>
                     <br>
-                    <img style="width: 100px; border-radius:50%; margin-top:50px " id="img-id"  src="<?= (empty($role->img_role)) ? Router::webroot('img/defaultImg') : Router::webroot('img/' . $role->img_role) ?>" style="width:150px; height:150px">
+                    <img style="width: 100px; border-radius:50%; margin-top:50px " id="img-id" src="<?= (empty($role->img_role)) ? Router::webroot('img/defaultImg') : Router::webroot('img/' . $role->img_role) ?>" style="width:150px; height:150px">
                 </div>
 
 
@@ -68,13 +67,12 @@ if (!isset($role)) {
 </form>
 
 <script>
-  $(function(){
+    $(function() {
         let input = document.getElementById('inputGroupFile01');
         let tool = new toolJs();
-        input.addEventListener('change',()=>{
-            tool.linkInputToImg(input,'img-id');
+        input.addEventListener('change', () => {
+            tool.linkInputToImg(input, 'img-id');
         });
-      
-    })
 
+    })
 </script>
