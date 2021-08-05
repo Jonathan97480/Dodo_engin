@@ -10,7 +10,7 @@ class ApiController extends Controller
 
         $d = $this->Post->getPostByName($this->request->data->search);
 
-        
+
 
         retour_json(true, '', $d);
     }

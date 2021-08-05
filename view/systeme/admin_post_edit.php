@@ -76,7 +76,7 @@ if (!isset($post)) {
                         <div class="mb-3">
                             <input type="file" style="display: none;" class="" class="custom-file-input" name="img" id="img-file">
                         </div>
-                        <img class="thundail" onclick="addImg()" id="img_vigniette" src="<?= Router::webroot($post->img_description != "" && (file_exists(WEBROOTT . DS . 'img' . DS . $post->img_description)) ? 'img/' . $post->img_description : 'img/defaultImg.jpg') ?>" alt="">
+                        <img class="thundail" onclick="addImg()" id="img_vigniette" src="<?= Router::webroot($post->img_description != "" && (file_exists(WEBROOTT  . DS . $post->img_description)) ?  $post->img_description : 'img/defaultImg.jpg') ?>" alt="">
 
                     </div>
                     <hr>

@@ -1,6 +1,5 @@
 <?php
 
-use JetBrains\PhpStorm\ExpectedValues;
 
 class Post extends Model
 {
@@ -401,11 +400,18 @@ class Post extends Model
         if (!empty($file['name'])) {
 
             try {
+                $img = new UploadImg();
+                $img->upload($file, 'img/post');
 
-                $img = $this->saveImgPost($file, 870, 350);
+                $img->reSize(870, 350, 'img/post', $img->getImg());
+                $img->remove($img->getImg());
+                $img = $img->getImgRezise();
+
+                /* $img = $this->saveImgPost($file, 870, 350); */
 
                 if ($id != null) {
-                    $this->deleteImg($post->info[0]->img_description);
+                    $e = new UploadImg();
+                    $e->remove($post->info[0]->img_description);
                 }
             } catch (Exception $e) {
 
@@ -520,108 +526,10 @@ class Post extends Model
         $this->primaryKey = 'post_id';
         $this->delete($id, 't_cathegories_has_post');
 
-        $this->deleteImg($img->img_description);
-    }
-    #region Image traitement    
-    /**
-     * saveImgPost
-     *  Sauvegarde l'image qui est lier a notre article 
-     * @param  array $file
-     * @param  int $w
-     * @param  int $h
-     * @param  bool $resize
-     * @return string
-     */
-    private function saveImgPost(array $file, int $w = 100, int $h = 100, bool $resize = true): string
-    {
-        $upload_img = new stdClass();
-        $upload_img->file = array();
-        $upload_img->error = array();
-
-
-
-        /* On vérifie que le fichier a bien transiter par le  HTTP POST*/
-        if (is_uploaded_file($file['tmp_name'])) {
-
-            //On récupère l'extension du fichier 
-            $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-
-            /*On vérifie que l'extension du fichier correspond au extension que on autorise */
-            if (!in_array($extension, array("gif", "jpg", 'jpeg', "png"))) {
-
-                throw new Exception('L\'extension du fichier est incorrecte');
-            }
-            /* on définit dans quelle dossier on va poster l'image  */
-            $dir = WEBROOTT . DS . 'img' . DS . 'post';
-
-            /*On vérifie que ce dossier existe  */
-            if (!file_exists($dir)) {
-                /* On crée le dossier si il n'existe pas  */
-                mkdir($dir, 0777, true);
-            }
-            /* on concatène le chemin verre le dossier avec le non du fichier */
-            $filetowrite = $dir .  DS . $file['name'];
-
-            /* on déplace notre image a l'emplacement que on a définie  */
-            if (move_uploaded_file($file['tmp_name'], $filetowrite)) {
-
-                /* si on demande a redimensionner l'image */
-                if ($resize) {
-
-                    /* on stock le chemin ou se trouve notre image actuellement */
-                    $oldImg = $filetowrite;
-
-                    //On stock notre nouvelle image dans la cette variable 
-                    $new_img = new img($filetowrite);
-
-                    /* On redimensionne notre image avec les dimension demander   */
-                    $new_img->resize($w, $h);
-
-                    //On définie le nom que on vas donnée a notre nouvelle image 
-                    $new_fil_name = uniqid('img_') . "." . $extension;
-
-                    $filetowrite = $dir .  DS . $new_fil_name;
-                    /* on stock notre nouvelle image dans le chemin défini ho dessue  */
-                    $new_img->store($filetowrite);
-
-                    /*  suppression de notre ancienne image  */
-                    unlink($oldImg);
-
-                    return  'post' . DS . $new_fil_name;
-                } else {
-
-                    return  'post' . DS . $file['name'];
-                }
-            } else {
-
-                throw new Exception('Le fichier ñ\'a pas pu etre importer');
-            }
-        }
+        $e = new UploadImg();
+        $e->remove($img->img_description);
     }
 
-    /**
-     * deleteImg
-     * supprime l'image qui ce situe au chemin que vous lui passer en paramètre 
-     * @param  string $imgUrl
-     * @return bool
-     */
-    private function deleteImg(string $imgUrl): bool
-    {
-
-        $baseUrl = WEBROOTT . DS . 'img';
-
-        if (file_exists($baseUrl . DS . $imgUrl)) {
-
-            unlink($baseUrl . DS . $imgUrl);
-
-            if (file_exists($baseUrl . DS . $imgUrl)) {
-
-                throw new Exception("l'image n'exite pas ou vous n'avez pas les permissions nécessaire pour la supprimer ");
-            }
-        }
-
-        return true;
-    }
 
     /**
      * GetNumberArticle
@@ -636,5 +544,4 @@ class Post extends Model
 
         return $value;
     }
-    #endregion
 }
