@@ -9,7 +9,7 @@ interface UploadImgInterface
      * @param  string $definePath
      * @return string
      */
-    public function upload(array $file, string $definePath): string;
+    public function upload(array $file, string $definePath, bool $autoRename): string;
 
     /**
      * reSize
@@ -19,7 +19,7 @@ interface UploadImgInterface
      * @param  string $pathImg
      * @return string
      */
-    public function reSize(int $W, int $H, string $path, string $pathImg): string;
+    public function reSize(int $W, int $H, string $path, string $pathImg, bool $cropsuqare = false): string;
 
 
     /**
@@ -93,7 +93,7 @@ class UploadImg implements UploadImgInterface
      * @param  string $definePath
      * @return string
      */
-    public function upload(array $file, string $definePath): string
+    public function upload(array $file, string $definePath, bool $autoRename = false): string
     {
         //On récupère l'extension du fichier 
         $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
@@ -114,12 +114,23 @@ class UploadImg implements UploadImgInterface
             mkdir($dir, 0777, true);
         }
         /* on concatène le chemin verre le dossier avec le non du fichier */
-        $filetowrite = $dir .  DS . $file['name'];
+        $newName = "";
+        if ($autoRename) {
+            $newName = uniqid('img_') . "." . $extension;
+            $filetowrite = $dir .  DS . $newName;
+        } else {
+
+            $filetowrite = $dir .  DS . $file['name'];
+        }
 
         /* on déplace notre image a l'emplacement que on a définie  */
         if (move_uploaded_file($file['tmp_name'], $filetowrite)) {
 
-            $v = $definePath . DS . $file['name'];
+            if ($autoRename) {
+                $v = $definePath . DS . $newName;
+            } else {
+                $v = $definePath . DS . $file['name'];
+            }
 
             $v = str_replace('\\', '/', $v);
             $this->img = $v;
@@ -215,7 +226,7 @@ class UploadImg implements UploadImgInterface
      * @param  string $pathImg
      * @return string
      */
-    public function reSize(int $W, int $H, string $path, string $pathImg = null): string
+    public function reSize(int $W, int $H, string $path, string $pathImg = null, bool $cropSquare = false): string
     {
 
         if (is_null($pathImg)) {
@@ -229,8 +240,11 @@ class UploadImg implements UploadImgInterface
             }
         }
 
+        if (is_null($this->img)) {
+
+            $this->img = $pathImg;
+        }
         /* on stock le chemin ou se trouve notre image actuellement */
-        $this->img = $pathImg;
 
         $nameImg =  explode("/", $pathImg);
 
@@ -239,12 +253,14 @@ class UploadImg implements UploadImgInterface
         $extension = strtolower(pathinfo($nameImg, PATHINFO_EXTENSION));
 
         $oldPath = WEBROOTT . DS . $pathImg;
-
         $oldPath = str_replace("/", "\\", $oldPath);
+
 
         //On stock notre nouvelle image dans la cette variable 
         $new_img = new img($oldPath);
-
+        if ($cropSquare) {
+            $new_img->cropSquare();
+        }
         /* On redimensionne notre image avec les dimension demander   */
         $new_img->resize($W, $H);
 
@@ -257,6 +273,7 @@ class UploadImg implements UploadImgInterface
         /* on stock notre nouvelle image dans le chemin défini ho dessue  */
 
         $new_img->store($filetowrite);
+
         $new_fil_name = $path . DS . $new_fil_name;
         $this->imgrezise = str_replace('\\', '/', $new_fil_name);
 

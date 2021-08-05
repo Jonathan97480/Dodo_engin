@@ -18,8 +18,8 @@
             <?php foreach ($pic as $key => $value) : ?>
                 <div class="card-thundail" id="<?= 'img_' . $value->id ?>">
                     <i class="fas fa-info-circle" onclick="getInfo(<?= $value->id ?>);" title="info image"></i>
-                    <a class="pict-param example-image-link" href="<?= Router::webroot('img/' . $value->urlbig) ?>" data-lightbox="example-2" data-title="Optional caption.">
-                        <img class="example-image" src="<?= Router::webroot('img/' . $value->urlsmall) ?>" alt="image-1" />
+                    <a class="pict-param example-image-link" href="<?= Router::webroot($value->urlbig) ?>" data-lightbox="example-2" data-title="Optional caption.">
+                        <img class="example-image" src="<?= Router::webroot($value->urlsmall) ?>" alt="image-1" />
                     </a>
                 </div>
             <?php endforeach ?>
@@ -141,8 +141,9 @@
         width: 400px;
         height: 80vh;
     }
-    .select{
-       box-shadow: 5px 5px 5px blue;
+
+    .select {
+        box-shadow: 5px 5px 5px blue;
     }
 </style>
 
@@ -269,7 +270,7 @@
 
             /* upload picture  */
             postAjax($url + 'systeme/uploadImg', 'add-id', (data) => {
-				console.log(data);
+                console.log(data);
                 /* adds pictures to gallery */
                 for (let index = 0; index < data['results'].length; index++) {
 
@@ -278,7 +279,7 @@
                         /* generate elements and add this elements in the Dom */
                         let myDiv = document.createElement('div');
                         myDiv.setAttribute('class', 'card-thundail');
-                        myDiv.setAttribute('id', 'img_'+data['results'][index]['id']);
+                        myDiv.setAttribute('id', 'img_' + data['results'][index]['id']);
 
                         let myIcon = document.createElement('i');
                         myIcon.setAttribute('onclick', 'getInfo(' + data['results'][index]['id'] + ',)');
@@ -286,12 +287,12 @@
 
                         myDiv.appendChild(myIcon);
 
-                        let myLink = '<img class="example-image" src="' + $url + 'img/' + data['results'][index]['urlsmall'] + '" ); alt="">';
+                        let myLink = '<img class="example-image" src="' + $url + data['results'][index]['urlsmall'] + '" ); alt="">';
 
                         pic[index].innerHTML = myLink;
 
                         pic[index].setAttribute('class', 'pict-param example-image-link');
-                        pic[index].setAttribute('href', '' + $url + 'img/' + data['results'][index]['urlbig'] + '');
+                        pic[index].setAttribute('href', '' + $url + data['results'][index]['urlbig'] + '');
 
                         myDiv.appendChild(pic[index]);
                         document.getElementById('target').before(myDiv);
@@ -344,13 +345,13 @@
 
             document.getElementById('panel-id').innerHTML = data
 
-            if(selectDiv!=null){
-                
-                selectDiv.setAttribute('class',"card-thundail");
-                selectDiv =null;
+            if (selectDiv != null) {
+
+                selectDiv.setAttribute('class', "card-thundail");
+                selectDiv = null;
             }
-             selectDiv = document.getElementById('img_'+id);
-             selectDiv.setAttribute('class',"card-thundail select");
+            selectDiv = document.getElementById('img_' + id);
+            selectDiv.setAttribute('class', "card-thundail select");
 
 
             if ($message != null) {

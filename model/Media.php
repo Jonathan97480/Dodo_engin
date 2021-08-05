@@ -49,6 +49,16 @@ class Media extends Model
 
             $this->delete($id, 'tags_has_medias');
 
+            try {
+
+                $e = new UploadImg();
+                $e->remove($media->urlsmall);
+                $e->remove($media->urlbig);
+            } catch (Exception $e) {
+
+                throw new Exception($e->getMessage());
+            }
+
             return true;
         } else {
 
@@ -69,77 +79,49 @@ class Media extends Model
 
 
         foreach ($file['name'] as $key => $value) {
-            $upload_img[$key] = new stdClass();
-            $upload_img[$key]->file = array();
-            $upload_img[$key]->error = array();
+            $fil['name'] = $file['name'][$key];
+            $fil['type'] = $file['type'][$key];
+            $fil['tmp_name'] = $file['tmp_name'][$key];
+            $fil['error'] = $file['error'][$key];
+            $fil['size'] = $file['size'][$key];
             /* I verify that the file was transmitted by HTTP POST*/
             if (is_uploaded_file($file['tmp_name'][$key])) {
 
-                //Extension recovery
-                $extension = strtolower(pathinfo($file['name'][$key], PATHINFO_EXTENSION));
-                /*I will check that the extensions match */
-                if (!in_array($extension, array("gif", "jpg", 'jpeg', "png"))) {
-                    throw new Exception('L\'extension du fichier est incorrecte');
-                }
+                $e = new UploadImg();
 
                 /*Retrieving the current date */
                 $date = (date('Y,m'));
                 $temp_date = explode(',', $date);
-                $date = $temp_date[0] . DS . $temp_date[1];
-                $dir = WEBROOTT . DS . 'img' . DS . $date;
+                $date = $temp_date[0] . '/' . $temp_date[1];
+                $dir = 'img' . '/' . $date . '/' . 'big';
 
-                /*Check if the folder exists */
-                if (!file_exists($dir .  DS . 'big')) {
+                $e->upload($fil, $dir, true);
 
-                    mkdir($dir .  DS . 'big', 0777, true);
-                }
-                /*I define the path where I will save my image and I store it in the variable $filetowrite */
-                $new_fil_name = uniqid('img_') . "." . $extension;
-                $filetowrite = $dir .  DS . 'big' . DS . $new_fil_name;
+                $dir = 'img' . '/' . $date . '/' . 'small';
 
-                $urlBig = $date .  DS . 'big' . DS . $new_fil_name;
-                /* I move file to image folder */
-                if (move_uploaded_file($file['tmp_name'][$key], $filetowrite)) {
+                $e->reSize(150, 150, $dir, $e->getImg(), false);
 
 
+                /* Serialization of image info to save the database */
+                $data = array(
+                    'name' => $file['name'][$key],
+                    'urlbig' =>  $e->getImg(),
+                    'urlsmall' => $e->getImgRezise(),
+                    'type' => 'img',
+                    'info' => ''
 
-                    //Image resizing
-                    $new_img = new img($filetowrite);
-                    $new_img->cropSquare();
-                    $new_img->resize(150, 150);
+                );
 
-                    //Define the file name
-                    if (!file_exists($dir .  DS . 'small')) {
+                //We keep the name of the image in the gallery database
+                $img_id = $this->save($data);
 
-                        mkdir($dir .  DS . 'small', 0777, true);
-                    }
-                    $filetowrite = $dir .  DS . 'small' . DS . $new_fil_name;
+                if (!empty($img_id)) {
 
-                    $new_img->store($filetowrite);
-
-                    /* Serialization of image info to save the database */
-                    $data = array(
-                        'name' => $file['name'][$key],
-                        'urlsmall' =>  $date . DS . 'small' . DS . $new_fil_name,
-                        'urlbig' => $urlBig,
-                        'type' => 'img',
-                        'info' => ''
-
-                    );
-
-                    //We keep the name of the image in the gallery database
-                    $img_id = $this->save($data);
-
-                    if (!empty($img_id)) {
-
-                        $upload_img[$key] = $this->findFirst([
-                            'conditions' => ['id' => $img_id]
-                        ]);
-                    } else {
-                        throw new Exception('La sauvegarde dans la base de données a échoué');
-                    }
+                    $upload_img[$key] = $this->findFirst([
+                        'conditions' => ['id' => $img_id]
+                    ]);
                 } else {
-                    throw new Exception('Le fichier ñ\'a pas pu etre importer');
+                    throw new Exception('La sauvegarde dans la base de données a échoué');
                 }
             }
         }
