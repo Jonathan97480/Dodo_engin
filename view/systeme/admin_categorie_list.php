@@ -44,8 +44,8 @@
                              <td><?= $value->name ?></td>
                              <td><?= $value->description ?></td>
 
-                             <td> <img src="<?= (!empty($value->img)) ? Router::webroot('img/' . $value->img) : "" ?>" alt="" class="icon-Liste"></td>
-                             <td><?=(!empty($value->nameParent))?$value->nameParent:'Aucun' ?></td>
+                             <td> <img src="<?= (!empty($value->img)) ? Router::webroot($value->img) : "" ?>" alt="" class="icon-Liste"></td>
+                             <td><?= (!empty($value->nameParent)) ? $value->nameParent : 'Aucun' ?></td>
                              <td>
                                  <a href="<?= Router::url('systeme/admin_add_categorie/id:' . $value->id) ?>" class="">
                                      <i class="fas fa-user-edit"></i>

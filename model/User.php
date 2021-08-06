@@ -188,12 +188,18 @@ class User extends Model
         if (isset($file['avatar']['name']) && !empty($file['avatar']['name'])) {
 
             try {
-                $user->info->avatar = $this->saveImg($file['avatar']);
+                $e = new UploadImg();
+
+                $e->upload($file['avatar'], 'img/avatar', true);
+                $e->reSize(100, 100, 'img/avatar', $e->getImg(), true);
+                $e->remove($e->getImg());
+                $user->info->avatar = $e->getImgRezise();
             } catch (Exception $e) {
 
                 throw new Exception($e->getMessage());
             }
         } else {
+
             if (empty($idUser)) {
                 $user->info->avatar = 'avatar/avatar_default.png';
             }
@@ -394,33 +400,20 @@ class User extends Model
             /* (FR) Je vérifie que le fichier a été transmis par le HTTP POST */
             if (is_uploaded_file($avatar_file['tmp_name'])) {
 
+                $e = new UploadImg();
+                try {
 
-                /* (FR)Je vais vérifier que les extensions correspondent */
-                if (!in_array(strtolower(pathinfo($avatar_file['name'], PATHINFO_EXTENSION)), array("gif", "jpg", "jpeg", "png"))) {
-                    throw new Exception("L'extension de votre fichier n'est pas autorisé");
-                } else {
+                    $e->upload($avatar_file, 'img/avatar', true);
+                    $e->reSize(100, 100, 'img/avatar', $e->getImg(), true);
+                    $user->info->avatar = $e->getImgRezise();
 
-
-                    $dir = WEBROOTT . DS . $folder;
-
-                    /*(FR) Je définis le chemin où je vais enregistrer mon image et je la stock dans la variable $filetowrite*/
-                    $filetowrite = $dir .  DS . $avatar_file['name'];
-
-                    @mkdir($dir, 0777, true);
-
-                    /* (FR)Je déplacer fichier dans le dossier image*/
-                    if (move_uploaded_file($avatar_file['tmp_name'], $filetowrite)) {
-
-                        /* resize avatar */
-                        $avatar = new img($filetowrite);
-                        $avatar->cropSquare();
-                        $avatar->resize(64, 64);
-                        $avatar->store($filetowrite);
-
-                        if (WEBROOTT . DS . $old_avatar != $filetowrite && $old_avatar != "img/avatar_default.png") unlink(WEBROOTT . DS . $old_avatar);
-
-                        $user->info->avatar = $folder . DS . $avatar_file['name'];
+                    if ($old_avatar != "img/avatar_default.png") {
+                        $e->remove($e->getImg());
+                        $e->remove($old_avatar);
                     }
+                } catch (Exception $e) {
+
+                    throw new Exception($e->getMessage());
                 }
             }
         }
@@ -559,111 +552,6 @@ class User extends Model
     }
     #endregion
 
-    #region Image traitment    
-    /**
-     * saveImg
-     * Sauvegarde de la photo de profile
-     * @param  mixed $file
-     * @param  mixed $w
-     * @param  mixed $h
-     * @param  mixed $resize
-     * @return string
-     */
-    private function saveImg(array $file, int $w = 100, int $h = 100, bool $resize = true): string
-    {
-        $upload_img = new stdClass();
-        $upload_img->file = array();
-        $upload_img->error = array();
-
-
-
-        /* I verify that the file was transmitted by HTTP POST*/
-        if (is_uploaded_file($file['tmp_name'])) {
-
-            //Extension recovery
-            $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-            /*I will check that the extensions match */
-            if (!in_array($extension, array("gif", "jpg", 'jpeg', "png"))) {
-                throw new Exception('L\'extension du fichier est incorrecte');
-            }
-
-            /*Retrieving the current date */
-
-            $dir = WEBROOTT . DS . 'img' . DS . 'avatar';
-
-            /*Check if the folder exists */
-            if (!file_exists($dir)) {
-
-                mkdir($dir, 0777, true);
-            }
-            /*I define the path where I will save my image and I store it in the variable $filetowrite */
-            $filetowrite = $dir .  DS . $file['name'];
-
-            /* I move file to image folder */
-            if (move_uploaded_file($file['tmp_name'], $filetowrite)) {
-
-
-                if ($resize) {
-
-                    $oldImg = $filetowrite;
-
-                    //Image resizing
-                    $new_img = new img($filetowrite);
-
-                    $new_img->cropSquare();
-                    $new_img->resize($w, $h);
-
-
-
-                    //Define the file name
-                    $new_fil_name = uniqid('img_') . "." . $extension;
-                    $filetowrite = $dir .  DS . $new_fil_name;
-
-                    $new_img->store($filetowrite);
-
-                    unlink($oldImg);
-
-                    return  'avatar' . DS . $new_fil_name;
-                } else {
-
-                    return  'avatar' . DS . $file['name'];
-                }
-            } else {
-                throw new Exception('Le fichier ñ\'a pas pu etre importer');
-            }
-        }
-    }
-
-    /**
-     * deleteImg
-     * suppression de l'image de profil
-     * @param  string $imgUrl
-     * @return void
-     */
-    private function deleteImg(string $imgUrl)
-    {
-
-        $baseUrl = WEBROOTT . DS . 'img';
-
-        if (file_exists($baseUrl . DS . $imgUrl)) {
-
-            unlink($baseUrl . DS . $imgUrl);
-
-            if (!file_exists($baseUrl . DS . $imgUrl)) {
-
-                return true;
-            } else {
-
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-
-    #endregion
-
     #region roles
 
     /**
@@ -706,16 +594,17 @@ class User extends Model
         /* Sauvegarde de l'image dans le serveur */
         if (!empty($file['name'])) {
 
-            if (!empty($d->info)) {
-
-                if (!empty($d->info->img_role)  && $this->deleteImg($d->info->img_role) == false) {
-
-                    throw new Exception("Impossible de supprimer l'ancien images");
-                }
-            }
-
             try {
-                $img = $this->saveImg($file);
+
+                $e = new UploadImg();
+                $e->upload($file, 'img/role', true);
+                $e->reSize(100, 100, 'img/role', $e->getImg(), true);
+                $e->remove($e->getImg());
+                $img = $e->getImgRezise();
+
+                if (!is_null($id)) {
+                    $e->remove($d->info->img_role);
+                }
             } catch (Exception $e) {
                 throw new Exception($e->getMessage());
             }
@@ -805,11 +694,9 @@ class User extends Model
             throw new Exception("Le rôle que vous voulez supprimer et utilise actuellement par un ou plusieurs utilisateurs veuillez les changer role pour pouvoir supprimer");
         }
 
-
-
         $this->delete($id, 't_roles');
-
-        $this->deleteImg($role->img_role);
+        $e = new UploadImg();
+        $e->remove($role->img_role);
     }
     #endregion
 

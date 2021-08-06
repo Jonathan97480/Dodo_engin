@@ -58,7 +58,7 @@ if (!isset($role)) {
 
                     <label for="">Miniature</label>
                     <br>
-                    <img style="width: 100px; border-radius:50%; margin-top:50px " id="img-id" src="<?= (empty($role->img_role)) ? Router::webroot('img/defaultImg') : Router::webroot('img/' . $role->img_role) ?>" style="width:150px; height:150px">
+                    <img style="width: 100px; border-radius:50%; margin-top:50px " id="img-id" src="<?= (empty($role->img_role)) ? Router::webroot('img/defaultImg') : Router::webroot($role->img_role) ?>" style="width:150px; height:150px">
                 </div>
 
 

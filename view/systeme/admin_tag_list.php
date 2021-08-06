@@ -41,13 +41,13 @@
                          <tr>
                              <td><?= $value->name_tag ?></td>
                              <td><?= $value->description_tag ?></td>
-                            
-                             <td> <img src="<?= (!empty($value->url_tag)) ? Router::webroot('img/' . $value->url_tag) : "" ?>" alt="" class="icon-Liste"></td>
+
+                             <td> <img src="<?= (!empty($value->url_tag)) ? Router::webroot($value->url_tag) : "" ?>" alt="" class="icon-Liste"></td>
                              <td>
                                  <a href="<?= Router::url('systeme/admin_add_tag/id:' . $value->id) ?>" class="">
                                      <i class="fas fa-user-edit"></i>
                                  </a>
-                                 <a href="<?= Router::url('systeme/deleteTag/id:' . $value->id) ?>"  class="">
+                                 <a href="<?= Router::url('systeme/deleteTag/id:' . $value->id) ?>" class="">
                                      <i class="fas fa-trash-alt"></i>
                                  </a>
 
@@ -63,9 +63,8 @@
  </div>
 
  <style>
- 
- .icon-Liste{
-     width: 50px;
-     border-radius: 50%;
- }
+     .icon-Liste {
+         width: 50px;
+         border-radius: 50%;
+     }
  </style>

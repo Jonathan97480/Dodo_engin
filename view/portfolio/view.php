@@ -22,7 +22,7 @@ $projet = $projet['projet'];
             <article>
 
                 <!-- <div>
-                    <img src="<?= Router::url('img/' . $projet->img_description) ?>" alt="">
+                    <img src="<?= Router::url($projet->img_description) ?>" alt="">
                 </div>
  -->
                 <?= $projet->content  ?>

@@ -9,7 +9,7 @@
          <a href="<?= Router::url('systeme/admin_add_role') ?>" class="btn btn-primary m-2 btn-icon-split ">
              <span class="icon text-white-50"><i class="fas fa-user-tag"></i></span>
              <span class="text"> Ajouter un role</span>
-            
+
          </a>
 
      </div>
@@ -41,12 +41,12 @@
                          <tr>
                              <td><?= $value->role_name ?></td>
                              <td><?= $value->description_role ?></td>
-                             <td> <img src="<?= (!empty($value->img_role)) ? Router::webroot('img/' . $value->img_role) : "" ?>" alt="" class="icon-Liste"> </td>
+                             <td> <img src="<?= (!empty($value->img_role)) ? Router::webroot($value->img_role) : "" ?>" alt="" class="icon-Liste"> </td>
                              <td>
                                  <a href="<?= Router::url('systeme/admin_add_role/id:' . $value->id) ?>" class="">
                                      <i class="fas fa-user-edit"></i>
                                  </a>
-                                 <a href="<?= Router::url('systeme/deleteRole/id:'.$value->id)?>" class="">
+                                 <a href="<?= Router::url('systeme/deleteRole/id:' . $value->id) ?>" class="">
                                      <i class="fas fa-trash-alt"></i>
                                  </a>
 
@@ -61,9 +61,8 @@
      </div>
  </div>
  <style>
- 
- .icon-Liste{
-     width: 50px;
-     border-radius: 50%;
- }
+     .icon-Liste {
+         width: 50px;
+         border-radius: 50%;
+     }
  </style>

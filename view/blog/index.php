@@ -24,7 +24,7 @@
                     <a href="<?= Router::url('blog/view/id:' . $value->id) ?>" class="gtco-card-item">
                         <figure>
                             <div class="overlay"><i class="ti-plus"></i></div>
-                            <img src="<?= Router::webroot('img/' . $value->img_description) ?>" alt="Image" class="img-responsive">
+                            <img src="<?= Router::webroot($value->img_description) ?>" alt="Image" class="img-responsive">
                         </figure>
                         <div class="gtco-text text-left">
                             <h2><?= $value->name ?></h2>
@@ -55,6 +55,3 @@
         </div>
     </div>
 </div>
-
-
-

@@ -47,8 +47,8 @@ if (!isset($tag)) {
 
                 <div class="zone-thundail">
                     <label for="">Icon du tag</label>
-                    <input type="file" style="display: none;" name="thumbnail" id="img-file" accept="image/x-png,image/gif,image/jpeg" >
-                    <img onclick="addImg()" id="img-id" src="<?= (empty($tag->url_tag)) ? Router::webroot('img/defaultImg') : Router::webroot('img/' . $tag->url_tag) ?>">
+                    <input type="file" style="display: none;" name="thumbnail" id="img-file" accept="image/x-png,image/gif,image/jpeg">
+                    <img onclick="addImg()" id="img-id" src="<?= (empty($tag->url_tag)) ? Router::webroot('img/defaultImg') : Router::webroot($tag->url_tag) ?>">
                     <br> <small>cliker sur l'image pour la changer</small>
 
                 </div><!-- end thundail zone -->

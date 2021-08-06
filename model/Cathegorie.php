@@ -63,21 +63,27 @@ class Cathegorie extends Model
 
           /* Sauvegarde de l'image dans le serveur */
           if (!empty($file['name'])) {
-
+               $e = new UploadImg();
                if (!empty($d->info)) {
 
-                    if (!empty($d->info->img)  && $this->deleteImg($d->info->img) == false) {
-
-                         throw new Exception("Impossible de supprimer l'ancien images");
+                    if (!empty($d->info->img)) {
+                         try {
+                              $e->remove($d->info->img);
+                         } catch (Exception $e) {
+                              throw new Exception($e->getMessage());
+                         }
                     }
                }
 
-               $img = $this->saveImg($file);
+               try {
+                    $e->upload($file, 'img/cathegorie', true);
+                    $e->reSize(100, 100, 'img/cathegorie', $e->getImg(), true);
+                    $img = $e->getImgRezise();
 
-               if (is_array($img)) {
+                    $e->remove($e->getImg());
+               } catch (Exception $e) {
 
-                    $d->error = $img;
-                    return $d;
+                    throw new Exception($e->getMessage());
                }
           } elseif (empty($id)) {
 
@@ -172,8 +178,8 @@ class Cathegorie extends Model
 
 
           $this->delete($id);
-
-          $this->deleteImg($cathegorie->img);
+          $e = new UploadImg();
+          $e->remove($cathegorie->img);
      }
      /**
       * getChildrenCategorie
@@ -221,104 +227,7 @@ class Cathegorie extends Model
           return true;
      }
      #endregion
-     #region Image traitment
 
-     /**
-      * saveImg
-      *
-      * @param  array $file
-      * @param  int $w
-      * @param  int $h
-      * @param  bool $resize
-      * @return string
-      */
-     private function saveImg(array $file, int $w = 100, int $h = 100, bool $resize = true): string
-     {
-          $upload_img = new stdClass();
-          $upload_img->file = array();
-          $upload_img->error = array();
-
-
-
-          /* I verify that the file was transmitted by HTTP POST*/
-          if (is_uploaded_file($file['tmp_name'])) {
-
-               //Extension recovery
-               $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-               /*I will check that the extensions match */
-               if (!in_array($extension, array("gif", "jpg", 'jpeg', "png"))) {
-
-                    throw new Exception('L\'extension du fichier est incorrecte');
-               }
-
-               /*Retrieving the current date */
-
-               $dir = WEBROOTT . DS . 'img' . DS . 'icon';
-
-               /*Check if the folder exists */
-               if (!file_exists($dir)) {
-
-                    mkdir($dir, 0777, true);
-               }
-               /*I define the path where I will save my image and I store it in the variable $filetowrite */
-               $filetowrite = $dir .  DS . $file['name'];
-
-               /* I move file to image folder */
-               if (move_uploaded_file($file['tmp_name'], $filetowrite)) {
-
-
-                    if ($resize) {
-
-                         $oldImg = $filetowrite;
-
-                         //Image resizing
-                         $new_img = new img($filetowrite);
-
-                         $new_img->cropSquare();
-                         $new_img->resize($w, $h);
-
-                         //Define the file name
-                         $new_fil_name = uniqid('img_') . "." . $extension;
-                         $filetowrite = $dir .  DS . $new_fil_name;
-
-                         $new_img->store($filetowrite);
-
-                         unlink($oldImg);
-
-                         return  'icon' . DS . $new_fil_name;
-                    } else {
-
-                         return  'icon' . DS . $file['name'];
-                    }
-               } else {
-                    throw new Exception('Le fichier ñ\'a pas pu etre importer');
-               }
-          }
-     }
-
-     private function deleteImg(string $imgUrl)
-     {
-
-          $baseUrl = WEBROOTT . DS . 'img';
-
-          if (file_exists($baseUrl . DS . $imgUrl)) {
-
-               unlink($baseUrl . DS . $imgUrl);
-
-               if (!file_exists($baseUrl . DS . $imgUrl)) {
-
-                    return true;
-               } else {
-
-                    throw new Exception("Inpossible de supprimer l'image");
-               }
-          }
-
-          return true;
-     }
-
-
-     #endregion
 
      #region Tags
 
@@ -363,21 +272,27 @@ class Cathegorie extends Model
 
           /* Sauvegarde de l'image dans le serveur */
           if (!empty($file['name'])) {
+               $e = new UploadImg();
 
                if (!empty($d->info)) {
 
-                    if (!empty($d->info->img)  && $this->deleteImg($d->info->img) == false) {
+                    if (!empty($d->info->img)) {
 
-                         throw new Exception("Impossible de supprimer l'ancien images");
+                         try {
+                              $e->remove($d->info->img);
+                         } catch (Exception $e) {
+                              throw new Exception($e->getMessage());
+                         }
                     }
                }
+               try {
 
-               $img = $this->saveImg($file);
-
-               if (is_array($img)) {
-
-                    $d->error = $img;
-                    return $d;
+                    $e->upload($file, 'img/tag', true);
+                    $e->reSize(100, 100, 'img/tag', $e->getImg(), true);
+                    $e->remove($e->getImg());
+                    $img = $e->getImgRezise();
+               } catch (Exception $e) {
+                    throw new Exception($e->getMessage());
                }
           } elseif (empty($id)) {
 
@@ -465,7 +380,9 @@ class Cathegorie extends Model
           }
 
           $this->delete($id, 't_tags');
-          $this->deleteImg($tag->url_tag);
+
+          $e = new UploadImg();
+          $e->remove($tag->url_tag);
      }
      #endregion
 

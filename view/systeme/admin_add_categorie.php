@@ -58,9 +58,9 @@ if (!isset($categorie)) {
 
                     <label for="">Icon de la categorie</label>
 
-                    <input type="file" style="display: none;" name="thumbnail" id="img-file" accept="image/x-png,image/gif,image/jpeg" >
+                    <input type="file" style="display: none;" name="thumbnail" id="img-file" accept="image/x-png,image/gif,image/jpeg">
 
-                    <img onclick="addImg()" id="img-id" src="<?= (empty($categorie->img)) ? Router::webroot('img/defaultImg') : Router::webroot('img/' . $categorie->img) ?>">
+                    <img onclick="addImg()" id="img-id" src="<?= (empty($categorie->img)) ? Router::webroot('img/defaultImg') : Router::webroot($categorie->img) ?>">
 
                     <br> <small>cliker sur l'image pour la changer</small>
 
@@ -82,11 +82,11 @@ if (!isset($categorie)) {
                         <div class="ct1">
                             <div class="b-left">
                                 <?= $value->name ?><span><a title="éditer la categorie" href="<?= Router::url('systeme/admin_add_categorie/id:' . $value->id) ?>"><i class="fas fa-edit"></i></a>
-                                <a title="retirait de la liste des enfants" href="<?=Router::url('systeme/clearCategorie/id:' .$categorie->id.'/idCat:'.$value->id)?>"><i class="fas fa-minus"></i></a></span>
+                                    <a title="retirait de la liste des enfants" href="<?= Router::url('systeme/clearCategorie/id:' . $categorie->id . '/idCat:' . $value->id) ?>"><i class="fas fa-minus"></i></a></span>
                             </div>
                         </div>
 
-                        <?= getchild($value->child,$categorie) ?>
+                        <?= getchild($value->child, $categorie) ?>
 
                 </div>
                 <hr>
@@ -196,18 +196,18 @@ if (!isset($categorie)) {
         input.click();
     }
 
-    $(function(){
+    $(function() {
         let tool = new toolJs();
-        input.addEventListener('change',()=>{
-            tool.linkInputToImg(input,'img-id');
+        input.addEventListener('change', () => {
+            tool.linkInputToImg(input, 'img-id');
         });
-      
+
     })
 </script>
 
 
 <?php
-function getchild($cat,$categorie)
+function getchild($cat, $categorie)
 {
     if (!empty($cat)) {
         foreach ($cat as $key => $value) {
@@ -215,11 +215,11 @@ function getchild($cat,$categorie)
             $c = '  <div class="b-right">
         <p>
             ' . $value->name . ' <span><a title="éditer la categorie" href="' . Router::url('systeme/admin_add_categorie/id:' . $value->id) . '"><i class="fas fa-edit"></i>
-            </a><a title="retirait de la liste des enfants" href="'. Router::url('systeme/clearCategorie/id:' .$categorie->id.'/idCat:'.$value->id) .'"><i class="fas fa-minus"></i></a></span>
+            </a><a title="retirait de la liste des enfants" href="' . Router::url('systeme/clearCategorie/id:' . $categorie->id . '/idCat:' . $value->id) . '"><i class="fas fa-minus"></i></a></span>
         </p>
         ';
             foreach ($value->child as $key => $value2) {
-                $c .= getchild($value2,$categorie) . '</div>';
+                $c .= getchild($value2, $categorie) . '</div>';
             }
 
 
