@@ -163,11 +163,12 @@ class Session
     /**
      * generateCSRF
      * génère la clé CSRF
+     * @return string
      */
-    private function generateCSRF()
+    private function generateCSRF(): string
     {
 
-        $_SESSION['csrf'] = md5(time() + rand());
+        return $_SESSION['csrf'] = md5(time() + rand());
     }
 
 
@@ -179,12 +180,14 @@ class Session
     public function getParamCSRF(): string
     {
 
+
         if (isset($_SESSION['csrf'])) {
 
             return "/csrf:" . $_SESSION['csrf'];
         }
 
-        throw new Exception("La clé CSRF n'ai pas encore défini .");
+        $e =  $this->generateCSRF();
+        return "/csrf:" . $e;
     }
 
     /**
@@ -209,14 +212,17 @@ class Session
      * @param  string $key
      * @return bool
      */
-    function checkCSRF($key): bool
+    function checkCSRF($key = null): bool
     {
-
+        if (is_null($key) || empty($key)) {
+            throw new Exception("La clé CSRF n'est pas présent");
+        }
         if ($key === $_SESSION['csrf']) {
 
             return true;
         }
 
-        return false;
+        header("Location:" . Router::url('systeme/csrf'));
+        exit;
     }
 }

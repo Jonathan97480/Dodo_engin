@@ -363,18 +363,19 @@ class Post extends Model
      * @param  string $content
      * @param  mixed $type
      * @param  mixed $online
-     * @param  array $categorieListe
+     * @param  array $categories
      * @param  array $file
      * @param  int $id
      * @return array|stdClass
      */
-    public function setPost($name, $description, $content, $type, $online = null, $categorieListe = null, $file = null, $id = null)
+    public function setPost($name, $description, $content, $type, $online = null, $categories = null, $file = null, $id = null)
     {
         $post = new stdClass();
         $img = null;
 
-        if ($id == null) {
+        if (is_null($id)) {
 
+            /* Vérification que on a pas déjà un article qui porte le mémé nom */
             $post->info = $this->find([
                 'conditions' => ['name' => $name]
             ]);
@@ -384,7 +385,7 @@ class Post extends Model
                 throw new Exception("vous avez déjà un article qui porte ce nom");
             }
         } else {
-
+            /* si on a id on vérifie que l'article exite */
             $post->info = $this->find([
                 'conditions' => ['id' => $id]
             ]);
@@ -407,8 +408,6 @@ class Post extends Model
                 $img->remove($img->getImg());
                 $img = $img->getImgRezise();
 
-                /* $img = $this->saveImgPost($file, 870, 350); */
-
                 if ($id != null) {
                     $e = new UploadImg();
                     $e->remove($post->info[0]->img_description);
@@ -417,14 +416,14 @@ class Post extends Model
 
                 throw new Exception($e->getMessage());
             }
-        } elseif ($id == null) {
+        } elseif (is_null($id)) {
 
             throw new Exception("vous devez préciser une image à votre article");
         }
 
         unset($post->info);
 
-        if ($img != null) {
+        if (!is_null($img)) {
 
             $post->img_description = $img;
         }
@@ -436,7 +435,7 @@ class Post extends Model
         $post->content = $content;
         $post->type = $type;
 
-        if ($id == null) {
+        if (is_null($id)) {
 
             $post->slug = AutoLinks($name);
             $post->created = date('Y-m-d h:i:s');
@@ -446,7 +445,7 @@ class Post extends Model
             $post->date_edit = date('Y-m-d h:i:s');
         }
 
-        if ($online != null) {
+        if (!is_null($online)) {
 
             $post->online = 1;
         } else {
@@ -454,25 +453,14 @@ class Post extends Model
             $post->online = 0;
         }
 
-
-
         /* sauvegarde de l'article  */
 
         $idReturn = $this->save($post);
-        $id == null ? $id = $idReturn : '';
-        /*      if ($id == null) {
+        is_null($id) ? $id = $idReturn : '';
 
-            $id =  $idReturn;
-        } */
+        if (!is_null($categories)) {
 
-
-        if ($categorieListe != null) {
-
-            /* Gestion des catégories */
-            foreach ($categorieListe as $key => $value) {
-
-                $this->saveCategoriesPost($id, $value);
-            }
+            $this->saveCategoriesPost($id, $categories);
         }
 
         return $id;
@@ -480,24 +468,38 @@ class Post extends Model
 
     /**
      * saveCategoriesPost
-     * permet de lier des catégorie a votre article 
+     * permet de lier ou délier des catégorie a votre article 
      * @param  int $idPost
-     * @param  int $idCat
+     * @param  array $categories
      * @return void
      */
-    private function saveCategoriesPost($idPost, $idCat)
+    private function saveCategoriesPost(int $idPost, array $categories)
     {
 
-        $d = $this->find([
+        /* Récupération de tous les tag déjà associer a notre Article */
+        $Tag  = $this->find(
+            [
+                "conditions" => ["post_id" => $idPost],
+                'fields' => "cathegories_id"
+            ],
+            "t_cathegories_has_post"
+        );
+        $oldTag = [];
+        foreach ($Tag as $key => $value) {
+            array_push($oldTag, $value->cathegories_id);
+        }
 
-            'conditions' => [
-                'post_id' => $idPost,
-                'cathegories_id' => $idCat
-            ]
 
-        ], 't_cathegories_has_post');
+        /* Trie des donnée Pour détecter les nouveaux tag 
+        & les anciens
+         et ceux a supprimer */
+        $deleteTag = array_diff($oldTag, $categories);
+        $newTag = array_diff($categories, $oldTag);
 
-        if (empty($d)) {
+        /* Sauvegarde des nouveaux tag */
+
+        foreach ($newTag as $key => $idCat) {
+
 
             $this->save([
 
@@ -506,6 +508,15 @@ class Post extends Model
 
             ], 't_cathegories_has_post');
         }
+
+        /* Suppression des tag qui ne sont plus utiliser */
+
+        foreach ($deleteTag as $key => $value) {
+            $this->primaryKey = "cathegories_id";
+            $this->delete($value, "t_cathegories_has_post");
+        }
+
+        $this->primaryKey = "post";
     }
 
     /**
@@ -515,17 +526,20 @@ class Post extends Model
      */
     public function deletePost($id)
     {
-
+        /* Récupération de l'image liée a l'article  */
         $img = $this->findFirst([
             'conditions' => ['id' => $id],
             'fields' => 'img_description'
         ]);
+
+        /* Suppression de l'article */
         $this->delete($id);
 
-
+        /*Suppression de la liaison de l'article au catégorie  */
         $this->primaryKey = 'post_id';
         $this->delete($id, 't_cathegories_has_post');
 
+        /* Suppression de l'image liée a l'article */
         $e = new UploadImg();
         $e->remove($img->img_description);
     }

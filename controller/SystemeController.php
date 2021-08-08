@@ -404,7 +404,7 @@ class SystemeController extends Controller
                     $data->type,
                     $data->online,
                     $data->categorieListe,
-                    $_FILES['img'],
+                    $_FILES['img_description'],
                     $id
                 );
 
@@ -414,15 +414,16 @@ class SystemeController extends Controller
                     $this->Session->setFlash('votre Post a été sauvegardé de succès', 'bg-succes', $idreturn);
                 }
             } catch (Exception $e) {
+                $d["data"] = $data;
 
-                $this->Session->setFlash($e->getMessage(), 'bg-danger', $idreturn);
+                $this->Session->setFlash($e->getMessage(), 'bg-danger', $d);
 
                 if ($id != null) {
 
-                    $this->redirect('systeme/admin_post_edit/id:' . $id, $data);
+                    $this->redirect('systeme/admin_post_edit/id:' . $id);
                 } else {
 
-                    $this->redirect('systeme/admin_post_edit', $data);
+                    $this->redirect('systeme/admin_post_edit');
                 }
             }
         }
@@ -452,6 +453,14 @@ class SystemeController extends Controller
     function admin_deletePost($id)
     {
 
+        /* Vérification de la clé CSRF */
+        try {
+            $this->Session->checkCSRF($this->request->params["csrf"]);
+        } catch (Exception $e) {
+            $this->Session->setFlash($e->getMessage(), 'bg-danger');
+            $this->redirect("systeme/admin_post_edit/id:$id");
+        }
+        /* Traitement de l'action  */
         $this->loadModel('Post');
         $this->Post->deletePost($id);
         $this->Session->setFlash('Le contenu a bien été supprimé');

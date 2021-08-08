@@ -1,10 +1,13 @@
 <?php
-/*   die(debug($this))  */
+/* die(debug($this)); */
 if (!isset($post)) {
 
     if ($this->Session->getFormReturn()) {
 
-        $post = $this->Session->getFormReturn();
+        $e = $this->Session->getFormReturn();
+        $allCategorie = $e['allCategorie'];
+
+        $post = $e['data'];
     } else {
         $post = new stdClass();
         $post->id = "";
@@ -28,7 +31,7 @@ if (!isset($post)) {
                 <div class="d-flex flex-row mt-1">
                     <input class="btn btn-success mr-md-1 " name="saveArticle" type="submit" value="<?= (empty($post->id)) ? 'Sauvgarder' : 'Mettre à jour l\'article' ?>">
                     <?php if (!empty($post->id)) : ?>
-                        <a class="btn btn-danger  " href="<?= Router::url('systeme/admin_deletePost/id:' . $post->id)  ?>"><i class="fas fa-trash-alt"></i> Supprimer</a>
+                        <a class="btn btn-danger  " href="<?= Router::url('systeme/admin_deletePost/id:' . $post->id . '/' . $this->Session->getParamCSRF())  ?>"><i class="fas fa-trash-alt"></i> Supprimer</a>
                     <?php endif ?>
 
                 </div>
@@ -74,9 +77,10 @@ if (!isset($post)) {
                         <label for="Vigniette" class="h5">Vigniette de l'article</label><br>
                         <small>Cliker sur l'image pour la changer</small>
                         <div class="mb-3">
-                            <input type="file" style="display: none;" class="" class="custom-file-input" name="img" id="img-file">
+                            <input type="file" style="display: none;" class="" class="custom-file-input" name="img_description" id="img-file">
                         </div>
-                        <img class="thundail" onclick="addImg()" id="img_vigniette" src="<?= Router::webroot($post->img_description != "" && (file_exists(WEBROOTT  . DS . $post->img_description)) ?  $post->img_description : 'img/defaultImg.jpg') ?>" alt="">
+
+                        <img class="thundail" onclick="addImg()" id="img_vigniette" src="<?= Router::webroot(isset($post->img_description) && $post->img_description != "" && (file_exists(WEBROOTT  . DS . $post->img_description))  ?  $post->img_description : 'img/defaultImg.jpg') ?>" alt="">
 
                     </div>
                     <hr>
@@ -92,8 +96,11 @@ if (!isset($post)) {
 
                         <!-- Getion des Categorie -->
                         <?php
-                        if ($post->idCat != null) {
+
+                        if (isset($post->idCat) && !is_null($post->idCat)) {
                             $post->idCat = explode(',', $post->idCat);
+                        } else {
+                            $post->idCat = "";
                         }
                         ?>
 
