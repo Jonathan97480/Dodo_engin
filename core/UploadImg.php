@@ -253,7 +253,9 @@ class UploadImg implements UploadImgInterface
         $extension = strtolower(pathinfo($nameImg, PATHINFO_EXTENSION));
 
         $oldPath = WEBROOTT . DS . $pathImg;
-        $oldPath = str_replace("/", "\\", $oldPath);
+        $oldPath = str_replace("/", DS, $oldPath);
+        $oldPath = str_replace("\\", DS, $oldPath);
+
 
 
         //On stock notre nouvelle image dans la cette variable 
@@ -268,7 +270,9 @@ class UploadImg implements UploadImgInterface
         $new_fil_name = uniqid('img_') . "." . $extension;
 
         $filetowrite = WEBROOTT  .  DS . $path . DS . $new_fil_name;
-        $filetowrite = str_replace("/", "\\", $filetowrite);
+        $filetowrite = str_replace("/", DS, $filetowrite);
+        $filetowrite = str_replace("\\", DS, $filetowrite);
+
 
         /* on stock notre nouvelle image dans le chemin défini ho dessue  */
 

@@ -510,9 +510,9 @@ class Post extends Model
         }
 
         /* Suppression des tag qui ne sont plus utiliser */
-
+        $this->primaryKey = "cathegories_id";
         foreach ($deleteTag as $key => $value) {
-            $this->primaryKey = "cathegories_id";
+
             $this->delete($value, "t_cathegories_has_post");
         }
 
