@@ -30,14 +30,14 @@
                             <td>
                                 <?php
 
-                                    $img = Router::webroot('img/' . $v->urlbig);
-                                    
-                                    $img = str_replace('\\','/',$img);
-                     
+                                $img = Router::webroot($v->urlbig);
+
+                                $img = str_replace('\\', '/', $img);
+
                                 ?>
 
                                 <a href="#" onclick="insert('<?= $img ?>')">
-                                    <img class="img" src="<?= Router::webroot('img/' . $v->urlsmall); ?>" height="100" alt="">
+                                    <img class="img" src="<?= Router::webroot($v->urlsmall); ?>" height="100" alt="">
                                 </a>
                             </td>
 

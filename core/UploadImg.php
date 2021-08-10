@@ -46,6 +46,7 @@ class UploadImg implements UploadImgInterface
 {
     private $img;
     private $imgrezise;
+    private $nameOrigin;
 
 
     function __construct()
@@ -85,6 +86,12 @@ class UploadImg implements UploadImgInterface
         return $this->imgrezise;
     }
 
+    public function getImgNameOrigin(): string
+    {
+
+        return $this->nameOrigin;
+    }
+
 
     /**
      * upload
@@ -97,6 +104,9 @@ class UploadImg implements UploadImgInterface
     {
         //On récupère l'extension du fichier 
         $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
+        /* récupération du non d'origine de l'image */
+        $this->nameOrigin = pathinfo($file['name'], PATHINFO_BASENAME);
         /*On vérifie que l'extension du fichier correspond au extension que on autorise */
         if (!in_array($extension, array("gif", "jpg", 'jpeg', "png"))) {
 

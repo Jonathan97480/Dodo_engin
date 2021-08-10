@@ -137,84 +137,37 @@ class Media extends Model
      */
     public function uploadTyni($file)
     {
-        $file = $file['file'];
-        $upload_img = new stdClass;
-        $upload_img->file = array();
-        $upload_img->error = array();
 
-        /* I verify that the file was transmitted by HTTP POST*/
-        if (is_uploaded_file($file['tmp_name'])) {
+        /*Retrieving the current date */
+        $date = (date('Y,m'));
+        $temp_date = explode(',', $date);
+        $date = $temp_date[0] . '/' . $temp_date[1];
+        $dir = 'img' . '/' . $date;
+        /* Traitement des images */
+        $e = new UploadImg();
+        $e->upload($file['file'], $dir . '/big', true);
+        $e->reSize(100, 100, $dir . '/small', $e->getImg(), true);
 
-            //Extension recovery
-            $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        /* Sérialisation des données pour la sauvegarde dans la BD*/
+        $data = array(
+            'name' => $e->getImgNameOrigin(),
+            'urlsmall' => $e->getImgRezise(),
+            'urlbig' => $e->getImg(),
+            'type' => 'img',
+            'info' => ''
 
-            /*I will check that the extensions match */
-            if (!in_array($extension, array("gif", "jpg", 'jpeg', "png"))) {
+        );
 
-                throw new Exception('L\'extension du fichier est incorrecte');
-            }
+        //We keep the name of the image in the gallery database
+        $img_id = $this->save($data);
 
-            /*Retrieving the current date */
-            $date = (date('Y,m'));
-            $temp_date = explode(',', $date);
-            $date = $temp_date[0] . DS . $temp_date[1];
-            $dir = WEBROOTT . DS . 'img' . DS . $date;
+        if (!empty($img_id)) {
 
-            /*Check if the folder exists */
-            if (!file_exists($dir .  DS . 'big')) {
+            $upload_img =  $e->getImg();
 
-                mkdir($dir .  DS . 'big', 0777, true);
-            }
-            /*I define the path where I will save my image and I store it in the variable $filetowrite */
-            $new_fil_name = uniqid('img_') . "." . $extension;
-            $filetowrite = $dir .  DS . 'big' . DS . $new_fil_name;
-
-            $urlBig = $date .  DS . 'big' . DS . $new_fil_name;
-            /* I move file to image folder */
-            if (move_uploaded_file($file['tmp_name'], $filetowrite)) {
-
-
-
-                //Image resizing
-                $new_img = new img($filetowrite);
-                $new_img->cropSquare();
-                $new_img->resize(150, 150);
-
-                //Define the file name
-                if (!file_exists($dir .  DS . 'small')) {
-
-                    mkdir($dir .  DS . 'small', 0777, true);
-                }
-                $filetowrite = $dir .  DS . 'small' . DS . $new_fil_name;
-
-                $new_img->store($filetowrite);
-
-                /* Serialization of image info to save the database */
-                $data = array(
-                    'name' => $file['name'],
-                    'urlsmall' =>  $date . DS . 'small' . DS . $new_fil_name,
-                    'urlbig' => $urlBig,
-                    'type' => 'img',
-                    'info' => ''
-
-                );
-
-                //We keep the name of the image in the gallery database
-                $img_id = $this->save($data);
-
-                if (!empty($img_id)) {
-
-                    $upload_img = $this->findFirst([
-                        'conditions' => ['id' => $img_id]
-                    ]);
-
-                    return $upload_img->urlbig;
-                } else {
-                    throw new Exception('La sauvegarde dans la base de données a échoué');
-                }
-            } else {
-                throw new Exception('Le fichier ñ\'a pas pu etre importer');
-            }
+            return $upload_img;
+        } else {
+            throw new Exception('La sauvegarde dans la base de données a échoué');
         }
     }
     /**

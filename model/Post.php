@@ -269,7 +269,7 @@ class Post extends Model
 
     /**
      * getLastProjet
-     * return les 5 dernier projet poster dans la BD
+     * return les 5 derniers projet poster dans la BD
      * @return array|stdClass
      */
     public function getLastProjet()
