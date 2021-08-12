@@ -149,11 +149,11 @@ $siteInfo = $_SESSION['site_info'];
                             <ul class="gtco-quick-contact">
 
                                 <?php if (!empty($siteInfo->mobile_number)) : ?>
-                                    <li><a href="#"><i class="icon-phone"></i> <?= $siteInfo->mobile_number  ?></li>
+                                    <li><a href="#"><i class="icon-phone"></i><?= $siteInfo->mobile_number  ?></li>
                                 <?php endif ?>
 
                                 <?php if (!empty($siteInfo->site_email)) : ?>
-                                    <li><a href="#"><i class="icon-mail2"></i> <?= $siteInfo->site_email  ?></a></li>
+                                    <li><a href="#"><i class="icon-mail2"></i><?= $siteInfo->site_email  ?></a></li>
                                 <?php endif ?>
 
                             </ul>
