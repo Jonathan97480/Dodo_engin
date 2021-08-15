@@ -1,6 +1,6 @@
  <!-- DataTales Example -->
  <!-- Topbar Search -->
- <?php/*  die(debug($this)) */ ?>
+ <? php/*  die(debug($this)) */ ?>
 
  <div class="container-fluid">
      <div>
@@ -40,7 +40,7 @@
                                  <td><?= $value->name ?></td>
                                  <td><?= date_format(date_create($value->created), 'd/m/Y') ?></td>
                                  <td><?= date_format(date_create($value->date_edit), 'd/m/Y') ?></td>
-                                 <td><?=($value->type == "post") ?'<i class="fas fa-blog"></i> '.  'Blog'  :  '<i class="fas fa-project-diagram"></i> '.'Portfolio' ?></td>
+                                 <td><?= ($value->type == "post") ? '<i class="fas fa-blog"></i> ' .  'Blog'  :  '<i class="fas fa-project-diagram"></i> ' . 'Portfolio' ?></td>
                                  <td>
                                      <?php if ($value->online == 1) : ?>
                                          <span class="btn-success info-line">En ligne</span>
@@ -52,7 +52,7 @@
                                      <a title="Editer un post" href="<?= Router::url('systeme/admin_post_edit/id:' . $value->id) ?>" class="btn btn-primary my-btn">
                                          <i class="fas fa-edit"></i>
                                      </a>
-                                     <a title="Supprimer un post" href="<?= Router::url('systeme/admin_deletePost/id:' . $value->id)  ?>" class="btn btn-danger my-btn">
+                                     <a title="Supprimer un post" href="<?= Router::url('systeme/admin_deletePost/id:' . $value->id . $this->Session->getParamCSRF())  ?>" class="btn btn-danger my-btn">
                                          <i class="fas fa-trash-alt"></i>
                                      </a>
                                  </td>
@@ -75,7 +75,8 @@
          border-radius: 15px;
 
      }
-     .my-btn{
+
+     .my-btn {
          margin: 2px;
      }
  </style>

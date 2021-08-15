@@ -118,11 +118,8 @@ class UploadImg implements UploadImgInterface
         /* on définit dans quelle dossier on va poster l'image  */
         $dir = WEBROOTT . DS . $path;
 
-        /*On vérifie que ce dossier existe  */
-        if (!file_exists($dir)) {
-            /* On crée le dossier si il n'existe pas  */
-            mkdir($dir, 0777, true);
-        }
+        $this->createFolder($dir);
+
         /* on concatène le chemin verre le dossier avec le non du fichier */
         $newName = "";
         if ($autoRename) {
@@ -150,7 +147,20 @@ class UploadImg implements UploadImgInterface
 
         throw new Exception('Le fichier ñ\'a pas pu etre importer');
     }
-
+    /**
+     * createFolder
+     *
+     * @param  string $path
+     * @return void
+     */
+    private function createFolder(string $path)
+    {
+        /*On vérifie que ce dossier existe  */
+        if (!file_exists($path)) {
+            /* On crée le dossier si il n'existe pas  */
+            mkdir($path, 0777, true);
+        }
+    }
     /**
      * remove
      *  Supprime l'image du serveur
@@ -266,7 +276,7 @@ class UploadImg implements UploadImgInterface
         $oldPath = str_replace("/", DS, $oldPath);
         $oldPath = str_replace("\\", DS, $oldPath);
 
-
+        $this->createFolder($path);
 
         //On stock notre nouvelle image dans la cette variable 
         $new_img = new img($oldPath);
