@@ -213,43 +213,6 @@ function SaveImage($file,  array $type = null, bool $is_rename = false, Model $s
     }
 }
 
-/**
- *Supprime une image présente dans le serveur 
- * @author gauvin Jonathan <jonathanfrt97480@gmail.com>
- * @param string $url_img chemin verre le dossier a partir du dossier WEBBROOT 
- * 
- * @return objet  qui contient success et error
- */
-function deleteImage($url_img, $delet_data_base = null, $id_img_table_media = null)
-{
-
-    $result = new stdClass();
-    $result->error = '';
-    $result->success = '';
-
-    if (!empty($url_img)) {
-
-        if (file_exists(WEBROOTT . DS . $url_img)) {
-            unlink(WEBROOTT . DS . $url_img);
-            if (file_exists(WEBROOTT . DS . $url_img)) {
-
-                $result->success = false;
-                $result->error = "err:le fichier ne peut pas être supprimé vérifier les droits d'écriture sur le dossier";
-            } else {
-                /* Suppression de limage dans la table medias */
-                if ($delet_data_base != null && !empty($delet_data_base)  && $id_img_table_media != null && !empty($id_img_table_media)) {
-                    $delet_data_base->delete($id_img_table_media);
-                }
-
-                $result->success = true;
-            }
-        } else {
-            $result->success = false;
-            $result->error = "err:le fichier a supprimer n'existe pas a l'endroit que vous avait spésifier";
-        }
-    }
-    return $result;
-}
 
 /**
  *Convertie une chaine de caractère en slug 

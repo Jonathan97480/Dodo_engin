@@ -80,7 +80,7 @@ class UploadImg implements UploadImgInterface
 
         if (is_null($this->imgrezise)) {
 
-            throw new Exception("Vous navez pas encore redimensionner Votre Image");
+            throw new Exception("Vous n'avez pas encore redimensionné votre image");
         }
 
         return $this->imgrezise;
@@ -145,7 +145,7 @@ class UploadImg implements UploadImgInterface
             return $v;
         }
 
-        throw new Exception('Le fichier ñ\'a pas pu etre importer');
+        throw new Exception("Le fichier n'a pas pu être importé");
     }
     /**
      * createFolder
@@ -182,7 +182,7 @@ class UploadImg implements UploadImgInterface
 
             if (file_exists($path)) {
 
-                throw new Exception("l'image n'exite pas ou vous n'avez pas les permissions nécessaire pour la supprimer ");
+                throw new Exception("l'image n'existe pas où vous n'avez pas les permissions nécessaires pour la supprimer ");
             }
         }
 
@@ -207,7 +207,7 @@ class UploadImg implements UploadImgInterface
             return $dir;
         }
 
-        throw new Exception('Le fichier ñ\'a pas pu étre importer');
+        throw new Exception("Le fichier n'a pas pu être importé");
     }
     /**
      * pathNormalize
