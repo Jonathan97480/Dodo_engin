@@ -10,7 +10,7 @@ $siteInfo = $_SESSION['site_info'];
 <head prefix="og: http://ogp.me/ns#">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Gauvin jonathan Portfolio</title>
+    <title>Jon.dev portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Voici mon portfolio avec tout les services que je propose" />
     <meta name="author" content="gauvin jonathan" />
@@ -20,7 +20,7 @@ $siteInfo = $_SESSION['site_info'];
     <meta property="og:locale" content="fr_FR">
     <meta property="og:title" content="Accueil">
     <meta property="og:site_name" content="Jo-développement">
-    <meta property="og:image" content="<?= Router::webroot('img/avatar/1591621853385 (1).jfif') ?>">
+    <meta property="og:image" content="<?= Router::webroot('img/avatar/logo.png') ?>">
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 
@@ -63,7 +63,7 @@ $siteInfo = $_SESSION['site_info'];
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-md-6 col-xs-6">
-                                <div id="gtco-logo"><a href="<?= Router::url('pages/accueil') ?>"><?= $siteInfo->name_site ?> <em>.</em></a></div>
+                                <div id="gtco-logo"><a href="<?= Router::url('pages/accueil') ?>"><img style="width: 35px;" src="<?= Router::webroot('img/avatar/logo.png') ?>" alt=""> <?= $siteInfo->name_site ?> <em>.</em></a></div>
                             </div>
                             <div class="col-md-6 col-xs-6 social-icons">
                                 <ul class="gtco-social-top">

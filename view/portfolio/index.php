@@ -168,7 +168,7 @@
                 <?php foreach ($logo as $key => $value) : ?>
 
                     <a href="<?= Router::url('portfolio/view/id:' . $value->id) ?>">
-                        <h4><?= str_delimite($value->name, 26, '...') ?></h4>
+                        <h4><?= str_delimite($value->name, 26, '...'); ?></h4>
                         <span style="background-image: url(<?= Router::webroot($value->img_description) ?>); "></span>
                     </a>
 

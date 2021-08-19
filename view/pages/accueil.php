@@ -4,7 +4,7 @@
         <div class="row row-mt-15em">
             <div class="col-md-12 mt-text text-center animate-box" data-animate-effect="fadeInUp">
                 <h1>Je construis <strong>Des plateforme numériques</strong></h1>
-                <h2>Adapté à vos besoins</h2>
+                <h2>Adaptées à vos besoins</h2>
 
             </div>
         </div>
@@ -26,7 +26,7 @@
                             <p>Je m'appelle Gauvin Jonathan et je réside à la Réunion . <br>
                                 je fais du développement depuis 11ans et du développement web depuis 3ans .</p>
 
-                            <p> J'ai une bonne experience dans plusieurs outils et langage de programmation ce qui me permet d'être polyvalent et de pouvoir m'adapter à tout type de projet .
+                            <p> J'ai une bonne experience dans plusieurs outils et langages de programmation ce qui me permet d'être polyvalent et de pouvoir m'adapter à tout type de projet .
                             </p>
                         </div>
 

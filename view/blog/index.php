@@ -7,7 +7,7 @@
         <div class="row row-mt-15em">
             <div class="col-md-7 mt-text text-left animate-box" data-animate-effect="fadeInUp">
                 <h1><strong>Blog</strong></h1>
-                <h2>Les News sur mes Projet Actuelle et des astuces de programation </h2>
+                <h2>Les News sur mes Projets Actuelles et des astuces de programmation </h2>
             </div>
         </div>
     </div>
