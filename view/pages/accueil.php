@@ -3,7 +3,7 @@
     <div class="gtco-container">
         <div class="row row-mt-15em">
             <div class="col-md-12 mt-text text-center animate-box" data-animate-effect="fadeInUp">
-                <h1>Je construis <strong>Des plateforme numériques</strong></h1>
+                <h1>Je construis <strong>Des plateformes numériques</strong></h1>
                 <h2>Adaptées à vos besoins</h2>
 
             </div>
@@ -249,7 +249,7 @@
                             <i>2</i>
                         </span>
                         <h3>Développement</h3>
-                        <p>Développement du projet et de ces fonctionnalités ponctué par des tests unitaire avec soumission du projet terminer au client</p>
+                        <p>Développement du projet et de ces fonctionnalités ponctué par des tests unitaires avec soumission du projet terminer au client</p>
                     </div>
                 </div>
                 <div class="col-md-4 col-sm-6">
@@ -320,7 +320,7 @@
         <div class="row animate-box">
             <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
                 <h2>Souscrire</h2>
-                <p>Pour informé de mes dernières news .</p>
+                <p>Pour étre informé de mes dernières news .</p>
             </div>
         </div>
         <div class="row animate-box">
