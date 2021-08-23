@@ -8,9 +8,7 @@ class PagesController extends Controller
     }
 
 
-    function services()
-    {
-    }
+
     function contact()
     {
 
@@ -36,17 +34,6 @@ class PagesController extends Controller
         }
     }
     function portfolio()
-    {
-    }
-
-    function site_static()
-    {
-    }
-
-    public function site_dynamique()
-    {
-    }
-    public function application_mobile()
     {
     }
 }

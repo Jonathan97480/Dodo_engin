@@ -1,4 +1,7 @@
 <?php
+$page = $this->request->controller;
+/* die(debug($this)); */
+$action = $this->request->action;
 $siteInfo = $_SESSION['site_info'];
 /* die(debug($_SESSION)); */
 ?>
@@ -98,18 +101,18 @@ $siteInfo = $_SESSION['site_info'];
                         <div class="row">
                             <div class="col-xs-12 text-center menu-1">
                                 <ul>
-                                    <li class="active"><a href="<?= Router::url('pages/accueil') ?>">Accueil</a></li>
-                                    <li class="has-dropdown">
+                                    <li class="<?= $action == 'accueil' ? 'active' : '' ?>"><a href="<?= Router::url('pages/accueil') ?>">Accueil</a></li>
+                                    <li class="has-dropdown <?= $page == 'services' ? 'active' : '' ?>">
                                         <a style="cursor: pointer;">Services</a>
                                         <ul class="dropdown">
-                                            <li><a href="<?= Router::url('pages/site_static') ?>">Site static</a></li>
-                                            <li><a href="<?= Router::url('pages/site_dynamique') ?>">Site Dynamique</a></li>
-                                            <li><a href="<?= Router::url('pages/application_mobile') ?>">Application Mobile</a></li>
+                                            <li class="<?= $action == 'site_static' ? 'active' : '' ?>"><a href="<?= Router::url('services/site_static') ?>">Site static</a></li>
+                                            <li class="<?= $action == 'site_dynamique' ? 'active' : '' ?>"><a href="<?= Router::url('services/site_dynamique') ?>">Site Dynamique</a></li>
+                                            <li class="<?= $action == 'application_mobile' ? 'active' : '' ?>"><a href="<?= Router::url('services/application_mobile') ?>">Application Mobile</a></li>
                                         </ul>
                                     </li>
-                                    <li><a href="<?= Router::url('portfolio/index') ?>">Portfolio</a></li>
-                                    <li><a href="<?= Router::url('blog/index') ?>">Blog</a></li>
-                                    <li><a href="<?= Router::url('pages/contact') ?>">Contact</a></li>
+                                    <li class="<?= $page == 'portfolio' ? 'active' : '' ?>"><a href="<?= Router::url('portfolio/index') ?>">Portfolio</a></li>
+                                    <li class="<?= $page == 'blog' ? 'active' : '' ?>"><a href="<?= Router::url('blog/index') ?>">Blog</a></li>
+                                    <li class="<?= $action == 'contact' ? 'active' : '' ?>"><a href="<?= Router::url('pages/contact') ?>">Contact</a></li>
                                 </ul>
                             </div>
                         </div>
