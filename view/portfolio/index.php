@@ -15,174 +15,335 @@
 
 <!-- css -->
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
+        font-size: 18px;
+    }
+
     .my_contenaire {
-        display: flex;
-        margin: auto;
-        width: 100vw;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-row-gap: 50px;
 
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    .block {
+        margin-left: 10%;
         width: 100%;
-        margin: auto;
+        max-width: 100%;
+        min-height: 100vh;
+        padding-top: 100px;
 
-
-
-    }
-
-    /* .site {
-        background-color: #75645A;
-    }
-
-    .logo {
-        background-color: #272B2A;
-    } */
-
-    .picture {
-
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-
+        padding-bottom: 50px;
 
     }
 
+    @media (min-width:1400px) {
+
+        .card-mobile {
+            display: none;
+        }
+
+        .card-deskop {
 
 
-    .ctm {
-        max-width: 1230px;
-        margin: auto;
+            position: relative;
+            width: 300px;
+            height: 400px;
+            background: white;
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            box-shadow: 10px 20px 40px rgba(0, 0, 0, 25);
+            transition: 1s;
+        }
+
+        .imgBox {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            transform-origin: left;
+            transform-style: preserve-3d;
+            background: black;
+            transition: 1s;
+        }
+
+        .card-deskop:hover {
+            transform: translateX(50%);
+            transition: 1s;
+        }
+
+        .card-deskop:hover .imgBox {
+            transform: rotateY(-180deg);
+        }
+
+        .imgBox img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform-style: preserve-3d;
+            /* backface-visibility: hidden; */
+        }
+
+        .card-deskop .details {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-deskop .details .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .card-deskop .details .content h2 {
+            text-align: center;
+            font-weight: 700;
+            line-height: 1em;
+        }
+
+        .card-deskop .details .content h2 span {
+            color: red;
+            font-size: 0.8em;
+        }
+
+        .card-deskop .details .content .btn-actions {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .card-deskop .details .content .btn-actions a {
+            font-size: 1rem;
+            margin: 5px;
+            text-decoration: none;
+            color: white;
+            background-color: rgb(52, 52, 177);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+
+        .block {
+            width: 100%;
+            margin: auto;
+
+
+
+        }
     }
 
-    .ctm h2 {
+    @media (max-width:1399px) {
 
-        margin-left: 15px;
-        margin-top: 10px;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 40px;
-        line-height: 56px;
-        color: black;
+        .my_contenaire {
+            margin-left: 0% !important;
+
+        }
+
+        .card-deskop {
+            display: none;
+        }
 
 
+
+        .card-mobile {
+            margin: 0 auto;
+            width: 240px;
+            height: 320px;
+            perspective: 1000px;
+            text-align: center;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .card-mobile:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-back .card-image {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+            border: solid 1px #cecece;
+            border-radius: 100%;
+            background-image: url('images/back.jpg');
+            background-size: cover;
+            background-position: center center;
+        }
+
+        .card-back p {
+            margin-top: 12px;
+        }
+
+        .card-back .card-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card-back .card-icons a {
+            font-size: 18px;
+            color: white;
+            background: black;
+            width: 42px;
+            height: 42px;
+            border-radius: 100%;
+            margin: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: opacity .2s;
+        }
+
+        .card-back .card-icons a:hover {
+            cursor: pointer;
+            opacity: 0.7;
+        }
+
+        .card-front {
+            transition: opacity .6s;
+            background-position: center;
+            background-size: cover;
+        }
+
+        .card-content {
+            background-position: center;
+            background-size: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        .card-mobile:hover .card-front {
+            opacity: 0;
+        }
+
+        .btn-actions {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .btn-actions a {
+            font-size: 1rem;
+            margin: 5px;
+            text-decoration: none;
+            color: white;
+            background-color: rgb(52, 52, 177);
+            padding: 10px;
+            border-radius: 5px;
+        }
     }
 
-    a {
-        cursor: pointer;
+    @media (max-width:750px) {
+        .my_contenaire {
 
-    }
+            grid-template-columns: 1fr;
 
-    a:hover {
-        transform: scale(1.05);
-    }
 
-    a h4 {
-        margin-left: 20px;
-        margin-bottom: 0;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 20px;
-        line-height: 26px;
-        color: black;
-    }
-
-    /*  .maquette .ctm h2 {
-        color: black;
-    } */
-
-    .picture span {
-        margin-top: 5px;
-        display: block;
-        margin: 20px;
-        width: 263px;
-        height: 287px;
-        background-size: cover;
-        background-position: center;
-    }
-
-    .decouvrire {
-        margin-left: 25px;
-        font-style: normal;
-        font-weight: bold;
-        font-size: 20px;
-        line-height: 26px;
-        color: #7B61FF;
+        }
     }
 </style>
 
 
 <div class="my_contenaire ">
-    <div class="block site">
 
-        <div class="ctm">
-            <h2>Site</h2>
-            <div class="picture">
+    <?php foreach ($site as $key => $value) : ?>
 
-                <?php foreach ($site as $key => $value) : ?>
-
-                    <a href="<?= Router::url('portfolio/view/id:' . $value->id) ?>">
-                        <h4><?= str_delimite($value->name, 26, '...') ?></h4>
-                        <span style="background-image: url(<?= Router::webroot($value->img_description) ?>); "></span>
-                    </a>
-
-                <?php endforeach ?>
+        <div class="card-deskop">
+            <div class="imgBox">
+                <img src="<?= Router::webroot($value->img_description) ?>" alt="">
             </div>
-            <?php
-            if (count($site) >= 4) {
+            <div class="details">
+                <div class="content">
+                    <h2><?= str_delimite($value->name, 26, '...') ?>
+                        <!--    <br> <span>Graphic Designer</span> -->
+                    </h2>
+                    <div class="btn-actions">
+                        <a class="btn" href="#">Voir la démo</a>
 
-                echo "<a href='" . Router::url('portfolio/view_all/cat:site') . "' class='decouvrire' >Voir plus</a>";
-            }
-            ?>
+                        <a class="btn" href="<?= Router::url('portfolio/view/id:' . $value->id) ?>">Ouvrir l'article</a>
+
+                        <a href="">Télécharger les Sources</a>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-    </div>
-    <div class="block maquette">
-        <div class="ctm">
-            <h2>Maquette</h2>
-            <div class="picture">
+        <!-- Card Pobile End Potable -->
+        <div class="card-mobile">
+            <div class="card-inner">
+                <div class="card-front">
+                    <div class="card-content" style="background-image: url('<?= Router::webroot($value->img_description) ?>');">
 
-                <?php foreach ($maquette as $key => $value) : ?>
+                    </div>
+                </div>
+                <div class="card-back">
+                    <h2><?= str_delimite($value->name, 26, '...') ?>
+                        <!--    <br> <span>Graphic Designer</span> -->
+                    </h2>
+                    <div class="btn-actions">
+                        <a class="btn" href="#">Voir la démo</a>
 
-                    <a href="<?= Router::url('portfolio/view/id:' . $value->id) ?>">
-                        <h4><?= str_delimite($value->name, 26, '...') ?></h4>
-                        <span style="background-image: url(<?= Router::webroot($value->img_description) ?>); "></span>
-                    </a>
+                        <a class="btn" href="<?= Router::url('portfolio/view/id:' . $value->id) ?>">Ouvrir l'article</a>
 
-                <?php endforeach ?>
+                        <a href="">Télécharger les Sources</a>
+                    </div>
+                </div>
             </div>
-            <?php
-            if (count($maquette) >= 4) {
-
-                echo "<a href='" . Router::url('portfolio/view_all/cat:maquette') . "' class='decouvrire' >Voir plus</a>";
-            }
-            ?>
-        </div>
-    </div>
-    <div class="block logo">
-        <div class="ctm">
-            <h2>Logo</h2>
-            <div class="picture">
-                <?php foreach ($logo as $key => $value) : ?>
-
-                    <a href="<?= Router::url('portfolio/view/id:' . $value->id) ?>">
-                        <h4><?= str_delimite($value->name, 26, '...'); ?></h4>
-                        <span style="background-image: url(<?= Router::webroot($value->img_description) ?>); "></span>
-                    </a>
-
-                <?php endforeach ?>
-            </div>
-            <?php
-            if (count($logo) >= 4) {
-
-                echo "<a href='" . Router::url('portfolio/view_all/cat:logo') . "' class='decouvrire' >Voir plus</a>";
-            }
-            ?>
         </div>
 
+    <?php endforeach ?>
 
-    </div>
+
+
+
+
+
 
 </div>
