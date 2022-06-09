@@ -136,9 +136,9 @@ $siteInfo = $_SESSION['site_info'];
                         <div class="gtco-widget">
                             <h3>Nos Services</h3>
                             <ul class="gtco-footer-links">
-                                <li><a href="<?= Router::url('pages/site_static') ?>">Site static</a></li>
-                                <li><a href="<?= Router::url('pages/site_dynamique') ?>">Site Dynamique</a></li>
-                                <li><a href="<?= Router::url('pages/application_mobile') ?>">Application Mobile</a></li>
+                                <li><a href="<?= Router::url('services/site_static') ?>">Site static</a></li>
+                                <li><a href="<?= Router::url('services/site_dynamique') ?>">Site Dynamique</a></li>
+                                <li><a href="<?= Router::url('services/application_mobile') ?>">Application Mobile</a></li>
 
                             </ul>
                         </div>

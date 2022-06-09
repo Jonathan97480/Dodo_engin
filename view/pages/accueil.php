@@ -191,7 +191,7 @@
                         <div class="gtco-text">
                             <h2>Site statique</h2>
                             <p>Une page en HTML et CSS qui vous permettra de mettre en avant une activité ou un produit</p>
-                            <p><span class="btn btn-primary">Lire la suite</span></p>
+                            <p><a class="btn btn-primary" href="<?= Router::url('services/site_static') ?>">Lire la suite</a></p>
                         </div>
                     </a>
                 </div>
@@ -204,7 +204,7 @@
                         <div class="gtco-text">
                             <h2>Site dynamique</h2>
                             <p>Une page web dynamique est une page web générée à la demande, par opposition à une page web statique. </p>
-                            <p><span class="btn btn-primary">Lire la suite</span></p>
+                            <p><a class="btn btn-primary" href="<?= Router::url('services/site_dynamique') ?>">Lire la suite</a></p>
                         </div>
                     </a>
                 </div>
@@ -217,7 +217,7 @@
                         <div class="gtco-text">
                             <h2>Application mobile</h2>
                             <p>Une application mobile est un logiciel applicatif développé pour un appareil électronique mobile (Smartphone). </p>
-                            <p><span class="btn btn-primary">Lire la suite</span></p>
+                            <p><a class="btn btn-primary" href="<?= Router::url('services/application_mobile') ?>">Lire la suite</a></p>
                         </div>
                     </a>
                 </div>

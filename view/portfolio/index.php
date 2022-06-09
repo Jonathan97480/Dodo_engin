@@ -304,11 +304,7 @@
                         <!--    <br> <span>Graphic Designer</span> -->
                     </h2>
                     <div class="btn-actions">
-                        <a class="btn" href="#">Voir la démo</a>
-
                         <a class="btn" href="<?= Router::url('portfolio/view/id:' . $value->id) ?>">Ouvrir l'article</a>
-
-                        <a href="">Télécharger les Sources</a>
                     </div>
                 </div>
             </div>
@@ -328,11 +324,7 @@
                         <!--    <br> <span>Graphic Designer</span> -->
                     </h2>
                     <div class="btn-actions">
-                        <a class="btn" href="#">Voir la démo</a>
-
                         <a class="btn" href="<?= Router::url('portfolio/view/id:' . $value->id) ?>">Ouvrir l'article</a>
-
-                        <a href="">Télécharger les Sources</a>
                     </div>
                 </div>
             </div>
