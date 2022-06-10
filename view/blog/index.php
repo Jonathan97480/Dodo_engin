@@ -4,8 +4,8 @@
 <header id="gtco-header" class="gtco-cover gtco-cover-sm" role="banner" style="background-image: url(images/<?= Router::theme('default/images/img_bg_4.jpg') ?>)" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="gtco-container">
-        <div class="row row-mt-15em">
-            <div class="col-md-7 mt-text text-left animate-box" data-animate-effect="fadeInUp">
+        <div class="row ">
+            <div class=" mt-text text-left animate-box" data-animate-effect="fadeInUp">
                 <h1><strong>Blog</strong></h1>
                 <h2>Les News sur mes Projets Actuels et des astuces de programmation </h2>
             </div>

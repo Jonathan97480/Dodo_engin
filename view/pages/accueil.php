@@ -1,7 +1,7 @@
 <header id="gtco-header" class="gtco-cover gtco-cover-sm" role="banner" style="background-image: url(<?= Router::theme('default/images/img_bg_4.jpg') ?>)" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="gtco-container">
-        <div class="row row-mt-15em">
+        <div class="row ">
             <div class="col-md-12 mt-text text-center animate-box" data-animate-effect="fadeInUp">
                 <h1>Je construis <strong>Des plateformes numériques</strong></h1>
                 <h2>Adaptées à vos besoins</h2>
@@ -12,16 +12,19 @@
 </header>
 <div class="flex-section gtco-gray-bg">
     <div class="col-1">
-        <div class="text">
+        <div>
 
             <div class="row row-pb-sm">
                 <div class="col-md-12">
 
-                    <h2>Qui suis-je ?</h2>
+                    <h2 class="about_title">Qui suis-je ?</h2>
 
 
-                    <div style="display: flex;">
-                        <img style="border-radius: 50%;margin:15px;height:80px ;" src="<?= Router::webroot('img/avatar/photo_profil.jpg') ?>" alt="photo profil">
+                    <div class="about_block">
+                        <span>
+                            <img src="<?= Router::webroot('img/avatar/photo_profil.jpg') ?>" alt="photo profil">
+
+                        </span>
                         <div class="info_perso">
                             <p>Je m'appelle Gauvin Jonathan et je réside à la Réunion . <br>
                                 je fais du développement depuis 11ans et du développement web depuis 3ans .</p>
@@ -38,7 +41,7 @@
 
         </div>
     </div>
-    <div class="col-2 flex-img" style="background-image: url(<?= Router::theme('default/images/img_1.jpg') ?>);"></div>
+    <div class="col-2 flex-img display-none" style="background-image: url(<?= Router::theme('default/images/img_1.jpg') ?>);"></div>
 </div>
 
 <div class="gtco-cover gtco-cover-sm" style="background-image: url(<?= Router::theme('default/images/img_bg_2.jpg') ?>)" data-stellar-background-ratio="0.5">
@@ -55,14 +58,14 @@
 
 <div class="flex-section reverse">
     <div class="col-1">
-        <div class="text">
+        <div class="learn_block_style">
 
             <div class="row row-pb-sm">
                 <div class="col-md-12">
                     <h2>Les Technologies Que J'utilise</h2>
 
-                    <h4>Pour le web</h4>
-                    <div>
+                    <h4 class="learn_title">Pour le web</h4>
+                    <div class="pic_learn_block">
                         <span class="iconThecno">
                             <img style="width: 80px;  overflow: hidden; " src="<?= Router::webroot('img/icon/img_html5.png') ?>" alt="">
                         </span>
@@ -90,17 +93,13 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
+            <div class="learn_list">
+                <div>
                     <ul class="check-li">
                         <li>Html5</li>
                         <li>Css</li>
                         <li>php</li>
                         <li>Node Js</li>
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <ul class="check-li">
                         <li>Mysql</li>
                         <li>VueJs</li>
                         <li>Woo commerce</li>
@@ -110,13 +109,13 @@
             </div>
 
         </div>
-        <div class="text">
+        <div class="">
 
             <div class="row row-pb-sm">
                 <div class="col-md-12">
 
-                    <h4>Pour le Mobile</h4>
-                    <div>
+                    <h4 class="learn_title">Pour le Mobile</h4>
+                    <div class="pic_learn_block">
                         <span class="iconThecno">
                             <img style="width: 80px;  overflow: hidden; " src="<?= Router::webroot('img/icon/img_flutter.png') ?>" alt="">
                         </span>
@@ -136,17 +135,12 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
+            <div class="learn_list">
+                <div>
                     <ul class="check-li">
                         <li>Flutter</li>
                         <li>Firebase</li>
                         <li>Cordova</li>
-
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <ul class="check-li">
                         <li>React Native</li>
                         <li>Jquery Mobile</li>
 
@@ -156,7 +150,7 @@
 
         </div>
     </div>
-    <div class="col-2 flex-img" style="background-image: url(<?= Router::theme('default/images/img_bg_2.jpg') ?>);"></div>
+    <div class="col-2 flex-img display-none" style="background-image: url(<?= Router::theme('default/images/img_bg_2.jpg') ?>);"></div>
 </div>
 
 <div class="gtco-cover gtco-cover-sm" style="background-image: url(<?= Router::theme('default/images/img_bg_3.jpg') ?>)" data-stellar-background-ratio="0.5">
@@ -182,8 +176,8 @@
             </div>
             <div class="row">
 
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <a href="#" class="gtco-card-item">
+                <div class="col-lg-4 col-md-4 col-sm-6 ">
+                    <a href="#" class="gtco-card-item ">
                         <figure>
                             <div class="overlay"><i class="ti-plus"></i></div>
                             <img src="<?= Router::webroot('img/icon/img_static.jpg') ?>" alt="Image" class="img-responsive">
@@ -195,8 +189,8 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <a href="#" class="gtco-card-item">
+                <div class="col-lg-4 col-md-4 col-sm-6 ">
+                    <a href="#" class="gtco-card-item ">
                         <figure>
                             <div class="overlay"><i class="ti-plus"></i></div>
                             <img src="<?= Router::webroot('img/icon/img_dynamique.jpg') ?>" alt="Image" class="img-responsive">
@@ -208,8 +202,8 @@
                         </div>
                     </a>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <a href="#" class="gtco-card-item">
+                <div class="col-lg-4 col-md-4 col-sm-6 ">
+                    <a href="#" class="gtco-card-item ">
                         <figure>
                             <div class="overlay"><i class="ti-plus"></i></div>
                             <img src="<?= Router::webroot('img/icon/img_mobile.jpg') ?>" alt="Image" class="img-responsive">
@@ -267,53 +261,6 @@
         </div>
     </div>
 </div>
-
-
-
-<!-- 
-<div id="gtco-counter" class="gtco-section">
-    <div class="gtco-container">
-
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 text-center gtco-heading animate-box">
-                <h2>Quelques chiffres nous concernant</h2>
-                <p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
-            </div>
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
-                <div class="feature-center">
-                    <span class="counter js-counter" data-from="0" data-to="196" data-speed="5000" data-refresh-interval="50">1</span>
-                    <span class="counter-label">Clients</span>
-
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
-                <div class="feature-center">
-                    <span class="counter js-counter" data-from="0" data-to="97" data-speed="5000" data-refresh-interval="50">1</span>
-                    <span class="counter-label">Projets</span>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
-                <div class="feature-center">
-                    <span class="counter js-counter" data-from="0" data-to="12402" data-speed="5000" data-refresh-interval="50">1</span>
-                    <span class="counter-label">Nombre de café</span>
-                </div>
-            </div>
-            <div class="col-md-3 col-sm-6 animate-box" data-animate-effect="fadeInUp">
-                <div class="feature-center">
-                    <span class="counter js-counter" data-from="0" data-to="12202" data-speed="5000" data-refresh-interval="50">1</span>
-                    <span class="counter-label">Ligne de codes</span>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
-
-
 
 <div id="gtco-subscribe">
     <div class="gtco-container">
