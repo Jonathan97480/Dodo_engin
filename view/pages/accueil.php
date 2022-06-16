@@ -63,48 +63,77 @@
             <div class="row row-pb-sm">
                 <div class="col-md-12">
                     <h2>Les Technologies Que J'utilise</h2>
-
                     <h4 class="learn_title">Pour le web</h4>
-                    <div class="pic_learn_block">
-                        <span class="iconThecno">
-                            <img style="width: 80px;  overflow: hidden; " src="<?= Router::webroot('img/icon/img_html5.png') ?>" alt="">
-                        </span>
-                        <span class="iconThecno">
-                            <img style="width: 80px;  overflow: hidden;" src="<?= Router::webroot('img/icon/img_css3.png') ?>" alt="">
-                        </span>
-                        <span class="iconThecno">
-                            <img style="width: 80px;  overflow: hidden;" src="<?= Router::webroot('img/icon/img_php.png') ?>" alt="">
-                        </span>
-                        <span class="iconThecno">
-                            <img style="width: 80px; " src="<?= Router::webroot('img/icon/img_nodejs.png') ?>" alt="">
-                        </span>
-                        <span class="iconThecno">
-                            <img style="width: 80px; " src="<?= Router::webroot('img/icon/img_mysql.png') ?>" alt="">
-                        </span>
-                        <span class="iconThecno">
-                            <img style="width: 80px; " src="<?= Router::webroot('img/icon/img_vuejs.png') ?>" alt="">
-                        </span>
-                        <span class="iconThecno">
-                            <img style="width: 80px; " src="<?= Router::webroot('img/icon/img_woocomerce.png') ?>" alt="">
-                        </span>
-                        <span class="iconThecno">
-                            <img style="width: 80px; " src="<?= Router::webroot('img/icon/img_worldpress.png') ?>" alt="">
-                        </span>
-                    </div>
+                    <ul class="check-li ul_icon">
+                        <li>
+                            <span class="iconThecno">
+                                <img src="<?= Router::webroot('img/icon/img_html5.png') ?>" alt="html5 icon" loading="lazy" \>
+                                <p>Html5</p>
+                            </span>
+
+                        </li>
+                        <li>
+                            <span class="iconThecno">
+                                <img src="<?= Router::webroot('img/icon/img_css3.png') ?>" alt="css3 icon" loading="lazy" \>
+                                <p>Css</p>
+                            </span>
+
+                        </li>
+                        <li>
+                            <span class="iconThecno">
+                                <img src="<?= Router::webroot('img/icon/img_php.png') ?>" alt="php icon" loading="lazy" \>
+                                <p>
+                                    php
+
+                                </p>
+                            </span>
+
+                        </li>
+                        <li>
+                            <span class="iconThecno">
+                                <img src="<?= Router::webroot('img/icon/img_nodejs.png') ?>" alt="node js icon" loading="lazy" \>
+                                <p>
+                                    Node Js
+
+                                </p>
+                            </span>
+
+                        </li>
+                        <li>
+
+                            <span class="iconThecno">
+                                <img src="<?= Router::webroot('img/icon/img_mysql.png') ?>" alt="mysql icon" loading="lazy" \>
+                                <p>
+                                    Mysql
+
+                                </p>
+                            </span>
+
+                        </li>
+                        <li>
+                            <span class="iconThecno">
+                                <img src="<?= Router::webroot('img/icon/img_react.png') ?>" alt="react icon" loading="lazy" \>
+                                <p>React</p>
+                            </span>
+
+                        </li>
+                        <li>
+                            <span class="iconThecno">
+                                <img src="<?= Router::webroot('img/icon/img_worldpress.png') ?>" alt="wordpress" loading="lazy" \>
+                                <p>
+                                    Wordpress
+
+                                </p>
+                            </span>
+
+                        </li>
+                    </ul>
+
                 </div>
             </div>
             <div class="learn_list">
                 <div>
-                    <ul class="check-li">
-                        <li>Html5</li>
-                        <li>Css</li>
-                        <li>php</li>
-                        <li>Node Js</li>
-                        <li>Mysql</li>
-                        <li>VueJs</li>
-                        <li>Woo commerce</li>
-                        <li>Worldpress</li>
-                    </ul>
+
                 </div>
             </div>
 
@@ -116,35 +145,48 @@
 
                     <h4 class="learn_title">Pour le Mobile</h4>
                     <div class="pic_learn_block">
-                        <span class="iconThecno">
-                            <img style="width: 80px;  overflow: hidden; " src="<?= Router::webroot('img/icon/img_flutter.png') ?>" alt="">
-                        </span>
-                        <span class="iconThecno">
-                            <img style="width: 80px;  overflow: hidden;" src="<?= Router::webroot('img/icon/img_firebase.png') ?>" alt="">
-                        </span>
-                        <span class="iconThecno">
-                            <img style="width: 80px;  overflow: hidden;" src="<?= Router::webroot('img/icon/img_cordova.png') ?>" alt="">
-                        </span>
-                        <span class="iconThecno">
-                            <img style="width: 80px; " src="<?= Router::webroot('img/icon/img_react.png') ?>" alt="">
-                        </span>
-                        <span class="iconThecno">
-                            <img style="width: 80px; " src="<?= Router::webroot('img/icon/img_jquerymobile.png') ?>" alt="">
-                        </span>
+                        <ul class="check-li ul_icon">
+                            <li>
+                                <span class="iconThecno">
+                                    <img src="<?= Router::webroot('img/icon/img_flutter.png') ?>" alt="flutter icon" loading="lazy" \>
+                                    <p>Flutter</p>
+                                </span>
+
+                            </li>
+                            <li>
+                                <span class="iconThecno">
+                                    <img src="<?= Router::webroot('img/icon/img_firebase.png') ?>" alt=" firebase icon" loading="lazy" \>
+                                    <p>Firebase</p>
+                                </span>
+
+                            </li>
+                            <li>
+                                <span class="iconThecno">
+                                    <img src="<?= Router::webroot('img/icon/img_cordova.png') ?>" alt=" cordova icon" loading="lazy" \>
+                                    <p>Cordova</p>
+                                </span>
+
+                            </li>
+                            <li>
+                                <span class="iconThecno">
+                                    <img src="<?= Router::webroot('img/icon/img_react.png') ?>" alt="react icon" loading="lazy" \>
+                                    <p>
+                                        React Native
+                                        <p />
+                                </span>
+
+                            </li>
+                            <li>
+                                <span class="iconThecno">
+                                    <img src="<?= Router::webroot('img/icon/img_jquerymobile.png') ?>" alt=" jquery mobile icon" loading="lazy" \>
+                                    <p>Jquery Mobile</p>
+                                </span>
+
+                            </li>
+
+                        </ul>
 
                     </div>
-                </div>
-            </div>
-            <div class="learn_list">
-                <div>
-                    <ul class="check-li">
-                        <li>Flutter</li>
-                        <li>Firebase</li>
-                        <li>Cordova</li>
-                        <li>React Native</li>
-                        <li>Jquery Mobile</li>
-
-                    </ul>
                 </div>
             </div>
 
@@ -233,7 +275,7 @@
                         <span class="icon">
                             <i>1</i>
                         </span>
-                        <h3>Conception et design </h3>
+                        <h3>Conception et design</h3>
                         <p>Conception du design avec le client et définition des fonctionnalités pour définir le cahier des charges</p>
                     </div>
                 </div>
@@ -291,9 +333,23 @@
 <style>
     .iconThecno {
         border-radius: 50%;
-        overflow: hidden;
-        width: 80px;
         height: 80px;
         display: inline-block;
+    }
+
+    .ul_icon {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ul_icon p {
+        text-align: center;
+    }
+
+    .ul_icon img {
+
+        height: 80px;
     }
 </style>

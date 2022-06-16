@@ -173,7 +173,7 @@
 
     .my_contenaire {
 
-        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
 
 
     }
@@ -184,7 +184,7 @@
 
     <?php foreach ($site as $key => $value) : ?>
 
-        <!-- Card Pobile End Potable -->
+        <!-- Card -->
         <div class="card-mobile">
             <div class="card-inner">
                 <div class="card-front">
